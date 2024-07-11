@@ -1,23 +1,15 @@
 import { supabase } from '@/lib/node/supaClientFS'
 import { error } from '@sveltejs/kit'
+import { checkAuth } from '@/lib/utils/server/auth'
 
 import type { LayoutServerLoad } from './$types';
  
 export const load = (async (req) => {
     try {
-    const username = req.cookies.get('username')
-    const hash = req.cookies.get('hash')
-    if(!username || !hash) {
-        throw 'denied'
-    }
-    const user = (await supabase.from('fsk_blog_author')
-    .select('username, password_hash')
-    .eq('username', username).single()).data
-    if(!user) {
-        throw 'denied'
-    }
-    if(hash !== user.password_hash) {
-        throw 'denied'
+    const { username } =await checkAuth(req)
+    const currentUser = await supabase.from('fsk_blog_author').select('*').eq('username', username).single()
+    return {
+        currentUser: currentUser.data
     }
     } catch (e) {
         if(e === 'denied') {

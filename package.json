@@ -1,9 +1,9 @@
 {
 	"name": "svelte-kit-supa-blog",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
+		"dev": "node --experimental-network-imports ./node_modules/vite/bin/vite dev",
+		"build": "node --experimental-network-imports ./node_modules/vite/bin/vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -46,6 +46,9 @@
 	"license": "MIT",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.4.0",
+		"highlight.js": "^11.7.0",
+		"jodit": "^3.24.2",
+		"prismjs": "^1.29.0",
 		"truncate-html": "^1.0.4"
 	}
 }

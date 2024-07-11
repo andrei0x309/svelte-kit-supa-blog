@@ -3,13 +3,11 @@ import { supabase } from '@/lib/node/supaClientFS'
 // import { checkData, extractPage, error, appendToData, makeTitle } from '@/lib/utils/page'
 import truncate from "truncate-html";
 
-
-
-export const loadPosts = async (page: number, perPege = 4) => {
+export const loadPosts = async (page: number, perPege = 4, select = '*') => {
     try {
   const tagsDB = supabase.from('fsk_blog_tag').select('*')
   const resDb = supabase.from('fsk_blog_posts').select(`
-    *,
+    ${select},
     cat:fsk_blog_cat(
         id,
         name,
@@ -20,7 +18,7 @@ export const loadPosts = async (page: number, perPege = 4) => {
       name,
       username
      ) 
-    `)
+    `.toString())
     .order('created_at', { ascending: false })
     .range((page-1)*(perPege+1), (page*(perPege+1))-1)
       
@@ -32,15 +30,14 @@ export const loadPosts = async (page: number, perPege = 4) => {
       const hasNext = res.data?.length === (perPege+1)
       res.data = res.data?.slice(0, perPege) ?? []
 
-      res.data = res.data?.map((r: { 
-        tags_id: number[], 
-        tags: Record<string, unknown>[], 
-        isFull: boolean,
-        content: string
-      }) => {  
+ 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      res.data = res.data?.map((r: any) => {  
         r.tags = r.tags_id.map((id: number) => tagsMap[id])
         r.isFull = false
-        r.content = truncate(r.content, 500)
+        if(r?.content){
+          r.content = truncate(r.content, 500)
+        }
         return r
       })
 
@@ -54,4 +51,4 @@ export const loadPosts = async (page: number, perPege = 4) => {
        console.log(e)
        return null
       }
-    }
+}

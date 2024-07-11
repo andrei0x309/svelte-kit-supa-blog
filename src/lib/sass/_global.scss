@@ -1,0 +1,217 @@
+
+::-webkit-scrollbar{
+    height: 7px;
+    width: 7px;
+    background: #747474;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(34, 34, 34);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:horizontal{
+    background: rgb(34, 34, 34);
+    border-radius: 4px;
+}
+  
+  @media only screen and (min-width: 100px){
+    html{
+      font-size: 0.7rem;
+     }
+    }
+  
+  @media only screen and (min-width: 200px){
+    html{
+      font-size: 0.8rem;
+     }
+    }
+    
+  @media only screen and (min-width: 400px){
+    html{
+      font-size: 1rem;
+     }
+    }
+   
+  @media only screen and (min-width: 2400px){
+    html{
+      font-size: 1.4rem;
+     }
+    }
+  @media only screen and (min-width: 3000px){
+    html{
+      font-size: 1.6rem;
+     }
+    }
+  @media only screen and (min-width: 3500px){
+    html{
+      font-size: 2.8rem;
+     }
+    }
+  
+    @media only screen and (min-width: 4500px){
+    html{
+      font-size: 4.2rem;
+     }
+    }
+  
+  html{
+      scrollbar-width: thin;
+      body {
+          line-height: 1.5;
+      }
+      scroll-behavior: smooth;
+      min-height: 100%; /* enforce height */
+  }
+  
+/* latin-ext */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZFhiI2B.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  /* latin */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  
+  :root { font-family: 'Inter', sans-serif; }
+  @supports (font-variation-settings: normal) {
+    :root { font-family: 'Inter var', sans-serif; }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  a {
+      cursor: pointer
+  }
+  
+  body {
+      font-size: 1.05rem;
+      background-color: #20222B;
+      background: linear-gradient(179deg, #20222B, rgb(10 9 12 / 90%)), url(/images/bg-linen.png);
+      height: 100%;
+      text-rendering: optimizeLegibility;
+      width: 100%;
+      transition: all 0.3s ease;
+      overflow-x: hidden;
+  }
+
+  body {
+ 
+
+    // height: 100%;
+    // background: linear-gradient(90deg, rgb(21 38 68 / 78%), rgb(24 23 28 / 90%)), url(/images/bg.png);
+    // background-size: 100vw 130vh;
+    // background-position: 0;
+    // background-attachment: fixed;
+  }
+pre code {
+  background: #14130f61;
+  display: block;
+  overflow: scroll;
+  margin: auto;
+  border: 0.2rem solid #3c3c3c;
+  padding: 0.4rem;
+  margin: 0.8rem;
+  clear: both;
+}
+
+code.hljs {
+  padding: 3px 5px
+}
+
+.hljs {
+  background: #2b2b2b;
+  color: #f8f8f2
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #d4d0ab
+}
+
+.hljs-deletion,
+.hljs-name,
+.hljs-regexp,
+.hljs-selector-class,
+.hljs-selector-id,
+.hljs-tag,
+.hljs-template-variable,
+.hljs-variable {
+  color: #ffa07a
+}
+
+.hljs-built_in,
+.hljs-link,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-params,
+.hljs-type {
+  color: #f5ab35
+}
+
+.hljs-attribute {
+  color: gold
+}
+
+.hljs-addition,
+.hljs-bullet,
+.hljs-string,
+.hljs-symbol {
+  color: #abe338
+}
+
+.hljs-section,
+.hljs-title {
+  color: #00e0e0
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #dcc6e0
+}
+
+.hljs-emphasis {
+  font-style: italic
+}
+
+.hljs-strong {
+  font-weight: 700
+}
+
+@media screen and (-ms-high-contrast:active) {
+
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-built_in,
+  .hljs-bullet,
+  .hljs-comment,
+  .hljs-link,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-params,
+  .hljs-quote,
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-type {
+    color: #f8f8f2
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag {
+    font-weight: 700
+  }
+}

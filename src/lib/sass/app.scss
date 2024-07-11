@@ -1,7 +1,4 @@
-/*
-    Created on : Jun 8, 2019, 1:02:07 PM
-    Author     : andrei0x309
-*/
+@use './global';
 @use 'sass:math';
 
 @mixin dark-theme {
@@ -38,8 +35,6 @@
   --featured-img-opacity: 1;
 }
 
-
-
 /*! purgecss start ignore */
 
 :root {
@@ -71,50 +66,7 @@ div#root-app.light{
 @import "components/simpleSpinner";
 @import "components/alertBox";
 
-// Font 
-/* latin-ext */
-@font-face {
-  font-family: 'Raleway';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/raleway/v19/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCGPrEHJA.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-  ascent-override: 80%;
-  descent-override: 20%;
-  line-gap-override: 0%;
-}
-/* latin */
-@font-face {
-  font-family: 'Raleway';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/raleway/v19/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCIPrE.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-  ascent-override: 80%;
-  descent-override: 20%;
-  line-gap-override: 0%;
-}
- 
-html {
-  scroll-behavior: smooth;
-}
 
-a {
-    cursor: pointer
-}
-
-body{
-    font-size: 1.05rem;
-    background: #2f3944; /* Old browsers */
-    background-image: url(/images/black-linen.png);
-    font-family: sans-serif;
-    font-family: 'Raleway';
-    height: 100%;
-    width: 100%;
-    transition: all 0.3s ease;
-}
 
 /*.search-form {
     

@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 // import { supabase } from '@/lib/node/supaClientFS'
 // import { optionalChain } from '@/lib/utils/index'
 import { checkData, extractPage, error, appendToData } from '@/lib/utils/page'
-import { loadPosts } from '@/lib/utils/db'
+import { loadPosts } from '@/lib/utils/db/posts'
 
 // type SupaClient = typeof supabase
 // type PostgesQueryBuilder = ReturnType<SupaClient['from']>

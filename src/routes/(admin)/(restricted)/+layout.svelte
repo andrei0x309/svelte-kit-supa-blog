@@ -2,7 +2,7 @@
 // @ts-nocheck
   import '$lib/sass/admin.scss'
   import { afterNavigate, beforeNavigate }  from '$app/navigation'
-  import { isLoading } from '@/stores/main';
+  import { isLoading, currentUser } from '@/stores/main';
 
   beforeNavigate(() => {
 	isLoading.set(true)
@@ -12,6 +12,9 @@
 	isLoading.set(false)
   })
 
+  export let data;
+  currentUser.set(data.currentUser ?? null)
+
 </script>
 
 <svelte:head>
@@ -19,7 +22,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="andrei0x309">
 	<link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com"/>
-	<title>Login</title>
+	<title>Admin Panel</title>
+	<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.2/jodit.es2018.min.css"
+/>
 </svelte:head>
 
 {#if $isLoading}
@@ -27,7 +34,7 @@
 	<div class="nav-spinner spinner__1"></div>
 {/if}
 
-<slot isLoading={isLoading} />
+<slot isLoading={isLoading}/>
 
 <style windi:preflights:global windi:safelist:global windi:global>
 </style>

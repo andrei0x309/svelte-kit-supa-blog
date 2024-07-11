@@ -1,3 +1,12 @@
+@use './global';
+
 html {
     color: aliceblue;
+}
+
+.jodit-container {
+    .jodit-workplace {
+        min-height: 400px!important;
+    }
+    color: black;
 }
