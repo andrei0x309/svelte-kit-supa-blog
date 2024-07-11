@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "fs/": "https://deno.land/std@0.174.0/fs/",
+    "xml2js": "https://deno.land/x/xml2js@1.0.0/mod.ts"
+  }
+}

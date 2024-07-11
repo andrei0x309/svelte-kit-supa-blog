@@ -1,0 +1,5 @@
+{
+    "deno.lint": true,
+    "deno.unstable": true,
+    "deno.enablePaths": ["/src/deno-db", "/src/lib/deno", "/src/routes/api/index/email/+server.ts", "/edge-functions"]   
+}

@@ -1,0 +1,38 @@
+
+@import 'base/post-list.scss';
+
+.search-form div {
+    position: relative;
+    margin: 1em 1em 2em 1em;
+}
+
+.search-form div input[type="search"] {
+    padding: 0.2em 0 0.1em 1.7em;
+    border: 1px solid #8e8c8c;
+    box-shadow: -1px 1px 2px 1px #8a8a8a;
+    width: 100%;
+}
+.search-form div i {
+    position: absolute;
+    top: px;
+    color: #b3b3b3;
+    padding: 0.18em;
+    top: 5px;
+    left: 2px;
+}
+
+input[type="submit"]{
+    position: absolute;
+    right: 0.1em;
+    background: #1b2426;
+    color: #ffffff;
+    padding: 0.17em;
+    box-shadow: 0px 0px 0px 1px #32373c;
+    border: 1px solid #555;
+    transition: all 0.4s ease-in;
+    cursor:pointer;
+}
+input[type="submit"]:hover{
+    color: #ffaa3e;
+    border: 1px solid #ff9933;
+}

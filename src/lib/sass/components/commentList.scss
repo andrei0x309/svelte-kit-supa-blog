@@ -1,0 +1,108 @@
+// Comment list
+    
+    .comment{
+    border: 1px solid #4b5c678f;
+    border-radius: 0.5em;
+    padding: 0.6em;
+    margin: 0.5em 0 0.5em 0;
+    box-shadow: 0 0 1px #4b5c678f;
+    }
+    
+    .comment-author {
+        
+        position: relative;
+ 
+    }
+    
+    .fn {
+        font-weight: bolder;
+    }
+    
+    .says {
+            display: inline-block;
+            width:20%;
+            min-width:6em;
+            font-size:0.7em;
+             position:absolute;
+             top: 3.2em;
+             left: 6em;
+        }
+    
+    .avatar {
+          width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center right;
+            display: inline;
+    }
+
+    
+   .comment-content {
+    padding-top: 0.7em;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin-top:0.3em;
+    margin-bottom:0.3em;
+    }
+    
+    .reply, #cancel-comment-reply-link {
+        min-width:8em;
+        width:10%;
+        border: 1px #2f3944;
+        //#7B8297
+         background: linear-gradient(to bottom, #3f4c6b 0%,#756F97 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+         color: #ffffff;
+            padding: 0em 1em 0em 1em;
+            text-transform:uppercase;
+            text-align: center;
+            margin-top: 0.5em;
+            font-size: 1.1em;
+
+            &:hover{
+                font-weight: bolder;
+            }
+        
+    }
+   
+    #cancel-comment-reply-link {
+        width: 10em;
+        display: block;    
+        margin: auto;
+    }
+    
+    h2#reply-title {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-top: .6em;
+    }
+    
+     .comment-name-email-block{
+        display: flex;
+        flex-wrap: wrap;
+
+        .comment-form-author, .comment-form-email{
+            flex: 1 0 40%;  /* flex-grow, flex-shrink, flex-basis */
+            background-color: lightgreen;
+        }
+        
+        .comment-form-author{
+            margin-right: 2px;
+        }
+        
+ 
+        .comment-form-email{
+            margin-left: 2px;
+        }
+        
+        input{
+            width: 100%
+        }
+
+    }
+    
+     .comment-author-andrei0x309 .comment-meta:after{
+            content:" ✨ Site Admin";
+            font-size:0.8em;
+            display: table;
+        }

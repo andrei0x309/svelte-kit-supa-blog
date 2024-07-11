@@ -1,0 +1,41 @@
+/* purgecss start ignore */
+h1.list-posts-title{
+    font-size: 1.6em;
+    padding-bottom: 0.4em;
+    width: 100%;
+    border-bottom: 1px solid #a0aec0;
+    margin-bottom: 0.8em;
+    padding-left: 0.5em;
+    
+}
+p.search-no-result{
+    font-size: 1.6em;
+    text-align: center;
+    margin-top: 2em;
+}
+
+nav.pagination {
+font-size: 1.2em;
+
+h2{
+padding: 0.6em;
+margin-top: -1.2em;
+}
+
+a.page-numbers, span.page-numbers{
+padding: 0.2em;
+    border: 1px solid #b9bdb6;
+    color: #0274be;
+    box-shadow: 1px 1px 1px #a0aec0;
+    transition: all 0.3s ease-in;
+    }
+
+ span.current, a.page-numbers:hover {
+    border: 1px solid #1b2426;
+    box-shadow: 1px 1px 2px 1px #a0aec0;
+    background-color: #1b2426;
+    color: #ffaa3e;
+}    
+}
+
+/* purgecss end ignore */

@@ -1,0 +1,12 @@
+ .loadingspinner {
+	pointer-events: none;
+	width: 2.5em;
+	height: 2.5em;
+	border: 0.4em solid transparent;
+        border-color:  #ffcc00;
+	border-top-color: #3E67EC;
+	border-bottom-color: #3E67EC;
+	border-radius: 50%;
+	animation: loadingspin 1s linear infinite;
+        margin: auto;
+}

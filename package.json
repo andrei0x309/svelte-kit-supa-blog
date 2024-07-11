@@ -1,0 +1,51 @@
+{
+	"name": "svelte-kit-supa-blog",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test:unit": "vitest",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"devDependencies": {
+		"@fontsource/fira-mono": "^4.5.10",
+		"@neoconfetti/svelte": "^1.0.0",
+		"@playwright/test": "^1.29.2",
+		"@sveltejs/adapter-auto": "^1.0.1",
+		"@sveltejs/adapter-netlify": "^1.0.3",
+		"@sveltejs/kit": "^1.1.1",
+		"@types/cookie": "^0.5.1",
+		"@types/nodemailer": "^6.4.7",
+		"@typescript-eslint/eslint-plugin": "^5.48.1",
+		"@typescript-eslint/parser": "^5.48.1",
+		"@vite-pwa/sveltekit": "^0.1.2",
+		"eslint": "^8.32.0",
+		"eslint-config-prettier": "^8.6.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"prettier": "^2.8.3",
+		"prettier-plugin-svelte": "^2.9.0",
+		"sass": "^1.57.1",
+		"svelte": "^3.55.1",
+		"svelte-check": "^3.0.2",
+		"svelte-lightbox": "^1.1.0",
+		"svelte-preprocess": "^5.0.0",
+		"svelte-windicss-preprocess": "~4.1.0",
+		"tslib": "^2.4.1",
+		"typescript": "^4.9.4",
+		"vite": "^4.0.4",
+		"vite-plugin-pwa": "^0.14.1",
+		"vitest": "^0.27.1",
+		"yarn-upgrade-all": "^0.7.2"
+	},
+	"type": "module",
+	"license": "MIT",
+	"dependencies": {
+		"@supabase/supabase-js": "^2.4.0",
+		"truncate-html": "^1.0.4"
+	}
+}
