@@ -1,3 +1,10 @@
+## changelog - v0.0.2 - 2024-07-09
+
+<!-- 
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.2---2024-07-11
+-->
+
+
 ## changelog - v0.0.1 - 2024-07-09
 
 - initial repository setup
@@ -5,6 +12,6 @@
 - added initial CHANGELOG.md
 
 <!-- 
-URL: https://github.com/andrei0x309/svelte-kit-supa-blog/CHANGELOG.md#changelog---v001---2024-07-09
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.1---2024-07-09
 -->
 
