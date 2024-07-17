@@ -10,6 +10,8 @@
    
   let theme = data?.theme || 'dark'
 
+  console.log('theme', data)
+
   beforeNavigate(() => {
 	isLoading.set(true)
   })

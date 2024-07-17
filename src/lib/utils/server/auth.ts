@@ -1,8 +1,9 @@
-import type { ServerLoadEvent } from '@sveltejs/kit/types/index'
+import type { ICookies } from '$lib/types/cookies'
 import { supabase } from '@/lib/node/supaClientFS'
 
 
-export const checkAuth = async (req: ServerLoadEvent<object, object, '' | null>) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const checkAuth = async (req: ICookies) => {
     const username = req.cookies.get('username')
     const hash = req.cookies.get('hash')
     if(!username || !hash) {

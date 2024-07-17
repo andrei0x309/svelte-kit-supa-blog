@@ -1,49 +1,44 @@
-import { supabase } from "../../lib/deno/supaClientFS.ts";
-
-// const resp = await supabase.from('fsk_prj').select(`
-// title,
-// open_source,
-// cat:fsk_prj_cat(
-//     cat_name
-// ),
-// techs:fsk_prj_tech_type!inner(
-//     id,
-//     name
-// )
-// `).in('fsk_prj_tech_type.id', [1,2])
 
 
-// const { data, error } = await supabase.rpc('get_tags', { alltags: false })
+
+getSha256('123').then(console.log)
+
+// console.log(typeof Deno)
 
 
-// console.log(
-//     data
-// )
+// import { supabase } from '@/lib/node/supaClientFS'
+// import crypto from 'crypto'
 
-// if(error) {
-//     console.error(error)
-// }
+// import type { RequestHandler } from  './$types';
+// import { json } from '@sveltejs/kit';
+ 
+// export const POST: RequestHandler = (async ({ request }) => {
+//     try {
+//   const {
+//       username,
+//       password,
+//   } = await request.json()
 
-const resp = await supabase.from('fsk_cert').select(`
-cert_name,
-cert_file_name,
-cert_feature_image,
-cat:fsk_cert_cat(
-    cat_name,
-    cat_icon_name
-),
-tags:fsk_cert_tag_type!inner(
-    id,
-    name
-)
-`).limit(9)
+//     if(!username || !password) {
+//         return json({error: 'Missing username or password'}, {status: 400})
+//     }
+    
+//     const user = (await supabase.from('fsk_blog_author')
+//     .select('username, password_hash')
+//     .eq('username', username).single()).data
+//     if(!user) {
+//         return json({error: 'User not found'}, {status: 404})
+//     }
+//     const hash = crypto.createHash('sha256').update(password).digest('base64');
+//     console.log(hash)
 
-const { data, error } = resp
+//     if(hash !== user.password_hash) {
+//         return json({error: 'Wrong password'}, {status: 401})
+//     }
+//     return json({data: 'ok', hash})
 
-console.log(
-    data
-)
-
-if(error) {
-    console.error(error)
-}
+//     } catch (e) {
+//       console.log(e)
+//       return json({error: 'Internal Server Error'}, {status: 500})
+//     }
+// }) satisfies RequestHandler;

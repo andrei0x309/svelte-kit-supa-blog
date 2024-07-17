@@ -1,26 +1,20 @@
 <script lang="ts">
-    // import '@/routes/(app)/cert.scss'
-    // import Header from "../../Header.svelte"
-    // import CertFilter from "../CertFilter.svelte";
-    // import CertSearch from "../CertSearch.svelte";
-    // import CertList from "../CertList.svelte";
     import { page as SveltePage } from '$app/stores';
-    // import CertSingle from '../CertSingle.svelte';
     import Article from '$lib/theme/Article.svelte';
     import SideBar from '@/lib/theme/SideBar.svelte';
     import { isLoading } from '@/stores/main';
-
+    import { config } from '$lib/config';
 
     export let data: any;
+    const sidebarData = data?.sidebarData
+
+
     let dataLoading = false
     isLoading.subscribe((val) => {
         dataLoading = val
     })
 
 
-$: {
-    console.log(isLoading)
-}
 </script>
 
 <svelte:head>
@@ -31,20 +25,32 @@ $: {
 <meta property="og:type" content="website" />
 <meta property="og:url" content={`${$SveltePage.url}`} />
 <meta property="og:image" content="https://flashsoft.eu/res/flashsoftLogo.png" />
+<link rel="alternate" type="application/rss+xml" title="{`${config.siteName} » Feed`}" href="{`${config.baseSiteUrl}/feed`}">
+<link rel="canonical" href={`${$SveltePage.url}`} />
+
 
 {#if (data?.res?.hasNext ?? false)}
-<link rel="prev" href="/page/{(data?.res?.page ?? 1) - 1}" />
+<link rel="next" href="/page/{(data?.res?.page ?? 1) + 1}" />
 {/if}
 {#if (data?.res?.page ?? 1) > 1}
-<link rel="next" href="/page/{(data?.res?.page ?? 1) + 1}" />
+<link rel="prev" href="/page/{(data?.res?.page ?? 1) - 1}" />
+{/if}
+
+{#if (data?.res?.slug === '/')}
+{@html `<script type="application/ld+json">
+    {
+    "@context": "https://schema.org/",
+    "@type": "Blog",
+    "@id": "${$SveltePage.url}",
+    "mainEntityOfPage": "${$SveltePage.url}",
+    "name": "${data.pageTitle}",
+    "description": "${data.pageDescription}",
+    }
+</script>`}
 {/if}
 
 </svelte:head>
 
-<!-- <Header segment="cert">
-    <CertFilter slot="filter" selectedTags={ data?.res?.tag_ids ?? []} expanded={(data?.res?.tag_ids ?? []).length > 0} />
-    <CertSearch slot="search" searchInput={data?.searchInput ?? ''} expanded={(data?.searchInput ?? '').length > 0} />
-</Header> -->
 
 <div id="main" class="{`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70': ''}`}">
  
@@ -70,5 +76,5 @@ $: {
         </div>
 
     </main>
-    <SideBar />
+    <SideBar sidebarData={sidebarData} />
 </div>

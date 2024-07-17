@@ -1038,11 +1038,6 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@fontsource/fira-mono@^4.5.10":
-  version "4.5.10"
-  resolved "https://registry.yarnpkg.com/@fontsource/fira-mono/-/fira-mono-4.5.10.tgz#443be4b2b4fc6e685b88431fcfdaf8d5f5639bbf"
-  integrity sha512-bxUnRP8xptGRo8YXeY073DSpfK74XpSb0ZyRNpHV9WvLnJ7TwPOjZll8hTMin7zLC6iOp59pDZ8EQDj1gzgAQQ==
-
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"
@@ -1119,11 +1114,6 @@
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
-
-"@neoconfetti/svelte@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@neoconfetti/svelte/-/svelte-1.0.0.tgz#84a7f98981ad546d959d8c99460da8cebdf70301"
-  integrity sha512-SmksyaJAdSlMa9cTidVSIqYo1qti+WTsviNDwgjNVm+KQ3DRP2Df9umDIzC4vCcpEYY+chQe0i2IKnLw03AT8Q==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1361,13 +1351,6 @@
   version "18.11.9"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.9.tgz#02d013de7058cea16d36168ef2fc653464cfbad4"
   integrity sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==
-
-"@types/nodemailer@^6.4.7":
-  version "6.4.7"
-  resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.7.tgz#658f4bca47c1a895b1d7e054b3b54030a5e1f5e0"
-  integrity sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg==
-  dependencies:
-    "@types/node" "*"
 
 "@types/phoenix@^1.5.4":
   version "1.5.4"
@@ -1844,7 +1827,7 @@ core-js-compat@^3.25.1:
   dependencies:
     browserslist "^4.21.4"
 
-core-js@^3.26.1:
+core-js@^3.27.2:
   version "3.27.2"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.27.2.tgz#85b35453a424abdcacb97474797815f4d62ebbf7"
   integrity sha512-9ashVQskuh5AZEZ1JdQWp1GqSoC1e1G87MzRqg2gIfVAQ7Qn9K+uFj8EcniUFA4P2NLZfV+TOlX1SzoKfo+s7w==
@@ -2842,13 +2825,13 @@ jest-worker@^26.2.1:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-jodit@^3.24.2:
-  version "3.24.2"
-  resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.24.2.tgz#865bab3d34e997dcb925ab9acdf82ff4d48a5d31"
-  integrity sha512-+SUH34aiWVngk5sQc3sg6JL02TLbEADh0KO8abVffajlQeYkotkWVZPue2U8I3+s9LYryUKXtdacIkayV4GNfA==
+jodit@^3.24.4:
+  version "3.24.4"
+  resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.24.4.tgz#f4765b8f836ae4caf1e4736ebf840f4bfe0f12c2"
+  integrity sha512-0L0hdSe1wxAMG5BqrU2kiBthdKeIURpYi0utCJPIEdM6qOW4LmzLI1bGFRmHdP38npwuSj7hthIJ8URQZDceuA==
   dependencies:
     autobind-decorator "^2.4.0"
-    core-js "^3.26.1"
+    core-js "^3.27.2"
 
 js-sdsl@^4.1.4:
   version "4.2.0"
@@ -3351,11 +3334,6 @@ pretty-bytes@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-6.0.0.tgz#928be2ad1f51a2e336add8ba764739f9776a8140"
   integrity sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==
-
-prismjs@^1.29.0:
-  version "1.29.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.29.0.tgz#f113555a8fa9b57c35e637bba27509dcf802dd12"
-  integrity sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==
 
 punycode@^2.1.0:
   version "2.1.1"

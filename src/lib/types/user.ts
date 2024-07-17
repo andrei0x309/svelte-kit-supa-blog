@@ -4,4 +4,5 @@ export type ICurrentUser = {
     email: string;
     avatar: string;
     role: string;
+    password_hash?: string;
 }

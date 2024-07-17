@@ -13,14 +13,11 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@fontsource/fira-mono": "^4.5.10",
-		"@neoconfetti/svelte": "^1.0.0",
 		"@playwright/test": "^1.29.2",
 		"@sveltejs/adapter-auto": "^1.0.1",
 		"@sveltejs/adapter-netlify": "^1.0.3",
 		"@sveltejs/kit": "^1.1.1",
 		"@types/cookie": "^0.5.1",
-		"@types/nodemailer": "^6.4.7",
 		"@typescript-eslint/eslint-plugin": "^5.48.1",
 		"@typescript-eslint/parser": "^5.48.1",
 		"@vite-pwa/sveltekit": "^0.1.2",
@@ -40,6 +37,7 @@
 		"vite": "^4.0.4",
 		"vite-plugin-pwa": "^0.14.1",
 		"vitest": "^0.27.1",
+		"workbox-build": "^6.5.4",
 		"yarn-upgrade-all": "^0.7.2"
 	},
 	"type": "module",
@@ -47,8 +45,7 @@
 	"dependencies": {
 		"@supabase/supabase-js": "^2.4.0",
 		"highlight.js": "^11.7.0",
-		"jodit": "^3.24.2",
-		"prismjs": "^1.29.0",
+		"jodit": "^3.24.4",
 		"truncate-html": "^1.0.4"
 	}
 }
