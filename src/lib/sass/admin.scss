@@ -5,8 +5,101 @@ html {
 }
 
 .jodit-container {
-    .jodit-workplace {
+    .jodit-wysiwyg {
         min-height: 400px!important;
     }
-    color: black;
+
+    .jodit-toolbar-button_size_large {
+        height: 38px;
+        width: 38px;
+    }
+    color: whitesmoke;
 }
+
+.jodit-ui-input__wrapper {
+    .jodit-ui-input__input {
+    color: rgb(36, 36, 36);
+    }
+}
+
+.jodit-toolbar-button_size_large .jodit-toolbar-button__trigger svg {
+    width: 12px;
+    fill: cornsilk;
+    margin-right: 0.6rem;
+}
+
+.jodit-toolbar-button__trigger {
+    color: rgb(197, 197, 197);
+}
+
+.jodit_theme_a309 {
+    --jd-color-background-default: #3a3a3ae1;
+    --jd-color-border: #9b9b9b;
+    --jd-color-panel: #141414da;
+    --jd-color-icon: #e6b489dc;
+  }
+
+  .radio-container {
+    position: relative;
+    width: 100%;
+    color: #fff;
+    margin-top: 1rem;
+  }
+  
+  .input-label {
+    display: block;
+    cursor: pointer;
+    line-height: 2.5;
+    margin-left: .5em;
+  }
+  
+  .hidden {
+    position: absolute;
+    margin: -1px;
+    height: 1px;
+    width: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+  }
+  
+  .active-icon {
+    content: '';
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin-right: .8em;
+    vertical-align: -0.15em;
+    border: 0.125em solid #333;
+    box-shadow: 0 0 0 0.1em #aaa;
+    transition: 200ms ease-out;
+  }
+  
+  [type="radio"] {
+    @extend .hidden;
+  }
+  
+  [type="radio"] + span {
+    display: inline-block;
+    color: #aaa; 
+  }
+  
+  [type="radio"] + span:before {
+    @extend .active-icon;
+    border-radius: 50%;
+  }
+  
+  [type="radio"]:checked + span {
+    color: #f1f1f1;
+  }
+  
+  [type="radio"]:checked + span:before {
+    background-color: #f1f1f1;
+    box-shadow: 0 0 0 0.15em #f1f1f1;
+  }
+  
+  [type="radio"]:focus + span:before {
+    transform: scale(1.2);
+  }
+  
+  

@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/node/supaClientFS'
-import crypto from 'crypto'
+import { getSha256 } from '@/lib/utils/server/crypto'
 
 import type { RequestHandler } from  './$types';
 import { json } from '@sveltejs/kit';
@@ -21,12 +21,12 @@ export const POST: RequestHandler = (async ({ request }) => {
     if(!user) {
         return json({error: 'User not found'}, {status: 404})
     }
-    const hash = crypto.createHash('sha256').update(password).digest('base64');
-    console.log(hash)
+    const hash = await getSha256(password);
 
     if(hash !== user.password_hash) {
         return json({error: 'Wrong password'}, {status: 401})
     }
+    
     return json({data: 'ok', hash})
 
     } catch (e) {

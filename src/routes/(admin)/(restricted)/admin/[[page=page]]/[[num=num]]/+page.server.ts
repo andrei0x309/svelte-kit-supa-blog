@@ -11,14 +11,13 @@ export const load: PageServerLoad = async (req) => {
     } else {
         page = parseInt(num)
     }
-    const postsData = await loadPosts(page, 11, 'title, feature_image, slug, cat_id, author_id, tags_id') as unknown as {res: {data: unknown, page: number, hasNext: boolean}}
+    const postsData = await loadPosts(page, 11, 'title, signature, feature_image, slug, cat_id, author_id, tags_id') as unknown as {res: {data: unknown, page: number, hasNext: boolean}}
     return {
         posts: postsData?.res?.data,
         page: postsData?.res?.page,
         hasNext: postsData?.res?.hasNext
     }    
     } catch (e) {
-        console.log(e)
         return {
             posts: null
         }

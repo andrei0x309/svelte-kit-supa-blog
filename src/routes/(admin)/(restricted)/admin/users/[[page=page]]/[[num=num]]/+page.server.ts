@@ -1,5 +1,5 @@
 import { loadUsers } from '@/lib/utils/db/users' 
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad } from '../../$types';
 
 
 export const load: PageServerLoad = (async (req) => {
@@ -11,14 +11,13 @@ export const load: PageServerLoad = (async (req) => {
     } else {
         page = parseInt(num)
     }
-    const postsData = await loadUsers(page, 4) as unknown as {res: {data: unknown, page: number, hasNext: boolean}}
+    const usersData = await loadUsers(page, 4) as unknown as {res: {data: unknown, page: number, hasNext: boolean}}
     return {
-        users: postsData?.res?.data,
-        page: postsData?.res?.page,
-        hasNext: postsData?.res?.hasNext
+        users: usersData?.res?.data,
+        page: usersData?.res?.page,
+        hasNext: usersData?.res?.hasNext
     }    
     } catch (e) {
-        console.log(e)
         return {
             users: null
         }

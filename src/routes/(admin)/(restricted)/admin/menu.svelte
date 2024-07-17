@@ -4,8 +4,6 @@ import { goto } from '$app/navigation';
 import { eraseCookie } from '$lib/utils/common';
 import { currentUser } from '@/stores/main';
 
-console.log($currentUser, 'menu');
-
 const logout = () =>{
     eraseCookie('hash');
     eraseCookie('username');
@@ -21,7 +19,7 @@ const logout = () =>{
     <p class="text-slate-400 text-sm mb-2">Welcome back,</p>
     
     {#if $currentUser}
-    <a href="{`/admin/user/edit/${$currentUser.id}`}" class="flex flex-col space-y-2 md:space-y-0 md:flex-row mb-5 items-center md:space-x-2 hover:bg-white/10 group transition duration-150 ease-linear rounded-lg group w-full py-3 px-2">
+    <a href="{`/admin/users/edit/${$currentUser.id}`}" class="flex flex-col space-y-2 md:space-y-0 md:flex-row mb-5 items-center md:space-x-2 hover:bg-white/10 group transition duration-150 ease-linear rounded-lg group w-full py-3 px-2">
         <div>
             {#if $currentUser.avatar}
             <img class="rounded-full w-10 h-10 relative object-cover" src="{$currentUser.avatar}" alt="">
@@ -80,7 +78,7 @@ const logout = () =>{
                 
             </div>
         </a>
-        <a href="/admin/posts/new-post" class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group">
+        <a href="/admin/posts/add" class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group">
             <div class="relative flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 group-hover:text-indigo-400">
@@ -108,7 +106,7 @@ const logout = () =>{
                 
             </div>
         </a>
-        <a href="#" class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group">
+        <a href="/admin/settings/categories" class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group">
             <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 group-hover:text-indigo-400">

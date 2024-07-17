@@ -1,5 +1,6 @@
 <script lang="ts">
   import { setCookie } from '$lib/utils/common';
+  import { afterNavigate } from  '$app/navigation';
 
   export let theme ='dark'
   
@@ -13,6 +14,7 @@ const lightIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="
 </svg>`;
 
 let isSwitchingTheme = false;
+let searchModalOpen = false;
 let svgContainer: HTMLElement;
 
 const themeSwitch = () => {
@@ -43,6 +45,58 @@ const themeSwitch = () => {
   }
 };
 
+const showSearchModal = () => {
+  if(!searchModalOpen) {
+  searchModalOpen = true;
+  const searchModal=document.createElement('div');
+  searchModal.classList.add('full-search-modal');
+  searchModal.id="full-search-modal";
+  searchModal.innerHTML =  `
+<button id="search-close-btn">X</button> 
+<form id="menu-search-form" role="search" method="get" class="search-form" action="${window.location.origin}/search">
+	<label style="display:none;" for="menu-search-input">Search</label>
+        <input placeholder="Search" type="search" id="menu-search-input" class="search-field" name="q" autocomplete="off" />
+        <input style="display:none;" type="submit" class="search-submit" value="search" />
+</form>
+  </div>`;
+  document?.getElementById("root-app")?.append(searchModal);
+  document?.getElementById('search-close-btn')?.addEventListener('click', closeSearchModal);
+  document?.getElementById('menu-search-form')?.addEventListener('submit', searchAddSpinner);
+  }
+};
+
+const addSimpleSpinner = (element: any, prepend = true) => {
+    const spinner = document.createElement('div');
+    spinner.classList.add('loadingspinner');
+    if(prepend) element.prepend(spinner);
+    else element.appendChild(spinner);
+    return spinner;
+};
+
+const searchAddSpinner = (e: any) => {
+    addSimpleSpinner(e.target, false);
+};
+
+const closeSearchModal = () => {
+    if(searchModalOpen) {
+    const searchModal = document.getElementById('full-search-modal');
+    if(searchModal) {
+    ;(document?.getElementById('search-close-btn') as any).removeEventListener('click', closeSearchModal)
+    ;(document?.getElementById('menu-search-form') as any).removeEventListener('menu-search-form', searchAddSpinner)
+    searchModalOpen = false;
+    searchModal.style.animation = 'search-modal-close 0.4s linear forwards';
+    searchModal.addEventListener('animationend', () => {
+    searchModal.parentElement?.removeChild(searchModal);
+});
+    }
+
+    }
+};
+
+afterNavigate(() => {
+    closeSearchModal();
+});
+
 </script>
 
 <header class="header flex flex-row bg-gray-200 items-center content-va-off">
@@ -69,4 +123,5 @@ const themeSwitch = () => {
       </svg>
   </div>
 </button>
+<button on:click={showSearchModal} id="menu-search-btn" class="icon-search link-search-icon" aria-label="search button to open search modal"></button>  
 </header>

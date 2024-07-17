@@ -48,7 +48,7 @@ const hideError = () => {
 
 {#if error}
 <div class='flex flex-row bg-gray-900 rounded-[30px] m-4 py-2 px-4'>
-    <div class="{`w-[2rem] mr-2 ${ success ? 'bg-green-400': 'bg-red-400'} rounded-2xl shadow-[0_0_20px_#ff444477]`}">
+    <div class="{`w-[2rem] mr-2 ${ success ? 'bg-green-400': 'bg-red-400'} rounded-2xl shadow-[0_0_20px_#ff444477] flex items-center pr-4`}">
         <small class="pl-3 font-weight-700">{errorSec}</small>
     </div>
   <span class='flex flex-col justify-center text-white font-bold grow-[1] max-w-[90%] text-center'>{alertText}</span>

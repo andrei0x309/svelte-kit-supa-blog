@@ -12,13 +12,12 @@ module.exports = {
 		sourceType: 'module',
 		ecmaVersion: 2020
 	},
+	rules:{
+		'@typescript-eslint/no-explicit-any': 'off'
+	}
 	env: {
 		browser: true,
 		es2017: true,
 		node: true
-	},
-	globals: {
-		__VERSION__: "readonly",
-		__SK_VERSION__: "readonly"
 	}
 };

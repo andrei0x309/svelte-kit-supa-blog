@@ -8,7 +8,7 @@ let password = '';
 let alert: Alert | null = null;
 
 const login = async () => {
-  const res = await fetch('/api/admin/login', {
+  const res = await fetch('/login/check', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
