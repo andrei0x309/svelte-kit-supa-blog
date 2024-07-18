@@ -1,3 +1,19 @@
+
+## changelog - v0.0.4 - 2024-07-16
+
+The focus of modifications is to update dependencies, add a new theme store, implement new features, and improve security measures across the codebase.
+
+*Detailed summary:*
+
+- Updated dependencies and added new ones for compatibility
+- Added a new theme store to manage theme settings
+- Implemented new features like comments and iframe for articles
+- Enhanced security measures in the crypto module
+
+<!-- 
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.4---2024-07-16
+-->
+
 ## changelog - v0.0.3 - 2024-07-13
 
 Update focuses on adding user authentication features, updating database functions, and improving page logic in the admin settings section.
