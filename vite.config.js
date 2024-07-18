@@ -1,11 +1,13 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 
 /** @type {import('vite').UserConfig} */
 const config = {
 	plugins: [
 		sveltekit(),
+		nodePolyfills(),
 		SvelteKitPWA({
 			manifest: {
 				"$schema": "https://json.schemastore.org/web-manifest-combined.json",
