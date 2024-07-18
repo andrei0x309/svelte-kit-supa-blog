@@ -12,7 +12,7 @@ export const load: PageServerLoad = (async (req) => {
           slug = req.params.slug
         } 
         if(slug) {
-        const data =  await Promise.all([(loadPost(slug) as Promise<{[key: string]: Record<string, any>}>), loadCats()])
+        const data =  await Promise.all([(loadPost(slug, true) as Promise<{[key: string]: Record<string, any>}>), loadCats()])
             if(data) {
                 return {
                     post: data?.[0]?.res as IPost,

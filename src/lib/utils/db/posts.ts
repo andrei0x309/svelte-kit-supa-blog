@@ -60,7 +60,7 @@ export const loadTags = () => {
   return supabase.from('fsk_blog_tag').select('*')
 }
 
-export const loadPosts = async (page: number, perPege = config.indexPostsPerPage, select = '*') => {
+export const loadPosts = async (page: number, perPege = config.indexPostsPerPage, select = '*', draft = false) => {
   try {
     const tagsDB = loadTags()
     const resDb = supabase.from('fsk_blog_posts').select(`
@@ -78,7 +78,10 @@ export const loadPosts = async (page: number, perPege = config.indexPostsPerPage
      avatar
      ) 
     `.toString())
-    .eq('draft', false)
+      if(!draft) {
+        resDb.eq('draft', false)
+      }
+      resDb
       .order('created_at', { ascending: false })
       .range((page - 1) * perPege, page * perPege)
     const [tags, res] = await Promise.all([tagsDB, resDb])

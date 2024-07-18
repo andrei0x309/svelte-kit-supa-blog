@@ -5,6 +5,6 @@
 </script>
 
 <aside class="sidebar md:mr-0 md:mt-0 md:w-2/5 md:ml-6 block content-center" >
-      <GoodReadsWidget />
-      <TagsCloudWidget tag_cloud={sidebarData.tag_cloud} />
+      <GoodReadsWidget goodReads={sidebarData.goodReads} />
+      <TagsCloudWidget tagCloud={sidebarData.tagCloud} />
 </aside>

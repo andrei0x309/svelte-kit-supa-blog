@@ -4,8 +4,10 @@ export let data: IPost;
 import { config } from '$lib/config';
 import Signature from '$lib/theme/Article/Signature.svelte';
 import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
+import FeatureImage from '$lib/theme/FeatureImage.svelte';
 // import Comments from '$lib/theme/Article/Comments.svelte';
 export let draft = false;
+export let index = 0
 
 let related: IPost['related']
 
@@ -14,6 +16,7 @@ try {
 } catch {
     related = []
 }
+
 
 </script>
 
@@ -39,7 +42,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
             {#if config.authorPageEnabled}
             <a rel="author" title="Author's page" href={`/author/${data?.author?.username}`}>
             {#if data?.author?.avatar}
-            <img src={data.author.avatar} alt={data.author.username} class="rounded-xl w-6 inline-block" />
+            <img width="8" height="8" src={data.author.avatar} alt={data.author.username} class="rounded-xl w-6 inline-block" />
             {:else}
             <i class="icon-user-solid-square"></i>
             {/if}
@@ -47,7 +50,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
             </a>
             {:else}
             {#if data?.author?.avatar}
-            <img src={data.author.avatar} alt={data.author.username} class="rounded-xl w-6 inline-block" />
+            <img  width="8" height="8" src={data.author.avatar} alt={data.author.username} class="rounded-xl w-6 inline-block" />
             {:else}
             <i class="icon-user-solid-square"></i>
             {/if}
@@ -82,8 +85,8 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
            title={data?.feature_image_alt}
           class="{`post-image post-image-left p-0 ${data.isFull ? '' : 'post-image-link'}`}">
           <div class="pt-2 pr-4 pl-4 pb-6 featured-thumbnail w-full content-center justify-center md:w-2/5 md:float-left text-center">
-          <img itemprop={ !data.isFull ? 'image': ''} class="m-auto wp-post-image" width="500" height="281" loading="lazy" 
-          src={data.feature_image} alt={data?.feature_image_alt} >
+          <FeatureImage full={data.isFull} imgSource={data.feature_image} alt={data?.feature_image_alt} index={index} />
+          
                </div>
             </a> 
       {:else}
@@ -91,8 +94,8 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
            title={data?.feature_image_alt}
           class="{`post-image post-image-left p-0 ${data.isFull ? '' : 'post-image-link'}`}">
           <div class="pt-2 pr-4 pl-4 pb-6 featured-thumbnail w-full content-center justify-center md:w-2/5 md:float-left text-center">
-          <img itemprop={ !data.isFull ? 'image': ''} class="m-auto wp-post-image" width="500" height="281" loading="lazy" 
-          src={data.feature_image} alt={data?.feature_image_alt} >
+            <FeatureImage full={data.isFull} imgSource={data.feature_image} alt={data?.feature_image_alt} index={index} />
+
                </div>
             </a> 
         {/if}
