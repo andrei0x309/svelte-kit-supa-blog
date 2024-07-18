@@ -1,5 +1,5 @@
 import type { LayoutServerLoad } from './$types';
-import { generate_tag_cloud } from '$lib/utils/server/widgets';
+import { generateTagCloud, getGoodReadsData } from '$lib/utils/server/widgets';
 
 export const load = (async (req) => {
    let theme
@@ -9,9 +9,13 @@ export const load = (async (req) => {
    } else {
         theme = 'dark'
    }
+
+  const sideData = await Promise.all([generateTagCloud(), getGoodReadsData()])
+   
   return {
    sidebarData : {
-     tag_cloud: await generate_tag_cloud()
+     tagCloud: sideData?.[0],
+     goodReads: sideData?.[1]
    },
     theme
   };

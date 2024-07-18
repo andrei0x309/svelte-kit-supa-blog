@@ -435,7 +435,7 @@
                                 <legend>&nbsp;&nbsp;Draft&nbsp;&nbsp;</legend>
                                 <label for="draft-no" 
                                        class="input-label"
-                                       on:click|capture={() => postData.draft = false}
+                                       on:click|capture={() => { postData.draft = false;}}
                                        on:keydown|capture={(e) => e.key === 'Enter' && (postData.draft = false)}
                                        >
                                   <input type="radio"
@@ -446,7 +446,7 @@
                                 </label>
                                 <label for="draft-yes" 
                                        class="input-label"
-                                        on:click|capture={() => postData.draft = true}
+                                        on:click|capture={() => { postData.draft = true; } }
                                         on:keydown|capture={(e) => e.key === 'Enter' && (postData.draft = true)}
                                        >
                                   <input type="radio" 

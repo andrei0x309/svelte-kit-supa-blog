@@ -16,7 +16,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
             error: 'No slug provided'
         }, {status: 400})
     }
-    const exists = await loadPost(slug)
+    const exists = await loadPost(slug, true)
     if(!exists?.res?.slug) {
         return json({
             error: 'Post does not exist'

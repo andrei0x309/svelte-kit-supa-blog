@@ -62,6 +62,10 @@
       }
       scroll-behavior: smooth;
       min-height: 100%; /* enforce height */
+
+      --loader-large: #FFF5B7;
+      --loader-medium: #FF449F;
+      --loader-small: #00EAD3;
   }
   
 /* latin-ext */

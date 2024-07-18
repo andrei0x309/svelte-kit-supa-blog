@@ -42,8 +42,8 @@
     <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
      <h1 class="text-3xl font-bold">Tag {data?.tag?.name}</h1>
         {#if data?.res?.data?.length}
-            {#each data?.res?.data as post}
-                <Article data={post} />
+            {#each data?.res?.data as post, i}
+            <Article data={post} index={i} />
             {/each}
         {:else}
         <div class="flex flex-col items-center">
