@@ -59,6 +59,11 @@ div#root-app.light{
 .article {
   color: var(--text-color);
   background-color: var(--bg-color);
+
+  .wp-post-image {
+    border-radius: 10px;
+  }
+
 }
 
 @import "mixins/blue_btn.scss";

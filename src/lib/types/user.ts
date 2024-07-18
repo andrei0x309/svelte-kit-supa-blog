@@ -5,4 +5,7 @@ export type ICurrentUser = {
     avatar: string;
     role: string;
     password_hash?: string;
+    description: string;
+    created_at: string;
+    social_links: Record<string, string>;
 }

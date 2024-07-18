@@ -6,6 +6,8 @@
   import { isLoading } from '@/stores/main';
   import { onMount } from 'svelte'
   import { theme as themeStore } from '@/stores/main'
+  import { config } from '$lib/config'
+  import { getGoogleAnalyticsCode } from '$lib/utils/client/analytics'
  
   export let data: any = {}
   let theme = data?.theme || 'dark'
@@ -50,6 +52,10 @@
 <slot isLoading={isLoading} />
 <Footer />
 </div>
+
+{#if config.enableGoogleAnalytics}
+{@html getGoogleAnalyticsCode(config.googleAnalyticsId)}
+{/if}
 
 <style windi:preflights:global windi:safelist:global windi:global>
 </style>

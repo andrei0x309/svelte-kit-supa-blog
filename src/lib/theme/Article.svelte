@@ -5,6 +5,7 @@ import { config } from '$lib/config';
 import Signature from '$lib/theme/Article/Signature.svelte';
 import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
 // import Comments from '$lib/theme/Article/Comments.svelte';
+export let draft = false;
 
 let related: IPost['related']
 
@@ -27,7 +28,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
         </h1>
         {:else}
         <h2 itemprop="headline" class="blog-post-title blog-post-title-link">
-        <a href="{`/${data.slug}`}" title={data.title}>
+        <a href="{`/${draft ? 'preview/' : ''}${data.slug}`}" title={data.title}>
             {data.title}
          </a>
         </h2>
@@ -101,7 +102,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
         {:else}
             {@html data.content}
 
-            <a href="{`/${data.slug}`}" title={data.title} class="read-more"><i class="icon-read_more"></i> View full article </a>
+            <a href="{`/${draft ? 'preview/': ''}${data.slug}`}" title={data.title} class="read-more"><i class="icon-read_more"></i> View full article </a>
         {/if}
         
         <div class="clearfix">
