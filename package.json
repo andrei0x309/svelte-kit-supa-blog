@@ -35,6 +35,8 @@
 		"tslib": "^2.4.1",
 		"typescript": "^4.9.4",
 		"vite": "^4.0.4",
+		"vite-compatible-readable-stream": "^3.6.1",
+		"vite-plugin-node-polyfills": "^0.7.0",
 		"vite-plugin-pwa": "^0.14.1",
 		"vitest": "^0.27.1",
 		"workbox-build": "^6.5.4",
@@ -47,5 +49,8 @@
 		"highlight.js": "^11.7.0",
 		"jodit": "^3.24.4",
 		"truncate-html": "^1.0.4"
+	},
+	"browser": {
+		"stream": false
 	}
 }

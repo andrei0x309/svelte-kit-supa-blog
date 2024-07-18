@@ -78,6 +78,7 @@ export const loadPosts = async (page: number, perPege = config.indexPostsPerPage
      avatar
      ) 
     `.toString())
+    .eq('draft', false)
       .order('created_at', { ascending: false })
       .range((page - 1) * perPege, page * perPege)
     const [tags, res] = await Promise.all([tagsDB, resDb])
@@ -141,6 +142,7 @@ export const loadRelatedPosts = async ({
   try {
     const resDb = supabase.from('fsk_blog_posts').select(`*`)
     resDb.neq('slug', slug)
+    resDb.eq('draft', false)
     if (tag_ids.length && !slugs) {
       resDb.overlaps('tags_id', tag_ids)
     } else if (tag_ids.length && slugs) {
@@ -155,6 +157,8 @@ export const loadRelatedPosts = async ({
     if ((res.data ?? []).length < 3 && !slugs) {
       const resDb2 = supabase.from('fsk_blog_posts').select(`*`)
         .order('created_at', { ascending: false })
+        .neq('slug', slug)
+        .eq('draft', false)
         .limit(3)
       const res2 = await resDb2
       res.data = [...(res.data ?? []), ...(res2.data ?? [])].slice(0, 3)
@@ -187,6 +191,7 @@ export const loadPostsByCat = async (cat_id: number, page: number, perPege = 4, 
      avatar
      ) 
     `.toString())
+      .eq('draft', false)
       .order('created_at', { ascending: false })
       .range((page - 1) * perPege, page * perPege)
       .eq('cat_id', cat_id)
@@ -229,6 +234,7 @@ export const loadPostsByTag = async (tag_id: number, page: number, perPege = 4, 
      avatar
      ) 
     `.toString())
+      .eq('draft', false)
       .contains('tags_id', [tag_id])
       .order('created_at', { ascending: false })
       .range((page - 1) * perPege, page * perPege)
@@ -270,6 +276,7 @@ export const loadPostsBySearch = async (terms: string[], page: number, perPege =
      avatar
      ) 
     `.toString())
+      .eq('draft', false)
       .textSearch('fts', query)
       .order('created_at', { ascending: false })
       .range((page - 1) * perPege, page * perPege)

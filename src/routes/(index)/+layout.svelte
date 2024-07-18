@@ -1,16 +1,14 @@
-<script>
-// @ts-nocheck
-
+<script lang="ts">
   import Header from '$lib/theme/Header.svelte'
   import Footer from '$lib/theme/Footer.svelte'
   import '$lib/sass/app.scss'
   import { afterNavigate, beforeNavigate }  from '$app/navigation'
   import { isLoading } from '@/stores/main';
-  let data
-   
+  import { onMount } from 'svelte'
+  import { theme as themeStore } from '@/stores/main'
+ 
+  export let data: any = {}
   let theme = data?.theme || 'dark'
-
-  console.log('theme', data)
 
   beforeNavigate(() => {
 	isLoading.set(true)
@@ -19,6 +17,11 @@
   afterNavigate(() => {
 	isLoading.set(false)
   })
+
+  onMount(() => {
+	themeStore.set(theme)
+  })
+
 
 </script>
 
