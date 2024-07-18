@@ -4,6 +4,7 @@ export let data: IPost;
 import { config } from '$lib/config';
 import Signature from '$lib/theme/Article/Signature.svelte';
 import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
+// import Comments from '$lib/theme/Article/Comments.svelte';
 
 let related: IPost['related']
 
@@ -130,6 +131,12 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
         {#if data.isFull && data.signature}
             <Signature data={data.signature} />
         {/if}
+
+        <!-- {#if data.isFull && data.author}
+        <h3 class="text-xl font-bold mt-8 mb-4">Comments</h3>
+            <Comments/>
+        {/if} -->
+
     </div>
     </div>
 </article>

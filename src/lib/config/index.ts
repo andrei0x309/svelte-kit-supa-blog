@@ -13,5 +13,4 @@ export const config = {
     authorPageEnabled: true,
     relatedPostsEnabled: true,
     signatureDisplayEnabled: true,
-
 }

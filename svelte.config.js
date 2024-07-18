@@ -17,7 +17,7 @@ const config = {
 			split: false
 		}),
 		alias: {
-				'@': './src'
+				'@': './src',
 		}
 	}
 };

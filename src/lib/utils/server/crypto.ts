@@ -4,7 +4,7 @@ export const getSha256 = async (password: string) => {
         const hash = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(password))
         return btoa(String.fromCharCode(...new Uint8Array(hash)))
     } else {
-        // crypto = await import('crypto')
+        crypto = await import('node:crypto')
     }
-    // return crypto.createHash('sha256').update(password).digest('base64')
+    return crypto.createHash('sha256').update(password).digest('base64')
 }
