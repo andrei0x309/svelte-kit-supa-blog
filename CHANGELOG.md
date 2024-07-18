@@ -1,3 +1,17 @@
+## changelog - v0.0.5 - 2024-07-17
+
+The focus of modifications is to add Analytics integration, draft posts functionality, and author description display.
+
+*Detailed summary:*
+
+- Added Analytics integration
+- Implemented draft posts loading and display
+- Included author description in posts
+- Updated post preview functionality
+
+<!-- 
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.5---2024-07-17
+-->
 
 ## changelog - v0.0.4 - 2024-07-16
 

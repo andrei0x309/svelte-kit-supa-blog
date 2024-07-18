@@ -13,4 +13,6 @@ export const config = {
     authorPageEnabled: true,
     relatedPostsEnabled: true,
     signatureDisplayEnabled: true,
+    enableGoogleAnalytics: true,
+    googleAnalyticsId: 'G-0TYDTZGHS4',
 }

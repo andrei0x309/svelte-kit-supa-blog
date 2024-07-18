@@ -13,7 +13,9 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     const req = { cookies } as ICookies
     const { username:cuser } = await checkAuth(req)
     const currentUser = await supabase.from('fsk_blog_author').select('*').eq('username', cuser).single()
-    const { slug, title, content, tags_id, cat_id, author_id, seo_description, feature_image, feature_image_alt, schema, related } = await request.json()
+    const { slug, title, content, tags_id, cat_id, author_id,
+         seo_description, feature_image, feature_image_alt, schema, related, draft
+         } = await request.json()
 
     const exists = await loadPost(slug)
 
@@ -43,6 +45,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     if(feature_image) update.feature_image = feature_image
     if(feature_image_alt) update.feature_image_alt = feature_image_alt
     if(schema) update.schema = schema
+    if(draft) update.draft = draft === true ? true : false
     update.content_text = truncate(content, content.length, { stripTags: true })
 
     if(related) {

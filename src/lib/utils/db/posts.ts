@@ -2,7 +2,7 @@ import { supabase } from '@/lib/node/supaClientFS'
 import truncate from "truncate-html";
 import { config } from '@/lib/config';
 
-const preparePostResponse = ({
+export const preparePostResponse = ({
   tags,
   res,
   page = 1,
@@ -95,8 +95,7 @@ export const loadPosts = async (page: number, perPege = config.indexPostsPerPage
   }
 }
 
-
-export const loadPost = async (slug: string) => {
+export const loadPost = async (slug: string, loadDraft = false) => {
   try {
     const tagsDB = loadTags()
     const resDb = supabase.from('fsk_blog_posts').select(`
@@ -117,6 +116,10 @@ export const loadPost = async (slug: string) => {
       .eq(
         'slug', slug
       )
+
+    if(!loadDraft) {
+      resDb.eq('draft', false)
+    }
 
     const [tags, res] = await Promise.all([tagsDB, resDb])
 
