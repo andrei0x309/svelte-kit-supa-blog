@@ -1,3 +1,20 @@
+## changelog - v0.0.6 - 2024-07-18
+
+The focus of modifications is to update colors in the global Sass file, add loader sizes, refactor server-side logic, optimize image loading, and fetching and caching Goodreads data.
+
+*Detailed summary:*
+
+- Updated colors and added loader sizes in _global.scss
+- Refactored server-side logic in various files
+- Optimized image loading in FeatureImage.svelte
+- Added Goodreads data fetching and caching in widgets.ts
+- Modified Article.svelte for better readability and performance
+- Added Widget for displaying Goodreads data in the sidebar
+
+<!-- 
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.6---2024-07-18
+-->
+
 ## changelog - v0.0.5 - 2024-07-17
 
 The focus of modifications is to add Analytics integration, draft posts functionality, and author description display.
