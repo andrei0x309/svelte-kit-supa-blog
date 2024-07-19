@@ -208,7 +208,7 @@
 
     const highLightCodeBlocks = async (code: string, lang: string) => {
         // const hljsUrl = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/highlight.min.js"
-        const hljs = (await import(/* @vite-ignore */'highlight.js/es/core'/* @vite-ignore */)).default;
+        const hljs = (await import(/* @vite-ignore */'highlight.js/lib/core'/* @vite-ignore */)).default;
         if(!hljs.getLanguage(lang)){
             const langUrl = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/languages/${lang}.min.js`;
             try {

@@ -1,6 +1,9 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import { partytownVite } from '@builder.io/partytown/utils'
+import { join } from 'path'
+
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -9,6 +12,10 @@ const config = {
 			protocolImports: true
 		}),
 		sveltekit(),
+		partytownVite({
+			// `dest` specifies where files are copied to in production
+			dest: join(process.cwd(), 'static', '~partytown')
+		  }),
 		SvelteKitPWA({
 			manifest: {
 				"$schema": "https://json.schemastore.org/web-manifest-combined.json",

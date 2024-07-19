@@ -8,7 +8,8 @@
   import { theme as themeStore } from '@/stores/main'
   import { config } from '$lib/config'
   import { getGoogleAnalyticsCode } from '$lib/utils/client/analytics'
- 
+  import { partytownSnippet } from '@builder.io/partytown/integration'
+
   export let data: any = {}
   let theme = data?.theme || 'dark'
 
@@ -20,10 +21,14 @@
 	isLoading.set(false)
   })
 
+  let scriptEl: HTMLScriptElement
+
   onMount(() => {
 	themeStore.set(theme)
+  if (scriptEl) {
+		  scriptEl.textContent = partytownSnippet()
+		}
   })
-
 
 </script>
 
@@ -40,6 +45,34 @@
 	<meta name="theme-color" content="#ffffff"> -->
 
 <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com"/>
+
+
+<script>
+
+  partytown = {
+    forward: ['dataLayer.push'],
+    resolveUrl: (url) => {
+    const siteUrl = 'https://blog.flashsoft.eu/proxy-town-proxy'
+    if (url.hostname === 'www.googletagmanager.com') {
+      const proxyUrl = new URL(siteUrl + '/gtm')
+      const gtmId = new URL(url).searchParams.get('id')
+      gtmId && proxyUrl.searchParams.append('id', gtmId)
+      return proxyUrl
+    } else if (
+      url.href.includes('google-analytics.com')
+    ) {
+      const proxyUrl = new URL(url.href.replace(url.hostname, 'blog.flashsoft.eu/proxy-town-proxy') + '/ga')
+      return proxyUrl
+    }
+    return url
+    }
+  }
+</script>
+
+  <!-- `partytownSnippet` is inserted here -->
+  <script bind:this={scriptEl}></script>
+  <!-- {@html webManifest} -->
+
 
 </svelte:head>
 
