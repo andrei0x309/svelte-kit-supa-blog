@@ -102,4 +102,12 @@ html {
     transform: scale(1.2);
   }
   
-  
+  code.inline {
+    background-color: var(--bg-code-inline-color);
+    padding: 0.3em;
+    border: 1px solid var(--border-code-inline);
+    font-family: monospace;
+    font-size: 0.8em;
+    letter-spacing: 0.12em;
+    }
+    

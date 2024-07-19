@@ -4,7 +4,7 @@
     export let sidebarData: any;
 </script>
 
-<aside class="sidebar md:mr-0 md:mt-0 md:w-2/5 md:ml-6 block content-center" >
+<aside class="sidebar md:mr-0 md:mt-0 md:w-2/5 md:ml-6 block content-center content-va-on" >
       <GoodReadsWidget goodReads={sidebarData.goodReads} />
       <TagsCloudWidget tagCloud={sidebarData.tagCloud} />
 </aside>

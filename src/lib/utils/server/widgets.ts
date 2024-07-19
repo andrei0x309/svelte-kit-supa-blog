@@ -63,11 +63,11 @@ export const getGoodReadsData = async () => {
     const { data } = await supabase
         .from('fsk_blog_store')
         .select('*')
-        .eq('key', 'goodreads')
+        .eq('name', 'goodreads')
         .single()
     if(!data) {
         const widget = await createGoodReadsData()
-        supabase.from('fsk_blog_store').upsert( { key: 'goodreads', value: widget, updated_at: new Date().toISOString() })
+        supabase.from('fsk_blog_store').upsert( { name: 'goodreads', value: widget, updated_at: new Date().toISOString() })
         return widget
     } else {
         const date = new Date(data.updated_at)
@@ -76,7 +76,7 @@ export const getGoodReadsData = async () => {
         const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24))
         if(diffDays > 7) {
                 createGoodReadsData().then((res) => {
-                supabase.from('fsk_blog_store').upsert( { key: 'goodreads', value: res, updated_at: new Date().toISOString() })
+                supabase.from('fsk_blog_store').upsert( { name: 'goodreads', value: res, updated_at: new Date().toISOString() })
                 })
                 
             }
