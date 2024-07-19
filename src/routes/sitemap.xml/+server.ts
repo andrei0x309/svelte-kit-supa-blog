@@ -1,32 +1,25 @@
 import type { RequestHandler } from  './$types';
-
+import { generatePaths} from '$lib/utils/server/sitemap'
 export const prerender = true;
  
-const website = 'https://flashsoft.eu';
+const website = 'https://blog.flashsoft.eu';
 
-const pages = [
-	{
-		url: '',
-		priority: 0.8
-	},
-	{
-		url: 'mypage'
-	}
-];
 
 
 export const GET: RequestHandler = async () => {
+  const pages = await generatePaths();
+  const contnet = pages
+  .map(
+    (page) => `<url>
+  <loc>${website}/${page.url}</loc>
+  <changefreq>${page.changefreq}</changefreq>
+  <priority>${page.priority ?? 0.5}</priority>
+  </url>`
+  )
+  .join('')
   return new Response(`<?xml version="1.0" encoding="UTF-8" ?>
 	<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-		${pages
-      .map(
-        (page) => `<url>
-			<loc>${website}/${page.url}</loc>
-			<changefreq>monthly</changefreq>
-			<priority>${page.priority ?? 0.5}</priority>
-		  </url>`
-      )
-      .join('')}
+  ${contnet}
 	</urlset>`,
 
     {

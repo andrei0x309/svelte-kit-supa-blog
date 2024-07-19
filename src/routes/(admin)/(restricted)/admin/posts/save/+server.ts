@@ -28,7 +28,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     } else {
         if(!slug || !title || !content || !author_id) {
             return json({
-                error: 'Required fields are missing( slug, title, content, autor_id )'
+                error: 'Required fields are missing( slug, title, content, author_id )'
             }, {status: 400})
         }
     }
@@ -45,9 +45,8 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     if(feature_image) update.feature_image = feature_image
     if(feature_image_alt) update.feature_image_alt = feature_image_alt
     if(schema) update.schema = schema
-    if(draft) update.draft = draft === true ? true : false
+    if(typeof draft === 'boolean') update.draft = draft === true ? true : false
     update.content_text = truncate(content, content.length, { stripTags: true })
-
     if(related) {
         if(!Array.isArray(related)) {
             return json({

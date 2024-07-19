@@ -384,10 +384,10 @@ button.link-search-icon{
 .content-va-on {
         content-visibility: auto;
         contain-intrinsic-size: 700px;
-    }
-    
+  }
+
 .content-va-off {
-        content-visibility: si;
+        content-visibility: visible;
     }
 
  
@@ -644,6 +644,8 @@ li li::marker { color: #a2a; }
 
 .footer{
     background-color: #00000052;
+    content-visibility: auto;
+    contain-intrinsic-size: 200px;
 }
 
 .header, .footer{

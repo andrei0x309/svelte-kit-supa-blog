@@ -1,3 +1,21 @@
+
+## changelog - v0.0.7 - 2024-07-18
+
+The focus of modifications is to enhance server-side functionality, add private secrets examples, update Svelte components, and integrates Partytown for optimized performance.
+
+*Detailed summary:*
+
+- Deleted unused files and directories
+- Added private secrets examples
+- Updated Svelte components for improved functionality
+- Integrated Partytown for performance optimization
+- Updated Vite config for Partytown integration
+- Improved server-side functionality for cron jobs and sitemap generation
+
+<!-- 
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.7---2024-07-18
+-->
+
 ## changelog - v0.0.6 - 2024-07-18
 
 The focus of modifications is to update colors in the global Sass file, add loader sizes, refactor server-side logic, optimize image loading, and fetching and caching Goodreads data.

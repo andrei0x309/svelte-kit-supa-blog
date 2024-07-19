@@ -56,19 +56,17 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
             {/if}
             <span class="inline" itemprop={ !data.isFull ? 'author' : ''}>{data?.author?.username}</span>
             {/if}</address> 
-           <span class="px-2 pt-3 pb-6"><i class="icon-calendar"></i>
+           <span class="px-2 pt-3 pb-6"><i class="inline-block w-4 icon-calendar"></i>
           <time datetime={data.created_at} title={data.created_at} 
           itemprop={ !data.isFull ? 'datePublished' :''}>
           {new Date(data.created_at).toLocaleDateString() } 
           </time></span>
           {#if data?.cat?.name}
-          <span class="px-2 pt-3 pb-6" >
-          <a href="{`/category/${data.cat.slug}`}" title={data.cat.name}>
-         <i class="icon-folder"></i> {data?.cat?.name ?? 'No category'}
+          <a class="px-2 pt-3 pb-6" href="{`/category/${data.cat.slug}`}" title={data.cat.name}>
+         <i class="inline-block w-4 icon-folder"></i> {data?.cat?.name ?? 'No category'}
             </a>
-        </span> 
           {:else}
-          <span class="px-2 pt-3 pb-6" ><i class="icon-folder"></i> {data?.cat?.name ?? 'No category'}</span> 
+          <span class="px-2 pt-3 pb-6" ><i class="inline-block w-4 icon-folder"></i> {data?.cat?.name ?? 'No category'}</span> 
             {/if}
          
         <!-- //    <?php if (!$articleFull) { ?> 

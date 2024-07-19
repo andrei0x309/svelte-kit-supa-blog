@@ -8,7 +8,7 @@
     export let full = false
     export let alt = ''
 
-    let isLoaded = false;
+    let isLoaded = true;
 	let isError = false;
 	let img: HTMLImageElement;
     
@@ -24,9 +24,9 @@
     }
 
 	onMount(() => {
-	if(img.complete) {
-		loaded()
-	}
+		if(!img.complete) {
+			isLoaded = false;
+		}
 	})
 
 

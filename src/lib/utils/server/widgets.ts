@@ -2,8 +2,8 @@ import { loadTags } from  '@/lib/utils/db/catOrTag'
 import { shuffleFY } from '@/lib/utils/server/misc'
 import { supabase } from '@/lib/node/supaClientFS'
 
-export const generateTagCloud = async () => {
-    
+const generateTagCloud = async () => {
+
     const config = {
         smallest: 8,
         largest: 22,
@@ -41,6 +41,37 @@ export const generateTagCloud = async () => {
     return tag_cloud.join('\n')
 }
 
+export const getTagCloud = async () => {
+    const { data } = await supabase
+    .from('fsk_blog_store')
+    .select('*')
+    .eq('name', 'tagCloud')
+    .single()
+    if(!data) {
+        const tagCloud = await generateTagCloud()
+        supabase.from('fsk_blog_store').upsert(
+            {
+                name: 'tagCloud',
+                value: tagCloud,
+                updated_at: new Date().toISOString()
+            }
+        )
+        return tagCloud
+    } else {
+        const date = new Date(data.updated_at)
+        const now = new Date()
+        const diff = Math.abs(now.getTime() - date.getTime())
+        const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24))
+        if(diffDays > 3) {
+                generateTagCloud().then((res) => {
+                supabase.from('fsk_blog_store').upsert( { name: 'tagCloud', value: res, updated_at: new Date().toISOString() })
+                })
+                
+            }
+        }
+        return data.value
+    }
+
 export const createGoodReadsData = async () => {
     const req = await fetch(`https://www.goodreads.com/review/custom_widget/52338687.Andrei's%20bookshelf:%20read?cover_position=left&cover_size=small&num_books=4&order=d&shelf=read&show_author=1&show_cover=1&show_rating=1&show_review=1&show_tags=1&show_title=1&sort=date_added&widget_bg_color=FFFFFF&widget_bg_transparent=&widget_border_width=1&widget_id=1678062343&widget_text_color=000000&widget_title_size=medium&widget_width=medium`)
     const res = await req.text()
@@ -63,11 +94,11 @@ export const getGoodReadsData = async () => {
     const { data } = await supabase
         .from('fsk_blog_store')
         .select('*')
-        .eq('key', 'goodreads')
+        .eq('name', 'goodreads')
         .single()
     if(!data) {
         const widget = await createGoodReadsData()
-        supabase.from('fsk_blog_store').upsert( { key: 'goodreads', value: widget, updated_at: new Date().toISOString() })
+        supabase.from('fsk_blog_store').upsert( { name: 'goodreads', value: widget, updated_at: new Date().toISOString() })
         return widget
     } else {
         const date = new Date(data.updated_at)
@@ -76,7 +107,7 @@ export const getGoodReadsData = async () => {
         const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24))
         if(diffDays > 7) {
                 createGoodReadsData().then((res) => {
-                supabase.from('fsk_blog_store').upsert( { key: 'goodreads', value: res, updated_at: new Date().toISOString() })
+                supabase.from('fsk_blog_store').upsert( { name: 'goodreads', value: res, updated_at: new Date().toISOString() })
                 })
                 
             }

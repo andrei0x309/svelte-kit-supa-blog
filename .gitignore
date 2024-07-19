@@ -14,3 +14,4 @@ vite.config.ts.timestamp-*
 yarn-error.log
 /src/deno-db/db
 /static/collecting
+/static/~partytown

@@ -8,7 +8,6 @@ export const loadUsers = async (page: number, perPege = 4) => {
     .range((page-1)*(perPege), (page*(perPege)))
 
       const hasNext = res.data?.length === (perPege+1)
-      console.log(res.data?.length)
       res.data = res.data?.slice(0, perPege) ?? []
 
       ;(res as unknown as {page: number}).page = page
