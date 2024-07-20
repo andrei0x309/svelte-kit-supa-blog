@@ -6,7 +6,7 @@ const SUPA_TOKEN = Deno.env.get('TOKEN')
 const options = {
   schema: "public",
   autoRefreshToken: true,
-  persistSession: true,
+  persistSession: false,
   detectSessionInUrl: true,
 };
 
