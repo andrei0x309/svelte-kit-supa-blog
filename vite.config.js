@@ -14,7 +14,7 @@ const config = {
 		sveltekit(),
 		partytownVite({
 			// `dest` specifies where files are copied to in production
-			dest: join(process.cwd(), 'static', '~partytown')
+			dest: join(process.cwd(), 'build', '~partytown')
 		  }),
 		SvelteKitPWA({
 			manifest: {

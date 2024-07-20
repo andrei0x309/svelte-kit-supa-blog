@@ -16,3 +16,32 @@ export const config = {
     enableGoogleAnalytics: true,
     googleAnalyticsId: 'G-0TYDTZGHS4',
 }
+
+// Use empty string if you don't want to include a social link
+export const schemaSocials = {
+    facebook: '',
+    twitter: 'https://twitter.com/andrei0x309',
+    instagram: '',
+    linkedin: '',
+    youtube: '',
+    github: 'https://github.com/andrei0x309',
+    twitch: 'https://www.twitch.tv/andrei0x309',
+    reddit: 'https://www.reddit.com/user/andrei0x309',
+    mirror: 'https://mirror.xyz/andrei0x309.eth',
+    discord: 'https://discordhub.com/profile/556064803203055616',
+    telegram: 'https://t.me/andrei0x309',
+    snapchat: '',
+    tiktok: '',
+    pinterest: 'https://www.pinterest.com/andrei0x309',
+    spotify: '',
+    soundcloud: '',
+    vimeo: '',
+    medium: '',
+    quora: '',
+    devto: '',
+    gitlab: 'https://gitlab.com/andrei0x309',
+    stackoverflow: 'https://stackoverflow.com/users/4354506/andrei-o',
+    hackernews: '',
+    behance: '',
+    dribbble: '',
+}
