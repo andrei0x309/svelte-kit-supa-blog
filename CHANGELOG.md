@@ -1,3 +1,19 @@
+## changelog - v0.0.8 - 2024-07-19
+
+The focus of modifications is to update configurations, add new files, and fix existing files.
+
+*Detailed summary:*
+
+- Updated Tailwind CSS configuration
+- Updated Supabase session persistence
+- Added redirects for blog URLs
+- Updated robots.txt and sitemap.xml with dynamic generation
+- Modified social links in the config
+- Fixed layout and styling issues in various files
+
+<!-- 
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.8---2024-07-19
+-->
 
 ## changelog - v0.0.7 - 2024-07-18
 
