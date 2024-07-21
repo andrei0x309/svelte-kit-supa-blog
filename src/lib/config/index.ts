@@ -15,6 +15,7 @@ export const config = {
     signatureDisplayEnabled: true,
     enableGoogleAnalytics: true,
     googleAnalyticsId: 'G-0TYDTZGHS4',
+    supportedLanguages: [ 'en', 'ro' ],
 }
 
 // Use empty string if you don't want to include a social link
