@@ -13,7 +13,10 @@ export const load = (async (req) => {
     }
     } catch (e) {
         if(e === 'denied') {
-            throw error(403, 'Access denied')
+            error(403,  {
+                            message: 'Forbidden',
+                            pageType: 'error'
+                        } as App.Error);
         }
     }
     

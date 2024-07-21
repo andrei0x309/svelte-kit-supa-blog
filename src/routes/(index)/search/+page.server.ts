@@ -3,12 +3,17 @@ import { checkData, appendToData } from '@/lib/utils/page'
 import { error } from '@/lib/utils/page'
 import { loadPostsBySearch } from '$lib/utils/db/posts'
 
+const defaultError = {
+  message: 'No Query Provided',
+  pageType: 'search'
+} as App.Error
+
 
 export const load: PageServerLoad = async (req) => {
     let q = String(req.url.searchParams.get('q') ?? '');
 
   if(!q) {
-    throw error(404, 'Not Query Provided')
+    throw error(401, defaultError)
   }
     const query  = decodeURIComponent(q).split(' ')
     const page = Number(req.url.searchParams.get('page') || '1') || 1

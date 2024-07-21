@@ -69,7 +69,7 @@
 								<th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
 							</thead>
 							{#each data.users as user}
-								<tr transition:slide|local class="border-b border-gray-700">
+								<tr transition:slide class="border-b border-gray-700">
 									<td class="py-3 px-2 font-bold  max-w-20 truncate">
 										{user.username}
 									</td>

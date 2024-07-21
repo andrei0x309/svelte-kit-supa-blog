@@ -37,7 +37,7 @@ export let type = 'cat'
                 <th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
             </thead>
             {#each data.catOrTags as cot}
-            <tr transition:slide|local class="border-b border-gray-700">
+            <tr transition:slide class="border-b border-gray-700">
                 <td class="py-3 px-2 max-w-20 truncate">
                     {cot.name}
                 </td>
