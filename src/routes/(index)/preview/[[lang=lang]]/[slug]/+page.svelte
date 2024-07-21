@@ -36,9 +36,6 @@
 {#if featureImage }
 <meta property="og:image" content="{featureImage}" />
 {/if}
-{#if data?.schemaContent}
-{@html data.schemaContent}
-{/if}
 </svelte:head>
 
 <div id="main" class="{`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70': ''}`}">

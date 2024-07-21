@@ -3,7 +3,6 @@ import type { PageServerLoad } from './$types';
 import { checkData, appendToData } from '@/lib/utils/page'
 import truncate from "truncate-html";
 import { loadPost } from '@/lib/utils/db/posts'
-import { getSchemaContent } from '@/lib/utils/server/schema'
 import type { IPost } from '$lib/types/post'
 import { supabase } from '@/lib/node/supaClientFS'
 import { error } from '@/lib/utils/page'
@@ -35,7 +34,6 @@ export const load: PageServerLoad = async (req) => {
     return appendToData(
       checkData(post), 
       {pageTitle: post?.res?.title ?? 'Blog | flashsoft.eu', 
-      pageDescription: post?.res?.seo_description || fallBackDescription,
-      schemaContent: getSchemaContent((post.res ?? null) as unknown as IPost)
+      pageDescription: post?.res?.seo_description || fallBackDescription
     })
   }

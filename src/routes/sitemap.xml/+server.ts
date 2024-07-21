@@ -1,10 +1,9 @@
 import type { RequestHandler } from  './$types';
-import { generatePaths} from '$lib/utils/server/sitemap'
+import { generatePaths } from '$lib/utils/server/sitemap'
+import { config } from '$lib/config'
 export const prerender = true;
  
-const website = 'https://blog.flashsoft.eu';
-
-
+const website =  config.baseSiteUrl
 
 export const GET: RequestHandler = async () => {
   const pages = await generatePaths();

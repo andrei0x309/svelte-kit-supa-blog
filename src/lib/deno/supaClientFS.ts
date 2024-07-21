@@ -4,7 +4,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js";
 const options = {
   schema: "public",
   autoRefreshToken: true,
-  persistSession: true,
+  persistSession: false,
   detectSessionInUrl: true,
 };
 

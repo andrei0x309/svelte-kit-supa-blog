@@ -309,16 +309,6 @@
                 <Alert bind:this={alert} />
 				<form>
 					<div class="mt-8 space-y-6">
-						<div>
-							<label for="slug" class="text-sm text-gray-200 block mb-1 font-medium">Slug</label>
-							<input
-								type="text"
-								id="slug"
-								class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-								placeholder="post slug"
-                                bind:value={postData.slug}
-							/>
-						</div>
                         <div>
 							<label for="title" class="text-sm text-gray-200 block mb-1 font-medium"
 								>Title</label
@@ -329,6 +319,16 @@
 								class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 								placeholder="My New Post"
                                 bind:value={postData.title}
+							/>
+						</div>
+						<div>
+							<label for="slug" class="text-sm text-gray-200 block mb-1 font-medium">Slug</label>
+							<input
+								type="text"
+								id="slug"
+								class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+								placeholder="post slug"
+                                bind:value={postData.slug}
 							/>
 						</div>
                         {#if cats?.length > 0}

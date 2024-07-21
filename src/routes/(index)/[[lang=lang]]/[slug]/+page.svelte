@@ -46,7 +46,30 @@
     <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
      
         {#if data?.res}
+
+ {#if data?.isPostList}
+        {#if data?.res?.data?.length}
+        {#each data?.res?.data as post, i}
+            <Article data={post} index={i} />
+        {/each}
+    {:else}
+    <div class="flex flex-col items-center">
+        <h1 class="text-3xl font-bold">No posts found</h1>
+    </div>
+    {/if}
+
+    <div class="text-center mt-2 flex mx-auto">
+        {#if (data?.res?.page ?? 1) > 1}
+        <a href={`/page/${(data?.res?.page ?? 1) - 1}`} class="show-more-posts-btn">⮈ Newer Posts</a>
+        {/if}
+        {#if (data?.res?.hasNext ?? false)}
+        <a href={`/page/${(data?.res?.page ?? 1) + 1}`} class="show-more-posts-btn">Older Posts ⮊</a>
+        {/if}
+    </div>
+    {:else}
                 <Article data={data.res} />
+        {/if}
+
         {:else}
         <div class="flex flex-col items-center">
             <h1 class="text-3xl font-bold">Post not found</h1>

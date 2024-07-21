@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { checkData, extractPage, error, appendToData } from '@/lib/utils/page'
 import { loadPosts } from '@/lib/utils/db/posts'
 import { config } from '$lib/config';
+import { getIndexSchema } from '@/lib/utils/server/schema'
 
 export const load: PageServerLoad = async (rest) => {
   const slug = rest.params.rest ?? '/'
@@ -15,7 +16,9 @@ export const load: PageServerLoad = async (rest) => {
       const page = extractPage(rest.params.rest)
 
       const data = await loadPosts(page)
-      return appendToData(checkData(data), {slug, pageTitle: `${config.siteName} | Page ${page}`, pageDescription: `${config.siteIndexDescription} | Page ${page}`})
+      return appendToData(checkData(data), {slug, pageTitle: `${config.siteName} | Page ${page}`, pageDescription: `${config.siteIndexDescription} | Page ${page}`,
+      schemaContent: getIndexSchema()
+    })
     }
     
     default: {

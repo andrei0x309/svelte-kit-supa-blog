@@ -5,9 +5,10 @@ const token =  Deno.env.get("TOKEN");
 const options = {
   schema: "public",
   autoRefreshToken: true,
-  persistSession: true,
+  persistSession: false,
   detectSessionInUrl: true,
 };
+
 
 export const supabase = createClient(
   "https://lcspcmmpolegvalxkfsu.supabase.co",
