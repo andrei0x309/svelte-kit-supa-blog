@@ -3,9 +3,13 @@ import type { PageServerLoad } from './$types';
 import { checkData, appendToData } from '@/lib/utils/page'
 import truncate from "truncate-html";
 import { loadPost } from '@/lib/utils/db/posts'
-import type { IPost } from '$lib/types/post'
 import { supabase } from '@/lib/node/supaClientFS'
 import { error } from '@/lib/utils/page'
+
+const defaultError = {
+  message: 'Unauthorized',
+  pageType: 'author'
+  } as App.Error
 
 export const load: PageServerLoad = async (req) => {
     const username = req.cookies.get('username')
@@ -17,7 +21,7 @@ export const load: PageServerLoad = async (req) => {
         .eq('username', username).single()).data
         if(user) {
             if(hash !== user.password_hash) {
-                throw error(401, 'Unauthorized')
+                throw error(401, defaultError)
             }
         }
     }

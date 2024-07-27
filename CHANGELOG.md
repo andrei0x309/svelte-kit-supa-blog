@@ -1,3 +1,29 @@
+
+## changelog - v0.0.9 - 2024-07-25
+
+The focus of modifications is to update dependencies, add error handling, and improve server responses.
+
+- Detailed summary
+- Updated Yarn configuration
+- Added ipfs_source field to post.ts
+- Modified error handling in various server files
+- Updated .env.example with new API keys
+- Added new types in fc-frame-post.ts
+- Updated transitions in various components
+- Updated redirects in static/_redirects
+- Added default error handling in server files
+- Improved server responses in various server files
+- Updated content source in Modal.svelte
+- Updated content source in Comments.svelte
+- Improved error handling in search and category server files
+- Updated cron job execution in cron.ts
+- Improved server redirect logic in hooks.server.ts
+- Added new server functions for posts handling
+
+<!-- 
+URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.9---2024-07-25
+-->
+
 ## changelog - v0.0.8 - 2024-07-19
 
 The focus of modifications is to update configurations, add new files, and fix existing files.

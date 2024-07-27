@@ -11,19 +11,27 @@ export const GET: RequestHandler = async ({ url}) => {
       return new Response(`Cron job not executed missing password`, {
         headers: {
           'Cache-Control': 'max-age=0, s-maxage=3600',
-          'Content-Type': 'application/text'
+          'Content-Type': 'text/html'
         },
       }
       );
     }
     
-    await Promise.all(cronFnToExec.map(fn => fn()))
+    const executedTasks = await Promise.all(cronFnToExec.map(fn => fn()))
+
+    let index = 0
+    const taskNames = ['getGoodReadsData', 'getTagCloud']
+    for (const task of executedTasks) {
+        console.log(`Task ${taskNames[index]} executed: \n`, task)
+        index++
+    }
+
     return new Response(`Cron job executed`,
 
     {
       headers: {
         'Cache-Control': 'max-age=0, s-maxage=3600',
-        'Content-Type': 'application/text'
+        'Content-Type': 'text/html'
       },
       status: 200
     });

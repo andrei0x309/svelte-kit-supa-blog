@@ -9,7 +9,7 @@
 {#if $modalOpen}
 <div
 	class="bg"
-	transition:fade
+	transition:fade|global
 	on:click={close}
 	on:keypress={(e) => {
 		if (e.key === 'Escape') {
@@ -32,7 +32,7 @@
 			aria-modal="true"
 			aria-label="Modal"
 			aria-labelledby="modal-title"
-			transition:fade
+			transition:fade|global
 		>
 			<button class="close" aria-label="Close modal" on:click={close} />
 			<div class="modal-content">

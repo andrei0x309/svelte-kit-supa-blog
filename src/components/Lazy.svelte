@@ -25,7 +25,7 @@
 
 <div bind:this={root}>
   {#if loaded}
-    <div transition:fade>
+    <div transition:fade|global>
       <slot></slot>
     </div>
   {/if}

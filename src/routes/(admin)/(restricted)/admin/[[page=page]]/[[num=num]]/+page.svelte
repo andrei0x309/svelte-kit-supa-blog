@@ -327,7 +327,7 @@
                             <th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
                         </thead>
                         {#each data.posts as post}
-                        <tr transition:slide|local class="border-b border-gray-700">
+                        <tr transition:slide class="border-b border-gray-700">
                             <td class="py-3 px-2 font-bold  max-w-20 truncate">
                                 <!-- <div class="inline-flex space-x-3 items-center">
                                     <span><img class="rounded-full w-8 h-8" src="https://images.generated.photos/tGiLEDiAbS6NdHAXAjCfpKoW05x2nq70NGmxjxzT5aU/rs:fit:256:256/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/OTM4ODM1LmpwZw.jpg" alt=""></span>

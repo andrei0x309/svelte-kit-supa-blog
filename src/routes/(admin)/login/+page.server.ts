@@ -21,7 +21,7 @@ export const load: PageServerLoad = async (req) => {
         return {}
     } catch (e) {
         if(e === 'redirect') {
-            throw redirect(302, '/admin')
+            redirect(302, '/admin');
         }
         return {}
     }

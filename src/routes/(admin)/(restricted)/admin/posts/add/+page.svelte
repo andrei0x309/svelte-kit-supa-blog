@@ -1,7 +1,7 @@
 <script lang="ts">
 import Post from '@/routes/(admin)/(restricted)/admin/posts/Post.svelte';
-import type {ICat, ITag } from '$lib/types/post';
-    export let data = { post: null, tags: [] as ITag[], cats: [] as ICat[],  notfound: false };
+import type { ICat, ITag, IPost } from '$lib/types/post';
+export let data = { post: null, tags: [] as ITag[], cats: [] as ICat[], notfound: false } as { post: IPost | null, tags: ITag[], cats: ICat[], notfound: boolean }
 
 </script>
 

@@ -7,6 +7,8 @@ import { loadPost } from '@/lib/utils/db/posts';
 import type { IPost, IRelatedPost } from '$lib/types/post';
 import truncate from 'truncate-html';
 import { inc_tags_count, dec_tags_count } from '@/lib/utils/db/posts';
+import { getSetting, STORE } from '$lib/utils/server/settings'
+import { pinPostToPinata } from '$lib/utils/server/pinata'
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
     try {
@@ -71,6 +73,15 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
             update.related = JSON.stringify(related) as any
         }
     }
+    
+    // const ipfsPublish = (await getSetting(STORE.IPFS_PUBLISH))?.value === 'true' ? true : false
+    // if(ipfsPublish) {
+    //     const source = await pinPostToPinata(update)
+    //     // if(source) {
+    //     //     update.ipfs_source = source
+    //     // }
+    //     console.log(source)
+    // }
 
     await supabase.from('fsk_blog_posts').upsert(update)
 
