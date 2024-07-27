@@ -1,21 +1,36 @@
 
+// This file contains the configuration for the site. You can change the values here to customize the site.
 export const config = {
-    excerptSizeInChars: 450,
-    indexPostsPerPage: 4,
+    // Site Information
     defaultThemeMode: 'dark',
     siteName: 'blog.flashsoft.eu',
     siteIndexTitle: 'Blog | flashsoft.eu',
-    siteIndexDescription: 'Blog | flashsoft.eu all kinds of articles mainly tech and web development adjacent by andrei0x309',
+    siteIndexDescription: 'Blog | flashsoft.eu articles from andrei0x309 about projects, web development, programming, and more.',
     baseSiteUrl: 'https://blog.flashsoft.eu',
-    echoCommentsEnabled: true,
+    // Post Settings
+    excerptSizeInChars: 450,
+    indexPostsPerPage: 4,
+    relatedPostsEnabled: true,
+    signatureDisplayEnabled: true, // Enables EVM signature display
+    // Echo comments and tips
+    echoCommentsEnabled: false,
     echoTipsEnabled: true,
     echoReciverAddress: 'andrei0x309.eth',
-    authorPageEnabled: true,
-    relatedPostsEnabled: true,
-    signatureDisplayEnabled: true,
+    // Requres MarketCap API KEY for eth price for donnate
+    farcasterFrameEnabled: true,
+    farcasterDonateAddress: '0x50cca5ed8b4455fbe316785269fc82500b67fd48',
+    // Publish to IPFS - requires Appelion KEY
+    enableAppelionIpfs: true,
+    // Analytics Settings - Google
     enableGoogleAnalytics: true,
     googleAnalyticsId: 'G-0TYDTZGHS4',
+    // Analytics Settings - Cloudflare
+    enableCloudfareAnalytics: true,
+    cloudfareAnalyticsToken: 'd9f2b',
+    // Localization Settings
     supportedLanguages: [ 'en', 'ro' ],
+    // Author Settings
+    authorPageEnabled: true,
     footerSocialIcons: {
         github: true,
         pinterest: true,
@@ -44,6 +59,9 @@ export const schemaSocials = {
     tiktok: 'https://www.tiktok.com/@andrei0x309',
     pinterest: 'https://www.pinterest.com/andrei0x309',
     spotify: 'https://open.spotify.com/user/31j4le3alu4ezqp3ymyroyt5vk7y',
+    lens: 'https://hey.xyz/u/andrei0x309',
+    warpcast: 'https://warpcast.com/andrei0x309',
+    yuplive: 'https://yup-live.pages.dev/profile/andreix155xx/feed',
     soundcloud: '',
     vimeo: '',
     medium: '',

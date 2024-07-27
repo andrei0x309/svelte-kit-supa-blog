@@ -30,7 +30,7 @@ export const load: PageServerLoad = async (req) => {
   return appendToData(checkData(dataPosts),
     {
       pageTitle: 'Tag  ' + tag.name + ' ' + (hasPage ? ` Page ${page}` : null ?? config.siteName),
-      pageDescription: 'Articles from tag ' + tag.name + ' - ' + tag?.description ?? config.siteIndexDescription + (hasPage ? ` Page ${page}` : null),
+      pageDescription: ('Articles from tag ' + tag.name + ' - ' + tag?.description) ?? (config.siteIndexDescription + (hasPage ? ` Page ${page}` : null)),
       tag
     })
 }

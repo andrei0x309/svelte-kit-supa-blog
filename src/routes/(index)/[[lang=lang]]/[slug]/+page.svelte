@@ -4,6 +4,8 @@
     import { page as SveltePage } from '$app/stores';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
+    // import { fcFrame, getDefaultButtons } from '$lib/utils/server/fc-frame'
+
 
     export let data: any;
     const sidebarData = data?.sidebarData
@@ -35,6 +37,18 @@
 
 {#if featureImage }
 <meta property="og:image" content="{featureImage}" />
+<!-- {`${fcFrame({
+    image: featureImage,
+    postUrl: `${config.baseSiteUrl}/fc-frame-handler`,
+    buttons: getDefaultButtons($SveltePage.url.toString())
+})}`} -->
+{:else}
+<meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
+<!-- {`${fcFrame({
+    image: `${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`,
+    postUrl: `${config.baseSiteUrl}/fc-frame-handler`,
+    buttons: getDefaultButtons($SveltePage.url.toString())
+})}`} -->
 {/if}
 {#if data?.schemaContent}
 {@html data.schemaContent}

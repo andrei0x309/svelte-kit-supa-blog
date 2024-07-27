@@ -31,7 +31,7 @@ export const load: PageServerLoad = async (req) => {
     }) || 'Desciption is missing | ' + config.siteName 
     return appendToData(
       {res: user}, 
-      {pageTitle: 'Author | ' + user.username ?? 'Author | ' + config.siteName, 
+      {pageTitle: user?.username ? 'Author | ' + user.username : 'Author | ' + config.siteName, 
       pageDescription: fallBackDescription    
     })
   }

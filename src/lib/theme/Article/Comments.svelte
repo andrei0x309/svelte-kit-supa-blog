@@ -14,8 +14,9 @@ const target_uri = encodeURIComponent(`${config.baseSiteUrl}/${slug}`)
 </script>
 
 <iframe 
+title="Comments"
 loading="lazy"
 width="100%"
 class="min-h-96"
-src="{`https://embed.0xecho.com.ipns.page?color-theme=${$theme}&desc=&has-h-padding=true&has-v-padding=true&modules=${modulesString}&receiver=${config.echoReciverAddress}&target_uri=${target_uri}`}" frameborder="0">
+src="{`https://widget.0xecho.com?color-theme=${$theme}&desc=&has-h-padding=true&has-v-padding=true&modules=${modulesString}&receiver=${config.echoReciverAddress}&target_uri=${target_uri}`}" frameborder="0">
 </iframe>

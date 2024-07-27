@@ -59,4 +59,5 @@ export interface IPost {
     draft: boolean
     content_text?: string
     isFull?: boolean
+    ipfs_source?: string
 }

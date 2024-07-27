@@ -1,3 +1,5 @@
+declare const Deno: any
+
 export const getSha256 = async (password: string) => {
     let crypto
     if(typeof Deno !== 'undefined'){
