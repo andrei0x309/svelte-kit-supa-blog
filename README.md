@@ -6,14 +6,14 @@ This is a blog repo with many features, very lightweight and fast.
 
 It is based on Svelte Kit and SupaBase.
 
-Can be used with Netlify, or Vercel.
-Most of features were made to suit my needs, but I hope that they will be useful to others as well.
+It can be used with Netlify or Vercel.
+Most of the features were made to suit my needs, but I hope they will also be useful to others.
 
-<!-- Deployed on [https://blog.flashsoft.eu](https://blog.flashsoft.eu) -->
+Deployed on [https://blog.flashsoft.eu](https://blog.flashsoft.eu)
 
 ## Features
 
-Should run on servreless functions, and functions/edge both Node and Deno
+Should run on serverless functions, and functions/edge both Node and Deno
 
 Lightweight blog with SupaBase database with the following features:
 
@@ -27,7 +27,7 @@ Lightweight blog with SupaBase database with the following features:
 - Support for inserting highlighted code
 - Support for any HTML in content
 - WYSIWYG editor for posts based on Jodit
-- Support for External Featured Image with alt text
+- Support for External Featured Images with alt text
 - Support for SEO custom SEO description
 - Support for pages under tags/categories
 - RSS paginated feed Atom/RSS2
