@@ -4,7 +4,7 @@
     import SideBar from '@/lib/theme/SideBar.svelte';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
-    import { fcFrame, getDefaultButtons } from '$lib/utils/server/fc-frame'
+    import { fcFrame, getDefaultButtons } from '$lib/utils/client/fc-frame'
 
 
     export let data: any;
