@@ -1,13 +1,16 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
 import Alert from '$lib/components/shared/Alert.svelte';
 import { goto } from '$app/navigation';
 import { setCookie } from '$lib/utils/common';
 
-let username = '';
-let password = '';
-let alert: Alert | null = null;
+let username = $state('');
+let password = $state('');
+let alert: Alert | null = $state(null);
 
-const login = async () => {
+const login = async (event: Event) => {
+  event.preventDefault();
   const res = await fetch('/login/check', {
     method: 'POST',
     headers: {
@@ -37,18 +40,17 @@ const login = async () => {
       <div class="text-white">
         <div class="mb-8 flex flex-col items-center">
           <img src="/images/blogLogo.svg" width="150" alt="" srcset="" />
-          <span class="text-gray-300">Login</span>
         </div>
         <form action="#">
           <Alert bind:this={alert} />
           <div class="mb-4 text-lg flex justify-center">
-            <input bind:value={username} class="rounded-3xl border-none bg-opacity-50 px-6 py-2 text-center text-black placeholder-slate-200 shadow-lg outline-none backdrop-blur-md" type="text" name="name" placeholder="username" />
+            <input bind:value={username} class="rounded-3xl border-none bg-opacity-50 px-6 py-2 text-amber-100 placeholder-slate-200 shadow-lg outline-hidden backdrop-blur-md" type="text" name="name" placeholder="username" />
           </div>
           <div class="mb-4 text-lg flex justify-center">
-            <input  bind:value={password} class="rounded-3xl border-none bg-opacity-50 px-6 py-2 text-center text-black placeholder-slate-200 shadow-lg outline-none backdrop-blur-md" type="Password" name="name" placeholder="*********" />
+            <input  bind:value={password} class="rounded-3xl border-none bg-opacity-50 px-6 py-2 text-amber-100 placeholder-slate-200 shadow-lg outline-hidden backdrop-blur-md" type="Password" name="name" placeholder="*********" />
           </div>
           <div class="mt-8 flex justify-center text-lg text-black">
-            <button on:click|preventDefault={login} type="submit" class="rounded-3xl bg-red-900 bg-opacity-80 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-red-700">Login</button>
+            <button onclick={(login)} type="submit" class="rounded-3xl bg-red-900 bg-opacity-80 px-10 py-2 text-white shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-red-700">Login</button>
           </div>
         </form>
       </div>

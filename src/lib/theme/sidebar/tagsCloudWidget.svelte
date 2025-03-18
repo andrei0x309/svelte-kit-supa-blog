@@ -1,5 +1,9 @@
 <script lang="ts">
-     export let tagCloud: string;
+    interface Props {
+        tagCloud: string;
+    }
+
+    let { tagCloud }: Props = $props();
 </script>
 
 <div id="tag_cloud-3" class="widget widget_tag_cloud"><h2 class="widgettitle">Tag Cloud</h2>

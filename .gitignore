@@ -15,5 +15,3 @@ yarn-error.log
 /src/deno-db/db
 /static/collecting
 /static/~partytown
-static/yandex*.html
-.yarn

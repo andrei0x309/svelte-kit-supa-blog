@@ -1,5 +1,19 @@
+# Changelog
 
-## changelog - v0.0.9 - 2024-07-25
+## v0.2.0 - 2025-03-18
+
+- Updated to latest Svelte 5 and SveleteKit
+- Added a tip page
+- Added a desktop menu
+- Added a mobile menu
+- Added link to a status page
+- Updated all old SCSS
+- Removed partytown temporarily
+- Updated LICENSE file
+- Various theme updates
+- Updated to latest tailwindcss (4.x)
+
+## v0.0.9 - 2024-07-25
 
 The focus of modifications is to update dependencies, add error handling, and improve server responses.
 
@@ -24,7 +38,7 @@ The focus of modifications is to update dependencies, add error handling, and im
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.9---2024-07-25
 -->
 
-## changelog - v0.0.8 - 2024-07-19
+## v0.0.8 - 2024-07-19
 
 The focus of modifications is to update configurations, add new files, and fix existing files.
 
@@ -41,7 +55,7 @@ The focus of modifications is to update configurations, add new files, and fix e
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.8---2024-07-19
 -->
 
-## changelog - v0.0.7 - 2024-07-18
+## v0.0.7 - 2024-07-18
 
 The focus of modifications is to enhance server-side functionality, add private secrets examples, update Svelte components, and integrates Partytown for optimized performance.
 
@@ -58,7 +72,7 @@ The focus of modifications is to enhance server-side functionality, add private 
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.7---2024-07-18
 -->
 
-## changelog - v0.0.6 - 2024-07-18
+## v0.0.6 - 2024-07-18
 
 The focus of modifications is to update colors in the global Sass file, add loader sizes, refactor server-side logic, optimize image loading, and fetching and caching Goodreads data.
 
@@ -75,7 +89,7 @@ The focus of modifications is to update colors in the global Sass file, add load
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.6---2024-07-18
 -->
 
-## changelog - v0.0.5 - 2024-07-17
+## v0.0.5 - 2024-07-17
 
 The focus of modifications is to add Analytics integration, draft posts functionality, and author description display.
 
@@ -90,7 +104,7 @@ The focus of modifications is to add Analytics integration, draft posts function
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.5---2024-07-17
 -->
 
-## changelog - v0.0.4 - 2024-07-16
+## v0.0.4 - 2024-07-16
 
 The focus of modifications is to update dependencies, add a new theme store, implement new features, and improve security measures across the codebase.
 
@@ -105,7 +119,7 @@ The focus of modifications is to update dependencies, add a new theme store, imp
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.4---2024-07-16
 -->
 
-## changelog - v0.0.3 - 2024-07-13
+## v0.0.3 - 2024-07-13
 
 Update focuses on adding user authentication features, updating database functions, and improving page logic in the admin settings section.
 
@@ -121,7 +135,7 @@ Update focuses on adding user authentication features, updating database functio
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.3---2024-07-13
 -->
 
-## changelog - v0.0.2 - 2024-07-11
+## v0.0.2 - 2024-07-11
 
 - add basic user system
 - add basic admin interface
@@ -135,7 +149,7 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.2---2024-07-11
 -->
 
-## changelog - v0.0.1 - 2024-07-09
+## v0.0.1 - 2024-07-09
 
 - initial repository setup
 - added intial README.md, BACKDROP_BUILD_ROADMAP.md, LICENSE, dependencies and minimal features, plans, roadmap and prototyping.

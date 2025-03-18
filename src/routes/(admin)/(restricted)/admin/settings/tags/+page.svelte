@@ -8,10 +8,14 @@
     import { deleteCatOrTag } from  '$lib/utils/client/catTag'
     import CatOrTags from '@/routes/(admin)/(restricted)/admin/settings/CatOrTags.svelte'
 
-    export let data: { catOrTags: ICatTag[]} & { notFound: boolean } = { catOrTags: [], notFound: false }
+    interface Props {
+        data?: { catOrTags: ICatTag[]} & { notFound: boolean };
+    }
 
-    let confirm: ConfirmModal
-    let alert: Alert
+    let { data = $bindable({ catOrTags: [], notFound: false }) }: Props = $props();
+
+    let confirm: ConfirmModal = $state()
+    let alert: Alert = $state()
     const deleteTag = async (id: number) => {
         data = await deleteCatOrTag(id, 'tag', alert, data) as typeof data
     }
@@ -19,11 +23,18 @@
 </script>
 
 <Settings>
-    <Tabs slot="content" tabs={tabs} activeTab='Tags'> 
-        <CatOrTags slot="content" data={data} deleteFn={deleteTag} confirm={confirm} type="tag" >
-            <Alert slot="alert" bind:this={alert} />
-            <ConfirmModal slot="confirm" bind:this={confirm} />
-        </CatOrTags>
-    </Tabs>
+    {#snippet content()}
+        <Tabs  tabs={tabs} activeTab='Tags'> 
+            {#snippet content()}
+                <CatOrTags  data={data} deleteFn={deleteTag} confirm={confirm} type="tag" >
+                    {#snippet alert()}
+                        <Alert  bind:this={alert} />
+                    {/snippet}
+                    <!-- @migration-task: migrate this slot by hand, `confirm` would shadow a prop on the parent component -->
+    <ConfirmModal slot="confirm" bind:this={confirm} />
+                </CatOrTags>
+            {/snippet}
+        </Tabs>
+    {/snippet}
 
 </Settings>

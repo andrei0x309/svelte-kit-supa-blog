@@ -4,13 +4,17 @@
     import SideBar from '@/lib/theme/SideBar.svelte';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
-    import { fcFrame, getDefaultButtons } from '$lib/utils/client/fc-frame'
+    // import { fcFrame, getDefaultButtons } from '$lib/utils/server/fc-frame'
 
 
-    export let data: any;
+    interface Props {
+        data: any;
+    }
+
+    let { data }: Props = $props();
     const sidebarData = data?.sidebarData
 
-    let dataLoading = false
+    let dataLoading = $state(false)
     isLoading.subscribe((val) => {
         dataLoading = val
     })
@@ -25,11 +29,11 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content={`${$SveltePage.url}`} />
 <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
-{`${fcFrame({
+<!-- {`${fcFrame({
     image: `${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`,
     postUrl: `${config.baseSiteUrl}/fc-frame-handler`,
     buttons: getDefaultButtons($SveltePage.url.toString())
-})}`}
+})}`} -->
 <link rel="alternate" type="application/rss+xml" title="{`${config.siteName} » Feed`}" href="{`${config.baseSiteUrl}/feed`}">
 <link rel="canonical" href={`${$SveltePage.url}`} />
 

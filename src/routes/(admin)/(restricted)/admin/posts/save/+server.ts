@@ -8,7 +8,7 @@ import type { IPost, IRelatedPost } from '$lib/types/post';
 import truncate from 'truncate-html';
 import { inc_tags_count, dec_tags_count } from '@/lib/utils/db/posts';
 import { getSetting, STORE } from '$lib/utils/server/settings'
-// import { pinPostToPinata } from '$lib/utils/server/pinata'
+import { pinPostToPinata } from '$lib/utils/server/pinata'
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
     try {

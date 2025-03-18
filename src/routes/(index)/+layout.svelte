@@ -1,7 +1,9 @@
-<script lang="ts">
+<script lang="ts"> 
+  import '$lib/sass/tailwind.css'
+  import '$lib/sass/app.scss'
+
   import Header from '$lib/theme/Header.svelte'
   import Footer from '$lib/theme/Footer.svelte'
-  import '$lib/sass/app.scss'
   import { afterNavigate, beforeNavigate }  from '$app/navigation'
   import { isLoading } from '@/stores/main';
   import { onMount } from 'svelte'
@@ -10,8 +12,13 @@
   import { getGoogleAnalyticsCode } from '$lib/utils/client/analytics'
   import { partytownSnippet } from '@builder.io/partytown/integration'
 
-  export let data: any = {}
-  let theme = data?.theme || 'dark'
+  interface Props {
+    data?: any;
+    children?: import('svelte').Snippet<[any]>;
+  }
+
+  let { data = {}, children }: Props = $props();
+  let theme = $state(data?.theme || 'dark')
 
   beforeNavigate(() => {
 	isLoading.set(true)
@@ -21,7 +28,7 @@
 	isLoading.set(false)
   })
 
-  let scriptEl: HTMLScriptElement
+  let scriptEl: HTMLScriptElement | undefined = $state()
 
   onMount(() => {
 	themeStore.set(theme)
@@ -82,7 +89,7 @@
 	<div class="nav-spinner spinner__1"></div>
 {/if}
 <Header bind:theme={theme} />
-<slot isLoading={isLoading} />
+{@render children?.({ isLoading, })}
 <Footer />
 </div>
 

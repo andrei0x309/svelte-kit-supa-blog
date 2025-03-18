@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 ::-webkit-scrollbar{
     height: 7px;
     width: 7px;
@@ -105,14 +101,27 @@
   
   body {
       font-size: 1.05rem;
-      background-color: #20222B;
-      background: linear-gradient(179deg, #20222B, rgb(10 9 12 / 90%)), url(/images/black-linen.png);
+      // background-color: #20222B;
+      // background: linear-gradient(179deg, #20222B, rgb(10 9 12 / 90%)), url(/images/black-linen.png);
       height: 100%;
       text-rendering: optimizeLegibility;
       width: 100%;
       transition: all 0.3s ease;
       overflow-x: hidden;
   }
+
+  .body-container {
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgb(27, 25, 27), transparent 20%, rgb(27, 25, 29));
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgb(23, 22, 24);
+  }
+  
+  
+  
+  
 
 pre code {
   background: #14130f61;

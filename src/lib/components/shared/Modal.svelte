@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { modalOpen } from '@/stores/main';
 	import { fade } from 'svelte/transition';
+	interface Props {
+		type?: import('svelte').Snippet;
+	}
+
+	let { type }: Props = $props();
 	const close = () => {
 		modalOpen.set(false);
 	};
@@ -9,9 +14,10 @@
 {#if $modalOpen}
 <div
 	class="bg"
+	role="presentation"
 	transition:fade|global
-	on:click={close}
-	on:keypress={(e) => {
+	onclick={close}
+	onkeypress={(e) => {
 		if (e.key === 'Escape') {
 			close();
 		}
@@ -19,8 +25,9 @@
 >
 	<div
 		class="wrap"
-		on:click={close}
-		on:keypress={(e) => {
+		role="presentation"
+		onclick={close}
+		onkeypress={(e) => {
 			if (e.key === 'Escape') {
 				close();
 			}
@@ -34,13 +41,13 @@
 			aria-labelledby="modal-title"
 			transition:fade|global
 		>
-			<button class="close" aria-label="Close modal" on:click={close} />
+			<button class="close" aria-label="Close modal" onclick={close}></button>
 			<div class="modal-content">
-				<slot name="type">
+				{#if type}{@render type()}{:else}
                     <h2 id="modal-title">Modal title</h2>
                     <p>Modal content</p>
 
-                </slot>
+                {/if}
 			</div>
 		</div>
 	</div>
@@ -102,8 +109,8 @@
 		background: white;
 		box-shadow: 0 0 0 1px black;
 		transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
-			background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-		-webkit-appearance: none;
+		background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+		appearance: none;
 	}
 
 	.close:before,
@@ -118,7 +125,7 @@
 		background: black;
 		transform-origin: center;
 		transition: height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
-			background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+		background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
 	}
 
 	.close:before {

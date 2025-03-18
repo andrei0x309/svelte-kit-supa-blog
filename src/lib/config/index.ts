@@ -5,8 +5,11 @@ export const config = {
     defaultThemeMode: 'dark',
     siteName: 'blog.flashsoft.eu',
     siteIndexTitle: 'Blog | flashsoft.eu',
-    siteIndexDescription: 'Blog | flashsoft.eu articles from andrei0x309 about projects, web development, programming, and more.',
+    siteIndexDescription: 'Blog | flashsoft.eu articles from andrei0x309 about projects, web development, programming, web3, and more.',
     baseSiteUrl: 'https://blog.flashsoft.eu',
+    tipMeName: 'andrei0x309',
+    tipKoFiLink: 'https://ko-fi.com/andrei0x309',
+    tipNowPaymentsLink: 'https://nowpayments.io/donation/andrei0x309',
     // Post Settings
     excerptSizeInChars: 450,
     indexPostsPerPage: 4,

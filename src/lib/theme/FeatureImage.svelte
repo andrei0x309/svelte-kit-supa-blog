@@ -3,14 +3,23 @@
 	import { onMount } from 'svelte'
 	import { browser } from '$app/environment'
 
-    export let imgSource: string;
-    export let index = 0;
-    export let full = false
-    export let alt = ''
+  interface Props {
+    imgSource: string;
+    index?: number;
+    full?: boolean;
+    alt?: string;
+  }
 
-    let isLoaded = true;
-	let isError = false;
-	let img: HTMLImageElement;
+  let {
+    imgSource = $bindable(),
+    index = 0,
+    full = false,
+    alt = ''
+  }: Props = $props();
+
+    let isLoaded = $state(true);
+	let isError = $state(false);
+	let img: HTMLImageElement | undefined = $state();
     
     const loaded = () => {
         isLoaded = true;
@@ -24,7 +33,7 @@
     }
 
 	onMount(() => {
-		if(!img.complete) {
+		if(!img?.complete) {
 			isLoaded = false;
 		}
 	})
@@ -35,7 +44,7 @@
 {#if !isLoaded}
 <div class="loader"></div>
 {/if}
-<img bind:this={img}  on:load={loaded} on:error={error} itemprop={ !full? 'image': ''} class="m-auto wp-post-image" width="{isError ? 170 : 500}" height="281"  loading="{ index < 2 ? 'eager' : 'lazy' }" 
+<img bind:this={img}  onload={loaded} onerror={error} itemprop={ !full? 'image': ''} class="m-auto wp-post-image" width="{isError ? 170 : 500}" height="281"  loading="{ index < 2 ? 'eager' : 'lazy' }" 
 src={optimizeGoogleCDNImage(imgSource)} alt={alt}>
 </div>
 

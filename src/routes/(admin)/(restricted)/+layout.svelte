@@ -1,5 +1,6 @@
 <script>
 // @ts-nocheck
+  import '$lib/sass/tailwind.css'
   import '$lib/sass/admin.scss'
   import { afterNavigate, beforeNavigate }  from '$app/navigation'
   import { isLoading, currentUser } from '@/stores/main';
@@ -12,7 +13,8 @@
 	isLoading.set(false)
   })
 
-  export let data;
+  /** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
+  let { data, children } = $props();
   currentUser.set(data.currentUser ?? null)
 
 </script>
@@ -34,7 +36,7 @@
 	<div class="nav-spinner spinner__1"></div>
 {/if}
 
-<slot isLoading={isLoading}/>
+{@render children?.({ isLoading, })}
 
 <style windi:preflights:global windi:safelist:global windi:global>
 </style>

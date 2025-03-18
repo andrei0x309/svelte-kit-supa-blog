@@ -1,5 +1,10 @@
 <script lang="ts">
 	import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
+	interface Props {
+		content?: import('svelte').Snippet;
+	}
+
+	let { content }: Props = $props();
 </script>
 
 <div class="antialiased bg-[#0000009c] w-full min-h-screen text-slate-300 relative py-4">
@@ -10,7 +15,7 @@
 		<div id="content" class="bg-white/6 col-span-9 rounded-lg p-6">
 			<div id="users">
 				<h1 class="font-bold py-4 uppercase">Settings</h1>
-                <slot name="content"></slot>
+                {@render content?.()}
 			</div>
 		</div>
 	</div>

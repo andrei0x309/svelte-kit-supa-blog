@@ -1,7 +1,7 @@
 <aside id="a2a_follow_widget-2" class="widget widget_a2a_follow_widget">
 	<div class="a2a_kit a2a_kit_size_26 a2a_follow addtoany_list" style="line-height: 26px;">
 		<a
-			class="a2a_button_github"
+			class="a2a_button_github hover:scale-105 transition-transform"
 			href="https://github.com/andrei0x309"
 			title="GitHub"
 			rel="noopener noreferrer"
@@ -24,7 +24,7 @@
 			<path class="cls-1" d="M389.39,221.92V164.85c-74.6-3.15-77-70.94-77-77.31v-.48H254.73V309.33h0a45.66,45.66,0,1,1-32.36-43.71V206.76a104.57,104.57,0,0,0-13.32-.85A103.42,103.42,0,1,0,312.47,309.33c0-1.45,0-2.89-.1-4.32V195.56C338.92,219.85,389.39,221.92,389.39,221.92Z"/><path class="cls-2" d="M406.37,236V178.9c-74.61-3.15-77-70.94-77-77.31v-.48H271.71V323.38h0a45.66,45.66,0,1,1-32.36-43.7V220.81A104.57,104.57,0,0,0,226,220,103.42,103.42,0,1,0,329.45,323.38c0-1.45,0-2.89-.1-4.32V209.61C355.9,233.9,406.37,236,406.37,236Z"/><path class="cls-3" d="M313.82,101.11c2.78,15.14,10.9,38.81,34.57,52.66-18.09-21.07-19-48.26-19-52.18v-.48Z"/><path class="cls-3" d="M406.37,236V178.9a106.46,106.46,0,0,1-17-2v44.95s-50.47-2.07-77-26.36V304.91c.06,1.43.1,2.87.1,4.32a103.43,103.43,0,0,1-160.72,86.1,103.41,103.41,0,0,0,177.7-71.95c0-1.45,0-2.89-.1-4.32V209.61C355.9,233.9,406.37,236,406.37,236Z"/><path class="cls-3" d="M222.37,265.53a45.69,45.69,0,0,0-33.19,84.85,45.69,45.69,0,0,1,50.17-70.7V220.81A104.57,104.57,0,0,0,226,220c-1.23,0-2.44,0-3.66.07Z"/>
 		</svg>
 		<a
-			class="a2a_button_twitter"
+			class="a2a_button_twitter hover:scale-105 transition-transform"
 			href="https://twitter.com/andrei0x309"
 			title="Twitter"
 			rel="noopener noreferrer"
@@ -44,7 +44,7 @@
 			><span class="a2a_label">Twitter</span>
             </a
 		><a
-			class="a2a_button_pinterest"
+			class="a2a_button_pinterest hover:scale-105 transition-transform"
 			href="https://www.pinterest.com/andrei0x309"
 			title="Pinterest"
 			rel="noopener noreferrer"

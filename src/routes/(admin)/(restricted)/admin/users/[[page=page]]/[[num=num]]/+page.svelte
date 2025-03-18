@@ -62,11 +62,13 @@
 					{#if data?.users}
 						<table class="w-full whitespace-nowrap">
 							<thead class="bg-black/60">
+								<tr>
 								<th class="text-left py-3 px-2 rounded-l-lg">username</th>
 								<th class="text-left py-3 px-2">email</th>
 								<th class="text-left py-3 px-2">avatar</th>
 								<th class="text-left py-3 px-2">role</th>
 								<th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
+							</tr>
 							</thead>
 							{#each data.users as user}
 								<tr transition:slide class="border-b border-gray-700">
@@ -165,12 +167,4 @@
 	</div>
 </div>
 
-<style lang="scss">
-	.btn-pag {
-		border: 1px solid #ccc;
-		padding: 5px 10px;
-		margin: 0 5px;
-		border-radius: 5px;
-		text-decoration: none;
-	}
-</style>
+<style lang="scss">/*$$__STYLE_CONTENT__$$*/</style>

@@ -31,10 +31,12 @@ export let type = 'cat'
         {#if data?.catOrTags.length}
         <table class="w-full whitespace-nowrap">
             <thead class="bg-black/60">
+                <tr>
                 <th class="text-left py-3 px-2 rounded-l-lg">Name</th>
                 <th class="text-left py-3 px-2">Slug</th>
                 <th class="text-left py-3 px-2">Post Count</th>
                 <th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
+                </tr>
             </thead>
             {#each data.catOrTags as cot}
             <tr transition:slide class="border-b border-gray-700">
@@ -73,13 +75,4 @@ export let type = 'cat'
     </div>
 </div>
 
-<style lang="scss">
-    .btn-pag {
-        border: 1px solid #ccc;
-        padding: 5px 10px;
-        margin: 0 5px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-    }
-</style>
+<style lang="scss">/*$$__STYLE_CONTENT__$$*/</style>

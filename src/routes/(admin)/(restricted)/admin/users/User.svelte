@@ -1,18 +1,33 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
     import Menu from "@/routes/(admin)/(restricted)/admin/menu.svelte";
     import { onMount } from "svelte";
 	import { currentUser } from '@/stores/main'
 	import Alert from "@/lib/components/shared/Alert.svelte";
 
-    export let id: number | null = null;
-    export let avatar: string | null = null;
-    export let email: string | null = null;
-    export let username: string | null = null;
-    export let error = false;
-	export let role = 'contribuitor';
+	interface Props {
+		id?: number | null;
+		avatar?: string | null;
+		email?: string | null;
+		username?: string | null;
+		error?: boolean;
+		role?: string;
+		header?: import('svelte').Snippet;
+	}
 
-	let password: string | null = null;
-	let cpassword: string | null = null;
+	let {
+		id = null,
+		avatar = $bindable(null),
+		email = $bindable(null),
+		username = $bindable(null),
+		error = false,
+		role = $bindable('contribuitor'),
+		header
+	}: Props = $props();
+
+	let password: string | null = $state(null);
+	let cpassword: string | null = $state(null);
 
 	let isEdit = !!id;
 
@@ -20,7 +35,7 @@
     let alert : Alert & {
         showError: (m: string) => void
         showSuccess: (m: string) => void
-    } | null = null;
+    } | null = $state(null);
 
     const save = async () => {
         if (!username || !email || !avatar) {
@@ -70,10 +85,10 @@
 	>
 		<Menu />
 		<div id="content" class="bg-white/6 col-span-9 rounded-lg p-6">
-			<div class="p-8 rounded border border-gray-200">
-				<slot name="header">
+			<div class="p-8 rounded-sm border border-gray-200">
+				{#if header}{@render header()}{:else}
                     <h1 class="font-medium text-3xl">New User</h1>
-                </slot>
+                {/if}
                 <Alert bind:this={alert} />
 				<form>
 					<div class="mt-8 space-y-6">
@@ -85,7 +100,7 @@
 							<input
 								type="text"
 								id="username"
-								class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+								class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 								placeholder="username"
                                 bind:value={username}
 								disabled={isEdit && username === $currentUser?.username }
@@ -102,7 +117,7 @@
 							<input
 								type="text"
 								id="title"
-								class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+								class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 								placeholder="email"
                                 bind:value={email}
 							/>
@@ -117,7 +132,7 @@
 							<input
 								type="text"
 								id="fimage"
-								class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+								class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 								placeholder="https://example.com/image.jpg"
                                 bind:value={avatar}
 							/>
@@ -130,14 +145,14 @@
 							<input
 							type="text"
 							id="fpassword"
-							class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+							class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 							placeholder="update password"
 							bind:value={password}
 							/>
 							<input
 							type="text"
 							id="cpassword"
-							class="mt-2 bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+							class="mt-2 bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 							placeholder="confirm password"
 							bind:value={cpassword}
 							>
@@ -149,14 +164,14 @@
 							<input
 							type="text"
 							id="fpassword"
-							class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+							class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 							placeholder="password"
 							bind:value={password}
 							>
 							<input
 							type="text"
 							id="cpassword"
-							class="mt-2 bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+							class="mt-2 bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
 							placeholder="confirm password"
 							bind:value={cpassword}
 							>
@@ -176,13 +191,13 @@
 					<div class="space-x-4 mt-8">
 						<button
 							type="submit"
-							class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
-                            on:click|preventDefault={save}
+							class="py-2 px-4 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
+                            onclick={preventDefault(save)}
 							>Save</button
 						>
 						<a href="/admin/users">
 						<button
-							class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+							class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
 							>Cancel</button
 						>
                         </a>

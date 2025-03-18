@@ -1,9 +1,9 @@
 <script lang="ts">
 let errorTimer: any = 0;
-let errorSec = 5;
-let error = false;
-let success = false;
-let alertText = 'Wrong username or password';
+let errorSec = $state(5);
+let error = $state(false);
+let success = $state(false);
+let alertText = $state('Wrong username or password');
 
 const decSec = () => {
     errorSec = errorSec - 1;
@@ -51,7 +51,7 @@ const hideError = () => {
     <div class="{`w-[2rem] mr-2 ${ success ? 'bg-green-400': 'bg-red-400'} rounded-2xl shadow-[0_0_20px_#ff444477] flex items-center pr-4`}">
         <small class="pl-3 font-weight-700">{errorSec}</small>
     </div>
-  <span class='flex flex-col justify-center text-white font-bold grow-[1] max-w-[90%] text-center'>{alertText}</span>
-  <button class="text-[0.6rem] rounded-2xl shadow-[0_0_20px_#222] p-1 ml-2" on:click={hideError} >x</button>
+  <span class='flex flex-col justify-center text-white font-bold grow-1 max-w-[90%] text-center'>{alertText}</span>
+  <button class="text-[0.6rem] rounded-2xl shadow-[0_0_20px_#222] p-1 ml-2" onclick={hideError} >x</button>
 </div>
 {/if}

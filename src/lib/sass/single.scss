@@ -1,7 +1,7 @@
 /* purgecss start ignore */
 
 
-@import "mixins/blue_btn.scss"; 
+@use "mixins/blue_btn.scss" as *;
 
 #comments {
     
