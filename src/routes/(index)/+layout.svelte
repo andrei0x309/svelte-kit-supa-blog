@@ -10,7 +10,7 @@
   import { theme as themeStore } from '@/stores/main'
   import { config } from '$lib/config'
   import { getGoogleAnalyticsCode } from '$lib/utils/client/analytics'
-  import { partytownSnippet } from '@builder.io/partytown/integration'
+  // import { partytownSnippet } from '@builder.io/partytown/integration'
 
   interface Props {
     data?: any;
@@ -32,9 +32,9 @@
 
   onMount(() => {
 	themeStore.set(theme)
-  if (scriptEl) {
-		  scriptEl.textContent = partytownSnippet()
-		}
+  // if (scriptEl) {
+	// 	  scriptEl.textContent = partytownSnippet()
+	// 	}
   })
 
 </script>
