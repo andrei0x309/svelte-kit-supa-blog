@@ -1,19 +1,19 @@
 // import { SECRET_PINATA_JWT } from '$env/static/private'
 
-const createInMemoryFile = (fileName: string, jsonString: string) => {
+// const createInMemoryFile = (fileName: string, jsonString: string) => {
   
-    const blob = new Blob([jsonString], { type: 'text/plain' });
+//     const blob = new Blob([jsonString], { type: 'text/plain' });
   
-    return {
-      name: fileName,
-      type: blob.type,
-      size: blob.size,
-      lastModified: Date.now(), 
-      slice: function() {
-        return blob.slice(...arguments);
-      }
-    };
-}
+//     return {
+//       name: fileName,
+//       type: blob.type,
+//       size: blob.size,
+//       lastModified: Date.now(), 
+//       slice: function() {
+//         return blob.slice(...arguments);
+//       }
+//     };
+// }
 
 // export const pinPostToPinata = async (json: Record<string, any>) => {
 //     if(!SECRET_PINATA_JWT) {

@@ -3,10 +3,16 @@
     import CatOrTag from '@/routes/(admin)/(restricted)/admin/settings/CatOrTag.svelte';
     import type { ICatTag } from '$lib/types/catTag';
 
-    export let data: { catOrTag: ICatTag } & { notFound: boolean }
+    interface Props {
+        data: { catOrTag: ICatTag } & { notFound: boolean };
+    }
+
+    let { data }: Props = $props();
 
 </script>
 
 <Settings>
-    <CatOrTag slot="content" data={ { catOrTag: data.catOrTag, notFound: data?.notFound ?? false  } } type="tag" />
+    {#snippet content()}
+        <CatOrTag  data={ { catOrTag: data.catOrTag, notFound: data?.notFound ?? false  } } type="tag" />
+    {/snippet}
 </Settings>

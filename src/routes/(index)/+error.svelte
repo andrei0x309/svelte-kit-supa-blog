@@ -5,14 +5,18 @@
     import { config } from '$lib/config';
     
 
-    export let data: any;
+    interface Props {
+        data: any;
+    }
+
+    let { data = $bindable() }: Props = $props();
     const sidebarData = data?.sidebarData
-    let dataLoading = false
+    let dataLoading = $state(false)
     isLoading.subscribe((val) => {
         dataLoading = val
     })
 
-    let featureImage = data?.res?.feature_image
+    let featureImage = $state(data?.res?.feature_image)
     try{
         featureImage = (new URL(featureImage)).href
     } catch {
@@ -54,7 +58,7 @@
         <p class="text-indigo-50 text-[1.2rem] p-3">Reason: {errorMsg}</p>
 
         <a href="/" class="text-amber-400">
-        <button class="group relative h-12 w-48 overflow-hidden rounded-lg bg-white text-lg shadow mt-4">
+        <button class="group relative h-12 w-48 overflow-hidden rounded-lg bg-white text-lg shadow-sm mt-4">
             <div class="absolute inset-0 w-3 bg-amber-400 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
             <span class="relative text-black group-hover:text-white text-[1.4rem]"><span class="opacity-40" >➲</span> Return Home</span>
           </button>

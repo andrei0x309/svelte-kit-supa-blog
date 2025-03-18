@@ -6,7 +6,11 @@
         notfound: boolean;
         user: ICurrentUser & { error: boolean };
     }
-    export let data: ICurrentUserEx
+    interface Props {
+        data: ICurrentUserEx;
+    }
+
+    let { data = $bindable() }: Props = $props();
     if (data.notfound) {
         data.user.error = true
     } else {
@@ -15,7 +19,9 @@
     </script>
     
 <User {...data.user}>
-    <div slot="header">
-        <h1 class="font-medium text-3xl">Edit User { data.user?.id || ''}</h1>
-    </div>
+    {#snippet header()}
+        <div >
+            <h1 class="font-medium text-3xl">Edit User { data.user?.id || ''}</h1>
+        </div>
+    {/snippet}
 </User>

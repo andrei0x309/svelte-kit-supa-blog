@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let goodReads: string
+	interface Props {
+		goodReads: string;
+	}
+
+	let { goodReads }: Props = $props();
 </script>
 
 <div id="custom_html-2" class="widget_text widget widget_custom_html">

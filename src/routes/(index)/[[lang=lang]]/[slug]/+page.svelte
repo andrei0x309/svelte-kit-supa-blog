@@ -7,15 +7,19 @@
     // import { fcFrame, getDefaultButtons } from '$lib/utils/server/fc-frame'
 
 
-    export let data: any;
+    interface Props {
+        data: any;
+    }
+
+    let { data }: Props = $props();
     const sidebarData = data?.sidebarData
 
-    let dataLoading = false
+    let dataLoading = $state(false)
     isLoading.subscribe((val) => {
         dataLoading = val
     })
 
-    let featureImage = data?.res?.feature_image
+    let featureImage = $state(data?.res?.feature_image)
     try{
         featureImage = (new URL(featureImage)).href
     } catch {

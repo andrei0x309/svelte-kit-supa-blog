@@ -1,3 +1,9 @@
 [build]
   command = "bun run build"
   publish = "build"
+
+[dev]
+  command = "bun run dev"
+  targetPort = 5512
+  port = 5513 
+  publish = "build"

@@ -267,6 +267,34 @@ export const getFrameServerResponse = async (page: string, untrustedData: T_FRAM
       const postUrlBase = config.baseSiteUrl + '/fc-frame-handler?page='
       let postUrl = postUrlBase + 'default'
       let redirectUrl = config.baseSiteUrl
+    //   export const getDefaultButtons = (pageLink: string) => {
+    //     return [
+    //         {
+    //             text: 'Visit Page',
+    //             index: 1,
+    //             action: 'link',
+    //             target: pageLink,
+    //             redirect: true
+    //         },
+    //         {
+    //             text: 'About Author',
+    //             index: 2,
+    //             redirect: false
+    //         },
+    //         {
+    //             text: 'About Blog',
+    //             index: 3,
+    //             redirect: false
+    //         },
+    //         {
+    //             text: 'Support Blog',
+    //             index: 4,
+    //             redirect: false
+    //         }
+    //     ]
+    // }
+
+      
 
       switch (Number(buttonIndex)) {
         case 2:
@@ -294,7 +322,7 @@ export const getFrameServerResponse = async (page: string, untrustedData: T_FRAM
         fcFrame({
           image,
           buttons,
-          postUrl
+          postUrl,
         }),
       {
         headers: {

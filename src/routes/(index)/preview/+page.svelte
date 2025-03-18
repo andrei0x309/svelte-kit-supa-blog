@@ -4,10 +4,14 @@
     import SideBar from '@/lib/theme/SideBar.svelte';
     import { isLoading } from '@/stores/main';
 
-    export let data: any;
+    interface Props {
+        data: any;
+    }
+
+    let { data }: Props = $props();
     const sidebarData = data?.sidebarData
 
-    let dataLoading = false
+    let dataLoading = $state(false)
     isLoading.subscribe((val) => {
         dataLoading = val
     })

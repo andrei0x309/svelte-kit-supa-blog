@@ -2,7 +2,11 @@
 import { config } from '$lib/config'
 import { theme } from '@/stores/main'
 
-export let slug = ''
+	interface Props {
+		slug?: string;
+	}
+
+	let { slug = '' }: Props = $props();
 
 const modules = []
 if(config.echoCommentsEnabled) modules.push('comment')

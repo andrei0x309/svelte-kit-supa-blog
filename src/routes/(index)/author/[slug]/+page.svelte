@@ -7,21 +7,25 @@
     import { config } from '$lib/config';
     import type { ICurrentUser } from '$lib/types/user';
 
-    export let data: {
+    interface Props {
+        data: {
         res: ICurrentUser
         pageTitle: string,
         pageDescription: string,
         schemaContent: string,
         sidebarData: any
+    };
     }
+
+    let { data }: Props = $props();
     const sidebarData = data?.sidebarData
 
-    let dataLoading = false
+    let dataLoading = $state(false)
     isLoading.subscribe((val) => {
         dataLoading = val
     })
 
-    let featureImage = data?.res?.avatar
+    let featureImage = $state(data?.res?.avatar)
     try{
         featureImage = (new URL(featureImage)).href
     } catch {

@@ -1,14 +1,25 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
     import { modalOpen } from '@/stores/main';
     import Modal from './Modal.svelte';
+      
+      const initalState = {
+          title: 'Confirm',
+          message: 'Are you sure?'
+      }
 
-      let title: string = 'Confirm';
-      let message: string = 'Are you sure?';
-      let newTitle: string = title;
-      let newMessage: string = message;
+      let title: string = $state(initalState.title);
+      let message: string = $state(initalState.message);
+      let newTitle: string = $state(initalState.title);
+      let newMessage: string = $state(initalState.message);
 
-      export let onCancel = () => {};
-      export let onOkay = () => {};
+  interface Props {
+    onCancel?: any;
+    onOkay?: any;
+  }
+
+  let { onCancel = () => {}, onOkay = $bindable(() => {}) }: Props = $props();
 
 
       export const setOkay = (fn: () => void) => {
@@ -37,7 +48,7 @@
           modalOpen.set(false);
       }
 
-      $: {
+      run(() => {
             if($modalOpen) {
                 title = newTitle;
                 message = newMessage;
@@ -46,7 +57,7 @@
                 newMessage = 'Are you sure?';
             }
 
-      }
+      });
       
   </script>
   
@@ -77,19 +88,21 @@ h2 {
 
   
 <Modal>
-    <div slot="type">
-        <h2>{title}</h2>
+    {#snippet type()}
+    <div >
+          <h2>{title}</h2>
 
-        <p class="p-4 text-center text-[1.1rem]">{message}</p>
+          <p class="p-4 text-center text-[1.1rem]">{message}</p>
 
-        <div class="buttons">
-            <button class="btn-pag" on:click={_onCancel}>
-                Cancel
-            </button>
-            <button class="btn-pag" on:click={_onOkay}>
-                Okay
-            </button>
-        </div>
-    </div>
+          <div class="buttons">
+              <button class="btn-pag" onclick={_onCancel}>
+                  Cancel
+              </button>
+              <button class="btn-pag" onclick={_onOkay}>
+                  Okay
+              </button>
+          </div>
+      </div>
+  {/snippet}
 </Modal>
 

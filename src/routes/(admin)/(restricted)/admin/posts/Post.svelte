@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault, stopPropagation } from 'svelte/legacy';
+
   import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
   import { onMount } from 'svelte';
   import { makeEmptyPost } from '$lib/utils/client/posts';
@@ -9,9 +11,14 @@
   import truncate from 'truncate-html';
   import { getParams } from '$lib/utils/client/misc';
 
-  export let data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] };
+  interface Props {
+    data?: any;
+    header?: import('svelte').Snippet;
+  }
 
-  let postData: IPost = data.post as IPost;
+  let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props = $props();
+
+  let postData: IPost = $state(data.post as IPost);
   let isEdit = !!postData;
 
   if (!postData) {
@@ -26,24 +33,24 @@
 
   let cats = data.cats ?? ([] as ICat[]);
   let tags = data.tags ?? ([] as ITag[]);
-  let manualSlugs = '';
-  let relatedMechanism = 'tags';
+  let manualSlugs = $state('');
+  let relatedMechanism = $state('tags');
 
   let alert:
     | (Alert & {
         showError: (m: string) => void;
         showSuccess: (m: string) => void;
       })
-    | null = null;
+    | null = $state(null);
 
   let alertRelated:
     | (Alert & {
         showError: (m: string) => void;
         showSuccess: (m: string) => void;
       })
-    | null = null;
+    | null = $state(null);
 
-  let editor: HTMLElement;
+  let editor: HTMLElement = $state();
   let Jodit: any;
   let JoditModule: any;
 
@@ -302,10 +309,10 @@
   <div class="grid grid-cols-12 mx-auto gap-2 sm:gap-4 md:gap-6 lg:gap-10 xl:gap-14 max-w-8xl my-10 px-2">
     <Menu />
     <div id="content" class="bg-white/6 col-span-9 rounded-lg p-6">
-      <div class="p-8 rounded border border-gray-200">
-        <slot name="header">
+      <div class="p-8 rounded-sm border border-gray-200">
+        {#if header}{@render header()}{:else}
           <h1 class="font-medium text-3xl">New Post</h1>
-        </slot>
+        {/if}
         <Alert bind:this={alert} />
         <form>
           <div class="mt-8 space-y-6">
@@ -314,7 +321,7 @@
               <input
                 type="text"
                 id="title"
-                class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
                 placeholder="My New Post"
                 bind:value={postData.title}
               />
@@ -324,7 +331,7 @@
               <input
                 type="text"
                 id="slug"
-                class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
                 placeholder="post slug"
                 bind:value={postData.slug}
               />
@@ -335,7 +342,7 @@
                 <div id="cats" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                   {#each cats as cat}
                     <button
-                      on:click|preventDefault|capture={() => (postData.cat_id = cat.id)}
+                      onclickcapture={preventDefault(() => (postData.cat_id = cat.id))}
                       class={`px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center ${
                         postData.cat_id === cat.id ? 'bg-gray-700/60 text-gray-100' : ''
                       }`}
@@ -344,8 +351,8 @@
 
                       {#if postData.cat_id === cat.id}
                         <button
-                          on:click|stopPropagation={() => (postData.cat_id = undefined)}
-                          class="bg-transparent hover focus:outline-none hover:text-red-500"
+                          onclick={stopPropagation(() => (postData.cat_id = undefined))}
+                          class="bg-transparent hover focus:outline-hidden hover:text-red-500"
                         >
                           <svg
                             aria-hidden="true"
@@ -375,7 +382,7 @@
               <textarea
                 bind:this={editor}
                 id="editor"
-                class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
                 placeholder=""
                 bind:value={postData.content}
               ></textarea>
@@ -386,7 +393,7 @@
             <input
               type="text"
               id="fimage"
-              class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+              class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
               placeholder="https://example.com/image.jpg"
               bind:value={postData.feature_image}
             />
@@ -396,7 +403,7 @@
             <input
               type="text"
               id="fimage_alt"
-              class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+              class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
               placeholder="This is my nice image"
               bind:value={postData.feature_image_alt}
             />
@@ -405,7 +412,7 @@
             <label for="seo_description" class="text-sm text-gray-200 block mb-1 font-medium">Seo Description</label>
             <textarea
               id="seo_description"
-              class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+              class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
               placeholder="My nice seo description"
               bind:value={postData.seo_description}
             ></textarea>
@@ -416,7 +423,7 @@
               <div id="tags" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                 {#each tags as tag}
                   <button
-                    on:click|preventDefault|capture={() => (postData.tags_id = [...new Set([...(postData?.tags_id ?? []), tag.id])])}
+                    onclickcapture={preventDefault(() => (postData.tags_id = [...new Set([...(postData?.tags_id ?? []), tag.id])]))}
                     class={`px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center ${
                       postData.tags_id?.includes(tag.id) ? 'bg-gray-700/60 text-gray-100' : ''
                     }`}
@@ -425,8 +432,8 @@
 
                     {#if postData.tags_id?.includes(tag.id)}
                       <button
-                        on:click|stopPropagation={() => (postData.tags_id = postData.tags_id?.filter((t) => t !== tag.id))}
-                        class="bg-transparent hover focus:outline-none hover:text-red-500"
+                        onclick={stopPropagation(() => (postData.tags_id = postData.tags_id?.filter((t) => t !== tag.id)))}
+                        class="bg-transparent hover focus:outline-hidden hover:text-red-500"
                       >
                         <svg
                           aria-hidden="true"
@@ -453,26 +460,26 @@
           {/if}
           <div class="radio-container">
             <legend>&nbsp;&nbsp;Draft&nbsp;&nbsp;</legend>
-            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
             <label
               for="draft-no"
               class="input-label"
-              on:click|capture={() => {
+              onclickcapture={() => {
                 postData.draft = false;
               }}
-              on:keydown|capture={(e) => e.key === 'Enter' && (postData.draft = false)}
+              onkeydowncapture={(e) => e.key === 'Enter' && (postData.draft = false)}
             >
               <input type="radio" value="false" name="draft" id="draft-no" />
               <span>No</span>
             </label>
-            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
             <label
               for="draft-yes"
               class="input-label"
-              on:click|capture={() => {
+              onclickcapture={() => {
                 postData.draft = true;
               }}
-              on:keydown|capture={(e) => e.key === 'Enter' && (postData.draft = true)}
+              onkeydowncapture={(e) => e.key === 'Enter' && (postData.draft = true)}
             >
               <input type="radio" value="true" name="draft" id="draft-yes" />
               <span>Yes</span>
@@ -495,7 +502,7 @@
               <label
                 for="related-tags"
                 class="input-label"
-                on:click|capture={() => {
+                onclickcapture={() => {
                   if (relatedMechanism === 'tags') return;
                   relatedMechanism = 'tags';
                 }}
@@ -507,7 +514,7 @@
               <label
                 for="related-manual"
                 class="input-label"
-                on:click|capture={() => {
+                onclickcapture={() => {
                   if (relatedMechanism === 'manual') return;
                   relatedMechanism = 'manual';
                 }}
@@ -520,11 +527,11 @@
             {#if relatedMechanism === 'tags'}
               <button
                 type="button"
-                on:click|stopPropagation|capture={() =>
+                onclickcapture={stopPropagation(() =>
                   getRelated().then(() => {
                     console.log('related', postData.related);
-                  })}
-                class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+                  }))}
+                class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                 >Find & Link Related Posts
               </button>
             {:else if relatedMechanism === 'manual'}
@@ -534,18 +541,18 @@
                   type="text"
                   name="related"
                   id="related"
-                  class="w-full border border-gray-200 rounded px-3 py-2 text-gray-900"
+                  class="w-full border border-gray-200 rounded-sm px-3 py-2 text-gray-900"
                   placeholder="Enter related slugs separated by commas"
                   bind:value={manualSlugs}
                 />
                 <button
                   type="button"
-                  on:click|stopPropagation|capture={() => {
+                  onclickcapture={stopPropagation(() => {
                     getRelated(true).then(() => {
                       console.log('related', postData.related);
                     });
-                  }}
-                  class="py-2 px-4 mt-2 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+                  })}
+                  class="py-2 px-4 mt-2 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                   >Link Related Posts
                 </button>
               </div>
@@ -563,15 +570,15 @@
           <div class="space-x-4 mt-8">
             <button
               type="submit"
-              class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
-              on:click|preventDefault={() => {
+              class="py-2 px-4 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
+              onclick={preventDefault(() => {
                 goToAnchor('top');
                 save();
-              }}>Save</button
+              })}>Save</button
             >
             <a href="/admin">
               <button
-                class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+                class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                 >Cancel</button
               >
             </a>

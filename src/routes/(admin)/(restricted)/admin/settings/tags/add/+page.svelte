@@ -4,5 +4,7 @@
 </script>
 
 <Settings>
-    <CatOrTag slot="content" type="tag" />
+    {#snippet content()}
+        <CatOrTag  type="tag" />
+    {/snippet}
 </Settings>

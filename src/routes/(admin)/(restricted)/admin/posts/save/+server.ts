@@ -7,7 +7,7 @@ import { loadPost } from '@/lib/utils/db/posts';
 import type { IPost, IRelatedPost } from '$lib/types/post';
 import truncate from 'truncate-html';
 import { inc_tags_count, dec_tags_count } from '@/lib/utils/db/posts';
-import { getSetting, STORE } from '$lib/utils/server/settings'
+// import { getSetting, STORE } from '$lib/utils/server/settings'
 // import { pinPostToPinata } from '$lib/utils/server/pinata'
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
@@ -48,7 +48,8 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     if(feature_image_alt) update.feature_image_alt = feature_image_alt
     if(schema) update.schema = schema
     if(typeof draft === 'boolean') update.draft = draft === true ? true : false
-    update.content_text = truncate(content, content.length, { stripTags: true })
+    update.content_text = String(truncate(content, content.length, { stripTags: true }))
+
     if(related) {
         if(!Array.isArray(related)) {
             return json({

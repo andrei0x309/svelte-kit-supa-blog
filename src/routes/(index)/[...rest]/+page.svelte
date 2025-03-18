@@ -5,11 +5,15 @@
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
 
-    export let data: any;
+    interface Props {
+        data: any;
+    }
+
+    let { data }: Props = $props();
     const sidebarData = data?.sidebarData
 
 
-    let dataLoading = false
+    let dataLoading = $state(false)
     isLoading.subscribe((val) => {
         dataLoading = val
     })

@@ -1,9 +1,14 @@
 <script lang="ts">
-    export let tabs = [] as {
+    interface Props {
+        tabs?: any;
+        activeTab?: string;
+        content?: import('svelte').Snippet;
+    }
+
+    let { tabs = [] as {
         name: string,
         path: string,
-    }[]
-    export let activeTab = ''
+    }[], activeTab = '', content }: Props = $props();
 
 </script>
 
@@ -28,11 +33,11 @@
     </div>
 </div>
 
-<slot name="content">
+{#if content}{@render content()}{:else}
     <div class="flex flex-col items-center">
         <h1 class="text-3xl font-bold">Settings page slot not provided</h1>
     </div>
-</slot>
+{/if}
 
 {:else}
 <div class="flex flex-col items-center">

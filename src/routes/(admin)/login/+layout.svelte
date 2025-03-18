@@ -1,8 +1,11 @@
 <script>
 // @ts-nocheck
+  import '$lib/sass/tailwind.css'
   import '$lib/sass/admin.scss'
   import { afterNavigate, beforeNavigate }  from '$app/navigation'
   import { isLoading } from '@/stores/main';
+	/** @type {{children?: import('svelte').Snippet<[any]>}} */
+	let { children } = $props();
 
   beforeNavigate(() => {
 	isLoading.set(true)
@@ -19,7 +22,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="andrei0x309">
 	<link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com"/>
-	<title>Login</title>
+	<title>Login - flashsoft.eu</title>
 </svelte:head>
 
 {#if $isLoading}
@@ -27,7 +30,7 @@
 	<div class="nav-spinner spinner__1"></div>
 {/if}
 
-<slot isLoading={isLoading} />
+{@render children?.({ isLoading, })}
 
 <style windi:preflights:global windi:safelist:global windi:global>
 </style>

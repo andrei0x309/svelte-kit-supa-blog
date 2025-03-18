@@ -1,8 +1,8 @@
-# Svelte Kit & supaBase blog
+# Svelte Kit & supaBase blog - blog.flashsoft.eu
 
 ## Description
 
-This is a blog repo with many features, very lightweight and fast.
+This is a fast lightweight blog/blog-engine source and can be used by anyone, with small adjusments, to config and its code.
 
 It is based on Svelte Kit and SupaBase.
 
@@ -44,3 +44,5 @@ Lightweight blog with SupaBase database with the following features:
 - Optimizations function for Google CDN images
 - Draft support
 - Guarded preview route for previewing drafts
+- Desktop/Mobile menu
+  
