@@ -25,8 +25,9 @@ export const load: PageServerLoad = async (req) => {
     const dataPosts = await loadPostsByCat(cat.id, page)
 
     return appendToData(checkData(dataPosts), 
-    {pageTitle: 'Category ' +cat.name + (page > 1 ? ` Page ${page}` : null ?? config.siteName), 
-    pageDescription: 'Articles from category ' + cat.name + (page > 1 ? ` Page ${page}` : null ?? config.siteIndexDescription),
+    {
+    pageTitle: `Category ${cat.name} | ${config.siteName} ${page > 1 ? `| Page ${page}`: ''}`,
+    pageDescription: `Articles from category ${cat.name} ${cat.description ? `| ${cat.description}` : `` }`,
     cat
     })
   }
