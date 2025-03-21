@@ -12,7 +12,7 @@ interface Props {
 }
 
 let { data, draft = false, index = 0 }: Props = $props();
-let Comments: null | Component<{ slug: string }> = $state(null)
+let Comments: null | Component<{}> = $state(null)
 
 let related: IPost['related'] | undefined = $state()
 
@@ -154,7 +154,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
     {:then}
         {#if Comments}
         <h3 class="text-xl font-bold mt-8 mb-4">Comments</h3>
-            <Comments slug={data.slug} />
+            <Comments />
         {/if}
     {/await}
         

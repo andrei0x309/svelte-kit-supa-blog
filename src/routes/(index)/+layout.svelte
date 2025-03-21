@@ -54,7 +54,7 @@
 <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com"/>
 
 
-<script>
+<!-- <script>
 
   partytown = {
     forward: ['dataLayer.push'],
@@ -74,10 +74,10 @@
     return url
     }
   }
-</script>
+</script> -->
 
   <!-- `partytownSnippet` is inserted here -->
-  <script bind:this={scriptEl}></script>
+  <!-- <script bind:this={scriptEl}></script> -->
   <!-- {@html webManifest} -->
 
 
