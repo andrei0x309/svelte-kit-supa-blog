@@ -24,10 +24,13 @@ export const load: PageServerLoad = async (req) => {
     }
     const dataPosts = await loadPostsByCat(cat.id, page)
 
+    const pageText = page > 1 ? `| Page ${page}`: ''
+    const description = cat.description ? `| ${cat.description}` : ''
+
     return appendToData(checkData(dataPosts), 
     {
-    pageTitle: `Category ${cat.name} | ${config.siteName} ${page > 1 ? `| Page ${page}`: ''}`,
-    pageDescription: `Articles from category ${cat.name} ${cat.description ? `| ${cat.description}` : `` }`,
+    pageTitle: `Category ${cat.name} | ${config.siteName} ${pageText}`,
+    pageDescription: `Articles from category ${cat.name} ${description}`,
     cat
     })
   }

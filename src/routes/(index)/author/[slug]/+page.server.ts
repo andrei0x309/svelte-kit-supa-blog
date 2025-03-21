@@ -29,6 +29,8 @@ export const load: PageServerLoad = async (req) => {
     const fallBackDescription =  truncate(user.description, 160, {
       stripTags: true
     }) || 'Desciption is missing | ' + config.siteName 
+
+    
     return appendToData(
       {res: user}, 
       {pageTitle: user?.username ? 'Author | ' + user.username : 'Author | ' + config.siteName, 
