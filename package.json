@@ -49,6 +49,7 @@
 	"type": "module",
 	"license": "MIT",
 	"dependencies": {
+		"@giscus/svelte": "^3.1.0",
 		"@supabase/supabase-js": "^2.49.1",
 		"eslint-plugin-svelte": "^3.1.0",
 		"highlight.js": "^11.11.1",

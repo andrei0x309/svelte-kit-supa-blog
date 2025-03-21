@@ -15,10 +15,8 @@ export const config = {
     indexPostsPerPage: 4,
     relatedPostsEnabled: true,
     signatureDisplayEnabled: true, // Enables EVM signature display
-    // Echo comments and tips
-    echoCommentsEnabled: false,
-    echoTipsEnabled: true,
-    echoReciverAddress: 'andrei0x309.eth',
+    // Giscus commenting system
+    giscusCommentsEnabled: true,
     // Requres MarketCap API KEY for eth price for donnate
     farcasterFrameEnabled: true,
     farcasterDonateAddress: '0x50cca5ed8b4455fbe316785269fc82500b67fd48',
