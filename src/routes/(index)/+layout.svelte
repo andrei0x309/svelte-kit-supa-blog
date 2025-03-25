@@ -1,6 +1,7 @@
 <script lang="ts"> 
   import '$lib/sass/tailwind.css'
   import '$lib/sass/app.scss'
+  import type { Component } from 'svelte';
 
   import Header from '$lib/theme/Header.svelte'
   import Footer from '$lib/theme/Footer.svelte'
@@ -19,6 +20,7 @@
 
   let { data = {}, children }: Props = $props();
   let theme = $state(data?.theme || 'dark')
+  let DynFarcasterFollowButton: Component | null = $state(null)
 
   beforeNavigate(() => {
 	isLoading.set(true)
@@ -28,13 +30,40 @@
 	isLoading.set(false)
   })
 
+  const handlePopstate = () => {
+    isLoading.set(false)
+  }
+
   let scriptEl: HTMLScriptElement | undefined = $state()
+
+  const loadFCButton = async () => {
+    if(config.farcasterFrameV2Enabled && config.farcasterFollowButtonEnabled) {
+        const { default: comp } = await import('@/routes/(index)/FarcasterFollowButton.svelte')
+        DynFarcasterFollowButton = comp
+     }
+  }
+
 
   onMount(() => {
 	themeStore.set(theme)
   // if (scriptEl) {
 	// 	  scriptEl.textContent = partytownSnippet()
 	// 	}
+
+  window.addEventListener('popstate', handlePopstate);
+
+  if(config.farcasterFrameV2Enabled) {
+      import('@farcaster/frame-sdk').then((lib) => {
+        lib.sdk.actions.ready()
+      })
+  }
+
+    return () => {
+        window.removeEventListener('popstate', handlePopstate);
+    };
+
+
+
   })
 
 </script>
@@ -97,5 +126,11 @@
 {@html getGoogleAnalyticsCode(config.googleAnalyticsId)}
 {/if}
 
-<style windi:preflights:global windi:safelist:global windi:global>
-</style>
+{#await loadFCButton()}
+    <span></span>
+{:then}
+  {#if DynFarcasterFollowButton}
+    <DynFarcasterFollowButton />
+{/if}
+
+{/await}

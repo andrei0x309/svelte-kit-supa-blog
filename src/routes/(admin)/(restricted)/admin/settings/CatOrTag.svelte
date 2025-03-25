@@ -7,14 +7,14 @@
   import { onMount } from 'svelte';
   import { getParams } from '$lib/utils/client/misc';
 
+  let { data = { catOrTag: makeEmptyCatTag() as ICatTag, notFound: false }, type = 'cat' }: Props = $props();
+
   const catOrTag: ICatTag = $state(data.catOrTag as ICatTag);
-  let alert: Alert = $state();
+  let alert: Alert | undefined = $state();
   interface Props {
     data?: any;
     type?: string;
   }
-
-  let { data = { catOrTag: makeEmptyCatTag() as ICatTag, notFound: false }, type = 'cat' }: Props = $props();
 
   const save = async () => {
     if (!catOrTag.name || !catOrTag.slug) {

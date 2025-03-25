@@ -1,6 +1,6 @@
 
 import type { PageServerLoad } from './$types';
-import { checkData, appendToData, extractPage } from '@/lib/utils/page'
+import { checkData, appendToData, extractPage, error } from '@/lib/utils/page'
 import truncate from "truncate-html";
 import { loadPost, loadPosts } from '@/lib/utils/db/posts'
 import { getPostSchema } from '@/lib/utils/server/schema'
@@ -29,11 +29,19 @@ export const load: PageServerLoad = async (data) => {
         pageTitle: `${config.siteName} | Page ${page}`, 
         pageDescription: `${config.siteIndexDescription} | Page ${page}`,
         isPostList: true,
-      schemaContent: getIndexSchema()
+        schemaContent: getIndexSchema()
     })
     }
 
     const post = await loadPost(slug) as {res: Record<string, any>}
+
+    if (!post?.res) {
+      throw error(404, {
+        message: 'Resource not found',
+        pageType: 'posts'
+      } as App.Error)
+    }
+ 
     const fallBackDescription = post?.res?.seo_description || truncate(post?.res?.content, 160, {
       stripTags: true
     }) || 'Desciption is missing | blog.flashsoft.eu'

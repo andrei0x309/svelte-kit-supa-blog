@@ -1,6 +1,7 @@
 import type { RequestHandler } from  './$types';
 import { generatePaths } from '$lib/utils/server/sitemap'
 import { config } from '$lib/config'
+export const prerender = true;
  
 const website =  config.baseSiteUrl
 
@@ -16,9 +17,9 @@ export const GET: RequestHandler = async () => {
   )
   .join('')
   return new Response(`<?xml version="1.0" encoding="UTF-8" ?>
-	<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+    <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   ${contnet}
-	</urlset>`,
+    </urlset>`,
 
     {
       headers: {

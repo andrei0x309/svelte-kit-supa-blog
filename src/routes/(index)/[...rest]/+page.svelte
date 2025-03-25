@@ -1,9 +1,11 @@
 <script lang="ts">
-    import { page as SveltePage } from '$app/stores';
+    import { page as SveltePage } from '$app/state';
     import Article from '$lib/theme/Article.svelte';
     import SideBar from '@/lib/theme/SideBar.svelte';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
+    import { generateURLFCFrameEmbed } from '$lib/utils/client/fc-frame-v2';
+
 
     interface Props {
         data: any;
@@ -18,6 +20,8 @@
         dataLoading = val
     })
 
+    const indexFeatureImage = `${config.IS_DEV_ENABLED ? config.devBaseUrl : config.baseSiteUrl}/images/og/default-og-v2-c1.webp`
+    const pageUrl = SveltePage.url.href.replace('http:', 'https:')
 
 </script>
 
@@ -27,10 +31,15 @@
 <meta property="og:title" content="{data.pageTitle}" />
 <meta property="og:description" content="{data.pageDescription}">
 <meta property="og:type" content="website" />
-<meta property="og:url" content={`${$SveltePage.url}`} />
-<meta property="og:image" content="https://flashsoft.eu/res/flashsoftLogo.png" />
+<meta property="og:url" content={`${pageUrl}`} />
+<meta property="og:image" content={indexFeatureImage} />
+
+{#if config.farcasterFrameV2Enabled}
+<meta name="fc:frame" content={generateURLFCFrameEmbed(indexFeatureImage, pageUrl)} />
+{/if}
+
 <link rel="alternate" type="application/rss+xml" title="{`${config.siteName} » Feed`}" href="{`${config.baseSiteUrl}/feed`}">
-<link rel="canonical" href={`${$SveltePage.url}`} />
+<link rel="canonical" href={`${pageUrl}`} />
 
 
 {#if (data?.res?.hasNext ?? false)}
@@ -45,8 +54,8 @@
     {
     "@context": "https://schema.org/",
     "@type": "Blog",
-    "@id": "${$SveltePage.url}",
-    "mainEntityOfPage": "${$SveltePage.url}",
+    "@id": "${pageUrl}",
+    "mainEntityOfPage": "${pageUrl}",
     "name": "${data.pageTitle}",
     "description": "${data.pageDescription}",
     }

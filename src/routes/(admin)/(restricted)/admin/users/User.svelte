@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
     import Menu from "@/routes/(admin)/(restricted)/admin/menu.svelte";
     import { onMount } from "svelte";
 	import { currentUser } from '@/stores/main'
@@ -13,6 +11,7 @@
 		username?: string | null;
 		error?: boolean;
 		role?: string;
+		description?: string | null;
 		header?: import('svelte').Snippet;
 	}
 
@@ -21,6 +20,7 @@
 		avatar = $bindable(null),
 		email = $bindable(null),
 		username = $bindable(null),
+		description = $bindable(null),
 		error = false,
 		role = $bindable('contribuitor'),
 		header
@@ -37,7 +37,9 @@
         showSuccess: (m: string) => void
     } | null = $state(null);
 
-    const save = async () => {
+    const save = async (e: Event) => {
+		e.preventDefault();
+
         if (!username || !email || !avatar) {
             alert?.showError("Please fill all fields");
             return;
@@ -55,6 +57,7 @@
             ...(avatar && { avatar }),
 			...(password && { password }),
 			...(role && { role }),
+			...(description && { description }),
         }
 
         const res = await fetch("/admin/users/save", {
@@ -109,7 +112,7 @@
 						<div>
 							<label for="title" class="text-sm text-gray-200 block mb-1 font-medium"
 								>Email
-								{#if !isEdit}
+								{#if isEdit}
 								<small class="text-gray-400">Optional</small>
 								{/if}	
 								</label
@@ -124,7 +127,7 @@
 						</div>
 						<div>
 							<label for="fimage" class="text-sm text-gray-200 block mb-1 font-medium">Avatar Url 
-							{#if !isEdit}
+							{#if isEdit}
 							<small class="text-gray-400">Optional</small>
 							{/if}	
 							</label
@@ -138,6 +141,18 @@
 							/>
 						</div>
 						<div>
+							<label for="description" class="text-sm text-gray-200 block mb-1 font-medium">Description
+							<small class="text-gray-400">Optional</small>
+							</label
+							>
+							<textarea
+								id="description"
+								class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+								rows="4"
+								placeholder="Description"
+								bind:value={description}
+							></textarea>
+						<div class="mt-4">
 							{#if isEdit}
 							<label for="fpassword" class="text-sm text-gray-200 block mb-1 font-medium">Password</label
 							>
@@ -177,12 +192,13 @@
 							>
 							{/if}
 						</div>
-						<div>
+						<div class="mt-4">
 							<label for="fimage" class="text-sm text-gray-200 block mb-1 font-medium">Role
 							<span class="custom-dropdown">
 								<select bind:value={role}>
 									<option value="admin" >Admin</option>
-									<option value="contribuitor">Contribuitor</option>  
+									<option value="contribuitor">Contribuitor</option>
+									<option value="demo">Demo User</option>
 								</select>
 							</span>
 							<small class="text-gray-400">Default: Contribuitor</small>
@@ -192,7 +208,7 @@
 						<button
 							type="submit"
 							class="py-2 px-4 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
-                            onclick={preventDefault(save)}
+                            onclick={save}
 							>Save</button
 						>
 						<a href="/admin/users">

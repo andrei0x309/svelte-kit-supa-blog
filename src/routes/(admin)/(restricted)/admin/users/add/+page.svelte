@@ -8,8 +8,5 @@
     
     </script>
     
-<User>
-    {#if header}{@render header()}{:else}
-        <h1 class="font-medium text-3xl">New User</h1>
-    {/if}
+<User header={header}>
 </User>

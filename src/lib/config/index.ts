@@ -7,6 +7,7 @@ export const config = {
     siteIndexTitle: 'Blog | flashsoft.eu',
     siteIndexDescription: 'Blog | flashsoft.eu articles from andrei0x309 about projects, web development, programming, web3, and more.',
     baseSiteUrl: 'https://blog.flashsoft.eu',
+    devBaseUrl: 'https://tun-5512.flashsoft.eu',
     tipMeName: 'andrei0x309',
     tipKoFiLink: 'https://ko-fi.com/andrei0x309',
     tipNowPaymentsLink: 'https://nowpayments.io/donation/andrei0x309',
@@ -18,16 +19,17 @@ export const config = {
     // Giscus commenting system
     giscusCommentsEnabled: true,
     // Requres MarketCap API KEY for eth price for donnate
-    farcasterFrameEnabled: true,
-    farcasterDonateAddress: '0x50cca5ed8b4455fbe316785269fc82500b67fd48',
+    farcasterFrameV2Enabled: true,
+    farcasterFollowButtonEnabled: true,
+    farcasterV2FollowFid: 1791,
     // Publish to IPFS - requires Appelion KEY
     enableAppelionIpfs: true,
     // Analytics Settings - Google
-    enableGoogleAnalytics: true,
+    enableGoogleAnalytics: false,
     googleAnalyticsId: 'G-0TYDTZGHS4',
     // Analytics Settings - Cloudflare
-    enableCloudfareAnalytics: true,
-    cloudfareAnalyticsToken: 'd9f2b',
+    enableCloudflareAnalytics: true,
+    cloudflareAnalyticsToken: 'd9f2b',
     // Localization Settings
     supportedLanguages: [ 'en', 'ro' ],
     // Author Settings
@@ -40,29 +42,33 @@ export const config = {
     },
     // -1 to disable the feature, 0 to show all links, any other number to show that number of links
     numLinksForAuthor: 0,
+    // IS_DEV_ENABLED mainly used to expose a public dev URL for testing
+    IS_DEV_ENABLED: true,
 }
 
 // Use empty string if you don't want to include a social link
 export const schemaSocials = {
     facebook: '',
     linkedin: '',
-    twitter: 'https://twitter.com/andrei0x309',
-    instagram: 'https://www.instagram.com/andrei0x309_',
-    youtube: 'https://www.youtube.com/@andrei0x309',
-    github: 'https://github.com/andrei0x309',
-    gitlab: 'https://gitlab.com/andrei0x309',
-    stackoverflow: 'https://stackoverflow.com/users/4354506/andrei-o',
-    twitch: 'https://www.twitch.tv/andrei0x309',
-    reddit: 'https://www.reddit.com/user/andrei0x309',
-    mirror: 'https://mirror.xyz/andrei0x309.eth',
-    discord: 'https://discordhub.com/profile/556064803203055616',
-    telegram: 'https://t.me/andrei0x309',
-    tiktok: 'https://www.tiktok.com/@andrei0x309',
-    pinterest: 'https://www.pinterest.com/andrei0x309',
-    spotify: 'https://open.spotify.com/user/31j4le3alu4ezqp3ymyroyt5vk7y',
-    lens: 'https://hey.xyz/u/andrei0x309',
-    warpcast: 'https://warpcast.com/andrei0x309',
-    yuplive: 'https://yup-live.pages.dev/profile/andreix155xx/feed',
+    GitHub: 'https://github.com/andrei0x309',
+    GoogleDev: 'https://g.dev/andrei0x309',
+    GitLab: 'https://gitlab.com/andrei0x309',
+    X: 'https://x.com/andrei0x309',
+    GoodReads: 'https://www.goodreads.com/user/show/52338687-andrei',
+    Bluesky: 'https://bsky.app/profile/andrei0x309.flashsoft.eu',
+    Instagram: 'https://www.instagram.com/andrei0x309_',
+    Youtube: 'https://www.youtube.com/@andrei0x309',
+    StackOverflow: 'https://stackoverflow.com/users/4354506/andrei-o',
+    Twitch: 'https://www.twitch.tv/andrei0x309',
+    Reddit: 'https://www.reddit.com/user/andrei0x309',
+    Mirror: 'https://mirror.xyz/andrei0x309.eth',
+    Discord: 'https://discordhub.com/profile/556064803203055616',
+    Telegram: 'https://t.me/andrei0x309',
+    Tiktok: 'https://www.tiktok.com/@andrei0x309',
+    Pinterest: 'https://www.pinterest.com/andrei0x309',
+    Spotify: 'https://open.spotify.com/user/31j4le3alu4ezqp3ymyroyt5vk7y',
+    Lens: 'https://hey.xyz/u/andrei0x309',
+    Warpcast: 'https://warpcast.com/andrei0x309',
     soundcloud: '',
     vimeo: '',
     medium: '',
@@ -73,5 +79,13 @@ export const schemaSocials = {
     behance: '',
     dribbble: '',
     threads: '',
-    bluesky: '',
+}
+
+export const excludeSocials = [
+    'Instagram',
+]
+
+export const customLinks = {
+    'Projects': 'https://flashsoft.eu/projects',
+    'Courses': 'https://flashsoft.eu/certs',
 }

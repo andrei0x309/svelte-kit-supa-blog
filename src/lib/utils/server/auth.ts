@@ -2,7 +2,6 @@ import type { ICookies } from '$lib/types/cookies'
 import { supabase } from '@/lib/node/supaClientFS'
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const checkAuth = async (req: ICookies) => {
     const username = req.cookies.get('username')
     const hash = req.cookies.get('hash')
@@ -10,7 +9,7 @@ export const checkAuth = async (req: ICookies) => {
         throw 'denied'
     }
     const user = (await supabase.from('fsk_blog_author')
-    .select('username, password_hash')
+    .select('*')
     .eq('username', username).single()).data
     if(!user) {
         throw 'denied'
@@ -18,8 +17,16 @@ export const checkAuth = async (req: ICookies) => {
     if(hash !== user.password_hash) {
         throw 'denied'
     }
-    return {
-        username,
-        hash
+    return user as {
+        id: number
+        username: string
+        email: string
+        avatar: string
+        name: string
+        description: string
+        social_links: string
+        password_hash: string
+        role: string
+        created_at: string
     }
 }

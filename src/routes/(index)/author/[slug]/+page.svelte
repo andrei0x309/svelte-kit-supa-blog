@@ -2,10 +2,11 @@
 
 <script lang="ts">
     import SideBar from '@/lib/theme/SideBar.svelte';
-    import { page as SveltePage } from '$app/stores';
+    import { page as SveltePage } from '$app/state';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
     import type { ICurrentUser } from '$lib/types/user';
+    import { generateURLFCFrameEmbed } from '$lib/utils/client/fc-frame-v2';
 
     interface Props {
         data: {
@@ -25,13 +26,16 @@
         dataLoading = val
     })
 
-    let featureImage = $state(data?.res?.avatar)
+    let featureImage = $state('')
     try{
-        featureImage = (new URL(featureImage)).href
+        featureImage = (new URL(data?.res?.avatar)).href
     } catch {
         featureImage = ''
     }
     
+    const pageUrl = SveltePage.url.href.replace('http:', 'https:')
+
+
 </script>
 
 <svelte:head>
@@ -40,13 +44,16 @@
 <meta property="og:title" content="{data.pageTitle}" />
 <meta property="og:description" content="{data.pageDescription}">
 <meta property="og:type" content="website" />
-<meta property="og:url" content={`${$SveltePage.url}`} />
+<meta property="og:url" content={`${pageUrl}`} />
 <meta property="og:site_name" content="{config.siteName}" />
-<link rel="canonical" href={`${$SveltePage.url}`} />
+<link rel="canonical" href={`${pageUrl}`} />
 <link rel="alternate" type="application/rss+xml" title="{`${config.siteName} » Feed`}" href="{`${config.baseSiteUrl}/feed`}">
 
 {#if featureImage }
 <meta property="og:image" content="{featureImage}" />
+{#if config.farcasterFrameV2Enabled}
+<meta name="fc:frame" content={generateURLFCFrameEmbed(featureImage, pageUrl)} />
+{/if}
 {/if}
 {#if data?.schemaContent}
 {@html data.schemaContent}

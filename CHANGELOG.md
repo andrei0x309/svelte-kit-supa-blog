@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.2.1 - 2025-03-25
+
+- migrated most of deprecated code
+- started deprecating farcaster-frames-v1
+- integrated basic farcaster-frames-v2
+- added a cache to sitemap.xml
+- deprecated 0xEcho comments
+- added giscus comment system
+- changed user profile display
+- eliminated some unused dpendencies
+- improved SEO
+- improved 404 error handling
+- added new config values
+- added tunnel address to expose https dev server
+- added farcaster v2 config system
+- improved sitemap generation and tweaked priorities
+- added demo role for viewing admin panel
+
 ## v0.2.0 - 2025-03-18
 
 - Updated to latest Svelte 5 and SveleteKit
@@ -158,4 +176,3 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 <!-- 
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.1---2024-07-09
 -->
-

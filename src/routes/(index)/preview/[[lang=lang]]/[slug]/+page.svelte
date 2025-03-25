@@ -1,7 +1,7 @@
 <script lang="ts">
     import Article from '$lib/theme/Article.svelte';
     import SideBar from '@/lib/theme/SideBar.svelte';
-    import { page as SveltePage } from '$app/stores';
+    import { page as SveltePage } from '$app/state';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
 
@@ -18,12 +18,8 @@
     })
 
     let featureImage = $state(data?.res?.feature_image)
-    try{
-        featureImage = (new URL(featureImage)).href
-    } catch {
-        featureImage = ''
-    }
     
+    const pageUrl = SveltePage.url.href.replace('http://', 'https://');
 </script>
 
 <svelte:head>
@@ -32,9 +28,9 @@
 <meta property="og:title" content="{data.pageTitle}" />
 <meta property="og:description" content="{data.pageDescription}">
 <meta property="og:type" content="website" />
-<meta property="og:url" content={`${$SveltePage.url}`} />
+<meta property="og:url" content={pageUrl} />
 <meta property="og:site_name" content="{config.siteName}" />
-<link rel="canonical" href={`${$SveltePage.url}`} />
+<link rel="canonical" href={pageUrl} />
 <link rel="alternate" type="application/rss+xml" title="{`${config.siteName} » Feed`}" href="{`${config.baseSiteUrl}/feed`}">
 
 {#if featureImage }
