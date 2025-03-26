@@ -1,6 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
 // import { partytownVite } from '@builder.io/partytown/utils'
 import { join } from 'path'
 import tailwindcss from '@tailwindcss/vite';
@@ -10,9 +9,9 @@ import tailwindcss from '@tailwindcss/vite';
 const config = {
 	plugins: [
 		tailwindcss(),
-		nodePolyfills({
-			protocolImports: true
-		}),
+		// nodePolyfills({
+		// 	protocolImports: true
+		// }),
 		sveltekit(),
 		// partytownVite({
 		// 	// `dest` specifies where files are copied to in production
@@ -72,7 +71,10 @@ const config = {
 		SK_VERSION: JSON.stringify(process.env['npm_package_devDependencies__sveltejs_kit'])
 	},
 	server: {
-		port: 5512
+		port: 5512,
+		allowedHosts: ['tun-5512.flashsoft.eu'],
+		cors: true,
+		strictPort: true,	
 	}
 };
 

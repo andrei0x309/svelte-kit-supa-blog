@@ -2,6 +2,7 @@
 // @ts-nocheck
   import '$lib/sass/tailwind.css'
   import '$lib/sass/admin.scss'
+  import { onMount } from 'svelte';
   import { afterNavigate, beforeNavigate }  from '$app/navigation'
   import { isLoading } from '@/stores/main';
 	/** @type {{children?: import('svelte').Snippet<[any]>}} */
@@ -13,6 +14,19 @@
 
   afterNavigate(() => {
 	isLoading.set(false)
+  })
+
+  const handlePopstate = () => {
+    isLoading.set(false)
+  }
+
+  onMount(() => {
+ 
+  window.addEventListener('popstate', handlePopstate);
+
+    return () => {
+        window.removeEventListener('popstate', handlePopstate);
+    };
   })
 
 </script>
@@ -32,5 +46,3 @@
 
 {@render children?.({ isLoading, })}
 
-<style windi:preflights:global windi:safelist:global windi:global>
-</style>

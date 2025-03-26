@@ -8,10 +8,16 @@ import type { ICookies } from '$lib/types/cookies';
 export const POST: RequestHandler = (async ({ request, cookies }) => {
     try {
     const req = { cookies } as ICookies
-    const { username:cuser } = await checkAuth(req)
-    const currentUser = await supabase.from('fsk_blog_author').select('*').eq('username', cuser).single()
+    const currentUser = await checkAuth(req)
+
+    if(currentUser.role === 'demo') {
+        return json({
+            error: 'Demo User can\'t take this action'
+        }, {status: 403})
+    }
+
     const { name, slug, description, id, type } = await request.json()
-    if(currentUser.data.role !== 'admin') {
+    if(currentUser.role !== 'admin') {
         return json({
             error: 'Only admin can edit or create categories'
         }, {status: 403})

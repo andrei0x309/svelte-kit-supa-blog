@@ -9,15 +9,19 @@ import { rem_tag_from_posts } from '$lib/utils/db/posts';
 export const DELETE: RequestHandler = (async ({ request, cookies }) => {
     try {
     const req = { cookies } as ICookies
-    const { username:cuser } = await checkAuth(req)
-    const currentUser = await supabase.from('fsk_blog_author').select('*').eq('username', cuser).single()
+    const currentUser = await checkAuth(req)
+    if(currentUser.role === 'demo') {
+        return json({
+            error: 'Demo User can\'t take this action'
+        }, {status: 403})
+    }
     const { id, type } = await request.json()
      if(!id || !type) {
         return json({
             error: 'No id and type provided'
         }, {status: 400})
     }
-    if(currentUser.data.role !== 'admin') {
+    if(currentUser.role !== 'admin') {
         return json({
             error: 'Only admin can delete categories'
         }, {status: 403})

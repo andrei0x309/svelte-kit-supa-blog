@@ -29,8 +29,7 @@
 		isLoaded = true;
 		isError = true;
         imgSource = '/images/placeholder.svg'
-		console.log('error')
-    }
+     }
 
 	onMount(() => {
 		if(!img?.complete) {

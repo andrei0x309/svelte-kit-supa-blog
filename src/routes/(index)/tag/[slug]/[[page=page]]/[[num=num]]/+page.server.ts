@@ -24,13 +24,14 @@ export const load: PageServerLoad = async (req) => {
   }
 
   const hasPage = req.url.searchParams.has('page')
+  const pageInTitle = hasPage ? ` | Page ${page}` : ''
 
   const dataPosts = await loadPostsByTag(tag.id, page)
 
   return appendToData(checkData(dataPosts),
     {
-      pageTitle: 'Tag  ' + tag.name + ' ' + (hasPage ? ` Page ${page}` : null ?? config.siteName),
-      pageDescription: ('Articles from tag ' + tag.name + ' - ' + tag?.description) ?? (config.siteIndexDescription + (hasPage ? ` Page ${page}` : null)),
+      pageTitle: `Tag  ${tag.name ? tag.name : ''}${pageInTitle} | ${config.siteName}`,
+      pageDescription: `Articles from tag ${tag?.name  ? tag.name : ''} ${tag?.description}`,
       tag
     })
 }

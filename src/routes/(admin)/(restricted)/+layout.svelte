@@ -4,18 +4,34 @@
   import '$lib/sass/admin.scss'
   import { afterNavigate, beforeNavigate }  from '$app/navigation'
   import { isLoading, currentUser } from '@/stores/main';
+  import { onMount } from 'svelte';
+
 
   beforeNavigate(() => {
-	isLoading.set(true)
+    isLoading.set(true)
   })
 
   afterNavigate(() => {
-	isLoading.set(false)
+    isLoading.set(false)
   })
+
+  const handlePopstate = () => {
+    isLoading.set(false)
+  }
 
   /** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
   let { data, children } = $props();
   currentUser.set(data.currentUser ?? null)
+
+  onMount(() => {
+  
+  window.addEventListener('popstate', handlePopstate);
+
+    return () => {
+        window.removeEventListener('popstate', handlePopstate);
+    };
+  })
+
 
 </script>
 
@@ -37,6 +53,3 @@
 {/if}
 
 {@render children?.({ isLoading, })}
-
-<style windi:preflights:global windi:safelist:global windi:global>
-</style>

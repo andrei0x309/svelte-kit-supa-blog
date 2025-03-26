@@ -13,16 +13,21 @@ import { inc_tags_count, dec_tags_count } from '@/lib/utils/db/posts';
 export const POST: RequestHandler = (async ({ request, cookies }) => {
     try {
     const req = { cookies } as ICookies
-    const { username:cuser } = await checkAuth(req)
-    const currentUser = await supabase.from('fsk_blog_author').select('*').eq('username', cuser).single()
+    const currentUser = await checkAuth(req)
     const { slug, title, content, tags_id, cat_id, author_id,
          seo_description, feature_image, feature_image_alt, schema, related, draft
          } = await request.json()
+    
+    if(currentUser.role === 'demo') {
+        return json({
+            error: 'Demo User can\'t take this action'
+        }, {status: 403})
+    }
 
     const exists = await loadPost(slug)
 
     if(exists?.res?.slug) {
-        if(exists.res.author_id !== currentUser.data.id &&  currentUser.data.role !== 'admin') {
+        if(exists.res.author_id !== currentUser.id &&  currentUser.role !== 'admin') {
             return json({
                 error: 'Only admin edit other users posts'
             }, {status: 403})

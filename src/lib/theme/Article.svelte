@@ -5,6 +5,8 @@ import Signature from '$lib/theme/Article/Signature.svelte';
 import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
 import FeatureImage from '$lib/theme/FeatureImage.svelte';
 import type { Component } from 'svelte';
+import { isViewingFromFrame as isViewingFromFrameStore } from '@/stores/main';
+
 interface Props {
     data: IPost;
     draft?: boolean;
@@ -17,7 +19,7 @@ let Comments: null | Component<{}> = $state(null)
 let related: IPost['related'] | undefined = $state()
 
 const loadComments = async () => {
-    if(data.isFull && config.giscusCommentsEnabled) {
+    if(data.isFull && config.giscusCommentsEnabled && (config.farcasterFrameV2Enabled && !$isViewingFromFrameStore )) {
         const { default: comm } = await import('$lib/theme/Article/Comments.svelte')
         Comments = comm
      }

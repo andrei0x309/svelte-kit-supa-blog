@@ -1,128 +1,128 @@
 <script lang="ts">
-    import Menu from "@/routes/(admin)/(restricted)/admin/menu.svelte";
-    import type { IPost } from '$lib/types/post';
-    import ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
-    import Alert from '@/lib/components/shared/Alert.svelte';
-    import { slide } from 'svelte/transition';
-	import { modalOpen } from '@/stores/main';
-    
-    export let data: {
-        page: number
-        hasNext: boolean
-        posts: IPost[] | null
-    };
+  import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
+  import type { IPost } from '$lib/types/post';
+  import ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
+  import Alert from '@/lib/components/shared/Alert.svelte';
+  import { slide } from 'svelte/transition';
+  import { modalOpen } from '@/stores/main';
 
-    let confirm: ConfirmModal
-	let alert: Alert
+  export let data: {
+    page: number;
+    hasNext: boolean;
+    posts: IPost[] | null;
+  };
 
+  let confirm: ConfirmModal;
+  let alert: Alert;
 
-	async function deletePost(slug: string) {
-		try {
-			if(!data.posts?.length) return
-			const res = await fetch(`/admin/posts/delete`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ slug })
-			})
-			const reqData = await res.json()
-			if (res.ok) {
-				if (!reqData?.error) {
-					alert.showSuccess('Post deleted successfully')
-					if(data.posts?.length === 1 && data.page > 1) {
-						location.href = `/admin/users/page/${data.page - 1}`
-					} else {
-					data = {
-						...data,
-						posts: data.posts.filter((p) => p.slug !== slug),
-					}
-				}
-				} else {
-					alert.showError(reqData?.error || 'Something went wrong')
-				}
-			} else {
-				alert.showError(reqData?.error || 'Something went wrong')
-			}
-		} catch (err) {
-			alert.showError('API network error')
-		}
-	}
-
-    const sign = async (slug: string, confirmOveride = false)  => {
-        try {
-        const postItem = data.posts?.find((p) => p.slug === slug)
-        if(!postItem) {
-            alert.showError('Post to sign not found')
-            return
-        }
-        if(typeof (window as any)?.ethereum === 'undefined') {
-            alert.showError('Please install EVM compatible wallet Clear Wallet or MetaMask')
-            return
-        }
-        if(postItem.signature && !confirmOveride) {
-            confirm.setOkay(() => sign(slug, true))
-            confirm.show('Confirm', 'Post already signed, do you want to sign again and override the previous signature?')
-            return
-        }
-
-        const ethereum = (window as any).ethereum
-        let address: string
-        let dataToSign: string
-        let signature: string
-        try {
-        address = await ethereum.request({ method: 'eth_requestAccounts' })
-        dataToSign = `${postItem?.author?.username ?? 'Author' + ',' } signed this post slug (${postItem.slug}) on ${new Date().toLocaleString()}`.toString()
-        signature = await ethereum.request({
-            method: 'personal_sign',
-            params: [dataToSign, address[0]],
-        })
-        } catch (err) {
-            alert.showError('User denied signing')
-            return
-        }
-        const res = await fetch(`/admin/posts/sign`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ slug, signature: {
-                address: address[0],
-                data: dataToSign,
-                signature
-            } })
-        })
-        const reqData = await res.json()
-        if (res.ok) {
-            if (!reqData?.error) {
-                alert.showSuccess('Post signed successfully')
-                ;(data as any).posts = data.posts?.map((p) => {
-                    if(p.slug === slug) {
-                        return {
-                            ...p,
-                            signature: {
-                                address: address[0],
-                                data: dataToSign,
-                                signature
-                            }
-                        }
-                    }
-                    return p
-                })
-            } else {
-                alert.showError(reqData?.error || 'Something went wrong')
-            }
+  async function deletePost(slug: string) {
+    try {
+      if (!data.posts?.length) return;
+      const res = await fetch(`/admin/posts/delete`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ slug })
+      });
+      const reqData = await res.json();
+      if (res.ok) {
+        if (!reqData?.error) {
+          alert.showSuccess('Post deleted successfully');
+          if (data.posts?.length === 1 && data.page > 1) {
+            location.href = `/admin/users/page/${data.page - 1}`;
+          } else {
+            data = {
+              ...data,
+              posts: data.posts.filter((p) => p.slug !== slug)
+            };
+          }
         } else {
-            alert.showError(reqData?.error || 'Something went wrong')
+          alert.showError(reqData?.error || 'Something went wrong');
         }
+      } else {
+        alert.showError(reqData?.error || 'Something went wrong');
+      }
     } catch (err) {
-        alert.showError('API network error')
+      alert.showError('API network error');
     }
+  }
 
+  const sign = async (slug: string, confirmOveride = false) => {
+    try {
+      const postItem = data.posts?.find((p) => p.slug === slug);
+      if (!postItem) {
+        alert.showError('Post to sign not found');
+        return;
+      }
+      if (typeof (window as any)?.ethereum === 'undefined') {
+        alert.showError('Please install EVM compatible wallet Clear Wallet or MetaMask');
+        return;
+      }
+      if (postItem.signature && !confirmOveride) {
+        confirm.setOkay(() => sign(slug, true));
+        confirm.show('Confirm', 'Post already signed, do you want to sign again and override the previous signature?');
+        return;
+      }
+
+      const ethereum = (window as any).ethereum;
+      let address: string;
+      let dataToSign: string;
+      let signature: string;
+      try {
+        address = await ethereum.request({ method: 'eth_requestAccounts' });
+        dataToSign =
+          `${postItem?.author?.username ?? 'Author' + ','} signed this post slug (${postItem.slug}) on ${new Date().toLocaleString()}`.toString();
+        signature = await ethereum.request({
+          method: 'personal_sign',
+          params: [dataToSign, address[0]]
+        });
+      } catch (err) {
+        alert.showError('User denied signing');
+        return;
+      }
+      const res = await fetch(`/admin/posts/sign`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          slug,
+          signature: {
+            address: address[0],
+            data: dataToSign,
+            signature
+          }
+        })
+      });
+      const reqData = await res.json();
+      if (res.ok) {
+        if (!reqData?.error) {
+          alert.showSuccess('Post signed successfully');
+          (data as any).posts = data.posts?.map((p) => {
+            if (p.slug === slug) {
+              return {
+                ...p,
+                signature: {
+                  address: address[0],
+                  data: dataToSign,
+                  signature
+                }
+              };
+            }
+            return p;
+          });
+        } else {
+          alert.showError(reqData?.error || 'Something went wrong');
+        }
+      } else {
+        alert.showError(reqData?.error || 'Something went wrong');
+      }
+    } catch (err) {
+      alert.showError('API network error');
     }
-
+  };
 </script>
-
 
 <!-- 
 <div id="24h">
@@ -310,71 +310,137 @@
 </div> -->
 
 <div class="antialiased bg-[#0000009c] w-full min-h-screen text-slate-300 relative py-4">
-    <div class="grid grid-cols-12 mx-auto gap-2 sm:gap-4 md:gap-6 lg:gap-10 xl:gap-14 max-w-8xl my-10 px-2">
-        <Menu/>
-        <div id="content" class="bg-white/6 col-span-9 rounded-lg p-6">
-            <Alert bind:this={alert} />
-            <div id="posts">
-                <h1 class="font-bold py-4 uppercase">Posts</h1>
-                <div class="overflow-x-scroll text-[0.9rem]">
-                    {#if data?.posts}
-                    <table class="w-full whitespace-nowrap">
-                        <thead class="bg-black/60">
-                            <tr>
-                            <th class="text-left py-3 px-2 rounded-l-lg">Slug</th>
-                            <th class="text-left py-3 px-2">Title</th>
-                            <th class="text-left py-3 px-2">F-Image</th>
-                            <th class="text-left py-3 px-2">Category</th>
-                            <th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
-                            </tr>
-                        </thead>
-                        {#each data.posts as post}
-                        <tr transition:slide class="border-b border-gray-700">
-                            <td class="py-3 px-2 font-bold  max-w-20 truncate">
-                                <!-- <div class="inline-flex space-x-3 items-center">
+  <div class="grid grid-cols-12 mx-auto gap-2 sm:gap-4 md:gap-6 lg:gap-10 xl:gap-14 max-w-8xl my-10 px-2">
+    <Menu />
+    <div id="content" class="bg-white/6 col-span-9 rounded-lg p-6">
+      <Alert bind:this={alert} />
+      <div id="posts">
+        <h1 class="font-bold py-4 uppercase">Posts</h1>
+        <div class="overflow-x-scroll text-[0.9rem]">
+          {#if data?.posts}
+            <table class="w-full whitespace-nowrap">
+              <thead class="bg-black/60">
+                <tr>
+                  <th class="text-left py-3 px-2 rounded-l-lg">Slug</th>
+                  <th class="text-left py-3 px-2">Title</th>
+                  <th class="text-left py-3 px-2">F-Image</th>
+                  <th class="text-left py-3 px-2">Category</th>
+                  <th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {#each data.posts as post}
+                  <tr transition:slide class="border-b border-gray-700">
+                    <td class="py-3 px-2 font-bold max-w-20 truncate">
+                      <!-- <div class="inline-flex space-x-3 items-center">
                                     <span><img class="rounded-full w-8 h-8" src="https://images.generated.photos/tGiLEDiAbS6NdHAXAjCfpKoW05x2nq70NGmxjxzT5aU/rs:fit:256:256/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/OTM4ODM1LmpwZw.jpg" alt=""></span>
                                     <span>Thai Mei</span>
                                 </div> -->
-                                {post.slug}
-                            </td>
-                            <td class="py-3 px-2 max-w-20 truncate">{post.title}</td>
-                            <td class="py-3 px-2">
-                                <div class="inline-flex space-x-3 items-center">
-                                <img class="w-16 h-8 object-fit" src="{post.feature_image}" alt="">
-                            </div></td>
-                            <td class="py-3 px-2">
-                                {#if post?.cat?.name}
-                                {post.cat.name}
-                                {:else}
-                                <span class="text-gray-500">No Category</span>
-                                {/if}
-                            </td>
-                            <td class="py-3 px-2">
-                                <div class="inline-flex items-center space-x-3">
-                                    <a href="{`/admin/posts/edit/${post.slug}`}" title="Edit" class="hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                      </svg>
-                                      </a>
-                                    <button on:click={() => sign(post.slug)} title="Sign" class="hover:text-white">
-                                        {#if !post.signature}
-                                        <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><title/><path d="M76.79,19.16,22.2,49.27,0,119.55,36.56,83a5.93,5.93,0,0,1,1.06-.83,13.68,13.68,0,1,1,8.22,8.22A6,6,0,0,1,45,91.44L8.45,128l70.28-22.2,30.12-54.59L128,32.05,95.95,0Z"/></svg>
-                                        {:else}
-                                        <svg viewBox="0 0 22 30" class="w-5 h-5"><defs><style>.cls-1{fill:none;stroke:#88fc03;stroke-linecap:round;stroke-linejoin:round;stroke-width: 2;}</style></defs><title/><g data-name="Layer 2" id="Layer_2"><g id="Interface-Light"><g id="work-business-light-task-check"><polyline class="cls-1" points="12.51 15.78 10.73 18.22 9.32 16.81"/><circle class="cls-1" cx="11" cy="17" r="5.5"/><path class="cls-1" d="M15.5,2.5h3.9a2.09,2.09,0,0,1,2.1,2.08V27.42a2.09,2.09,0,0,1-2.1,2.08H2.6A2.09,2.09,0,0,1,.5,27.42V4.58A2.09,2.09,0,0,1,2.6,2.5H6.5"/><rect class="cls-1" height="4" rx="1" width="9" x="6.5" y="0.5"/></g></g></g></svg>
-                                        {/if}
-                                    </button>
-                                    <button 	on:click={() => {
-                                        confirm.setOkay(() => {
-                                            deletePost(post.slug)
-                                        })
-                                        modalOpen.set(true)
-                                    }} title="Delete Post" class="hover:text-white">
-                                        <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M413.7,133.4c-2.4-9-4-14-4-14c-2.6-9.3-9.2-9.3-19-10.9l-53.1-6.7c-6.6-1.1-6.6-1.1-9.2-6.8c-8.7-19.6-11.4-31-20.9-31   h-103c-9.5,0-12.1,11.4-20.8,31.1c-2.6,5.6-2.6,5.6-9.2,6.8l-53.2,6.7c-9.7,1.6-16.7,2.5-19.3,11.8c0,0-1.2,4.1-3.7,13   c-3.2,11.9-4.5,10.6,6.5,10.6h302.4C418.2,144.1,417,145.3,413.7,133.4z"/><path d="M379.4,176H132.6c-16.6,0-17.4,2.2-16.4,14.7l18.7,242.6c1.6,12.3,2.8,14.8,17.5,14.8h207.2c14.7,0,15.9-2.5,17.5-14.8   l18.7-242.6C396.8,178.1,396,176,379.4,176z"/></g></svg>
-                                      </button>
-                                </div>
-                            </td>
-                        </tr>
-                        {/each}
-                        <!-- <tr class="border-b border-gray-700">
+                      {post.slug}
+                    </td>
+                    <td class="py-3 px-2 max-w-20 truncate">{post.title}</td>
+                    <td class="py-3 px-2">
+                      <div class="inline-flex space-x-3 items-center">
+                        <img class="w-16 h-8 object-fit" src={post.feature_image} alt="" />
+                      </div></td
+                    >
+                    <td class="py-3 px-2">
+                      {#if post?.cat?.name}
+                        {post.cat.name}
+                      {:else}
+                        <span class="text-gray-500">No Category</span>
+                      {/if}
+                    </td>
+                    <td class="py-3 px-2">
+                      <div class="inline-flex items-center space-x-3">
+                        <a href={`/admin/posts/edit/${post.slug}`} title="Edit" class="hover:text-white"
+                            aria-label="Edit"  
+                        ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                            />
+                          </svg>
+                        </a>
+                        <button onclick={() => sign(post.slug)} title="Sign" class="hover:text-white cursor-pointer">
+                          {#if !post.signature}
+                            <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 128 128"
+                              ><path
+                                d="M76.79,19.16,22.2,49.27,0,119.55,36.56,83a5.93,5.93,0,0,1,1.06-.83,13.68,13.68,0,1,1,8.22,8.22A6,6,0,0,1,45,91.44L8.45,128l70.28-22.2,30.12-54.59L128,32.05,95.95,0Z"
+                              /></svg
+                            >
+                          {:else}
+                            <svg viewBox="0 0 22 30" class="w-5 h-5"
+                              ><defs
+                                ><style>
+                                  .cls-1 {
+                                    fill: none;
+                                    stroke: #88fc03;
+                                    stroke-linecap: round;
+                                    stroke-linejoin: round;
+                                    stroke-width: 2;
+                                  }
+                                </style></defs
+                              ><g data-name="Layer 2" id="Layer_2"
+                                ><g id="Interface-Light"
+                                  ><g id="work-business-light-task-check"
+                                    ><polyline class="cls-1" points="12.51 15.78 10.73 18.22 9.32 16.81" /><circle
+                                      class="cls-1"
+                                      cx="11"
+                                      cy="17"
+                                      r="5.5"
+                                    /><path
+                                      class="cls-1"
+                                      d="M15.5,2.5h3.9a2.09,2.09,0,0,1,2.1,2.08V27.42a2.09,2.09,0,0,1-2.1,2.08H2.6A2.09,2.09,0,0,1,.5,27.42V4.58A2.09,2.09,0,0,1,2.6,2.5H6.5"
+                                    /><rect class="cls-1" height="4" rx="1" width="9" x="6.5" y="0.5" /></g
+                                  ></g
+                                ></g
+                              ></svg
+                            >
+                          {/if}
+                        </button>
+                        <button
+                          onclick={() => {
+                            confirm.setOkay(() => {
+                              deletePost(post.slug);
+                            });
+                            modalOpen.set(true);
+                          }}
+                          title="Delete Post"
+                          class="hover:text-white cursor-pointer"
+                          aria-label="Delete Post"
+                        >
+                          <svg
+                            fill="currentColor"
+                            class="w-5 h-5"
+                            viewBox="0 0 512 512"
+                            width="512px"
+                            xml:space="preserve"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            ><g
+                              ><path
+                                d="M413.7,133.4c-2.4-9-4-14-4-14c-2.6-9.3-9.2-9.3-19-10.9l-53.1-6.7c-6.6-1.1-6.6-1.1-9.2-6.8c-8.7-19.6-11.4-31-20.9-31   h-103c-9.5,0-12.1,11.4-20.8,31.1c-2.6,5.6-2.6,5.6-9.2,6.8l-53.2,6.7c-9.7,1.6-16.7,2.5-19.3,11.8c0,0-1.2,4.1-3.7,13   c-3.2,11.9-4.5,10.6,6.5,10.6h302.4C418.2,144.1,417,145.3,413.7,133.4z"
+                              /><path
+                                d="M379.4,176H132.6c-16.6,0-17.4,2.2-16.4,14.7l18.7,242.6c1.6,12.3,2.8,14.8,17.5,14.8h207.2c14.7,0,15.9-2.5,17.5-14.8   l18.7-242.6C396.8,178.1,396,176,379.4,176z"
+                              /></g
+                            ></svg
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                {/each}
+              </tbody>
+              <!-- <tr class="border-b border-gray-700">
                             <td class="py-3 px-2 font-bold">
                                 <div class="inline-flex space-x-3 items-center">
                                     <span><img class="rounded-full w-8 h-8" src="https://images.generated.photos/tGiLEDiAbS6NdHAXAjCfpKoW05x2nq70NGmxjxzT5aU/rs:fit:256:256/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/OTM4ODM1LmpwZw.jpg" alt=""></span>
@@ -482,32 +548,30 @@
                                 </div>
                             </td>
                         </tr> -->
-
-                        
-                    </table>
-                    <ConfirmModal bind:this={confirm} />
-                    {:else}
-                    <div class="text-center py-4">
-                        <p class="text-gray-500">No posts in db</p>
-                    </div>
-                    {/if}
-
-                </div>
-                {#if data?.posts}
-                <div id="pagination" class="mb-2 mt-6 flex justify-end content-end w-full">
-                    <span class="pt-2 pr-2">Page: <b>{data?.page}</b></span>
-                    {#if data?.page > 1}
-                    <a class="btn-pag" href="/admin/page/{data?.page - 1}">Prev</a>
-                    {/if}
-                    {#if data?.hasNext }
-                    <a class="btn-pag" href="/admin/page/{data?.page + 1}">Next</a>
-                    {/if}
-                </div>
-                {/if}
+            </table>
+            <ConfirmModal bind:this={confirm} />
+          {:else}
+            <div class="text-center py-4">
+              <p class="text-gray-500">No posts in db</p>
             </div>
-           
+          {/if}
         </div>
+        {#if data?.posts}
+          <div id="pagination" class="mb-2 mt-6 flex justify-end content-end w-full">
+            <span class="pt-2 pr-2">Page: <b>{data?.page}</b></span>
+            {#if data?.page > 1}
+              <a class="btn-pag" href="/admin/page/{data?.page - 1}">Prev</a>
+            {/if}
+            {#if data?.hasNext}
+              <a class="btn-pag" href="/admin/page/{data?.page + 1}">Next</a>
+            {/if}
+          </div>
+        {/if}
+      </div>
     </div>
+  </div>
 </div>
 
-<style lang="scss">/*$$__STYLE_CONTENT__$$*/</style>
+<style lang="scss">
+  /*$$__STYLE_CONTENT__$$*/
+</style>

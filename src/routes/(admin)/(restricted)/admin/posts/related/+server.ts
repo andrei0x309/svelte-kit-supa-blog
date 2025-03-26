@@ -7,9 +7,15 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = (async ({ request, cookies }) => {
     try {
     const req = { cookies } as ICookies
-    await checkAuth(req)
+    const currentUser = await checkAuth(req)
     const {tags_id, slug} = await request.json()
     
+    if(currentUser.role === 'demo') {
+        return json({
+            error: 'Demo User can\'t take this action'
+        }, {status: 403})
+    }
+
     if(!tags_id) {
         return json({
             error: 'No tags_ids provided'

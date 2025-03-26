@@ -10,6 +10,7 @@ It can be used with Netlify or Vercel.
 Most of the features were made to suit my needs, but I hope they will also be useful to others.
 
 Deployed on [https://blog.flashsoft.eu](https://blog.flashsoft.eu)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fc8f8d80-365f-4e3a-8dc4-ee441c44eef5/deploy-status)](https://app.netlify.com/sites/bfsk/deploys)
 
 ## Features
 
@@ -18,7 +19,7 @@ Should run on serverless functions, and functions/edge both Node and Deno
 Lightweight blog with SupaBase database with the following features:
 
 - Admin panel for managing posts/users & other settings
-- Multi-user system with roles (admin, contributor)
+- Multi-user system with roles (admin, contributor, demo)
 - Simple auth system with no third-party services
 - Deno Script for importing posts from WordPress
 - SSR on edge functions
@@ -45,4 +46,11 @@ Lightweight blog with SupaBase database with the following features:
 - Draft support
 - Guarded preview route for previewing drafts
 - Desktop/Mobile menu
-  
+
+## Demo Admin Panel
+
+Vist [https://tun-5512.flashsoft.eu/login](https://tun-5512.flashsoft.eu/login) and login with the following credentials:
+> user: admin
+> password: demo
+
+The demo user will not allow any changes, and is just for viewing the admin panel.

@@ -1,6 +1,6 @@
 <script lang="ts">
     import SideBar from '@/lib/theme/SideBar.svelte';
-    import { page as SveltePage } from '$app/stores';
+    import { page as SveltePage  } from '$app/state';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
     
@@ -16,15 +16,15 @@
         dataLoading = val
     })
 
-    let featureImage = $state(data?.res?.feature_image)
+    let featureImage = $state('')
     try{
-        featureImage = (new URL(featureImage)).href
+        featureImage = (new URL(data?.res?.feature_image)).href
     } catch {
         featureImage = ''
     }
 
-    const errorMsg = $SveltePage?.error?.message || 'Unknown reason'
-    const errorStatus = $SveltePage?.status || '500'
+    const errorMsg = SveltePage?.error?.message || 'Unknown reason'
+    const errorStatus = SveltePage?.status || '500'
     data.pageTitle = 'Error ' + errorStatus + ' - ' + errorMsg
     
 </script>
@@ -35,9 +35,9 @@
 <meta property="og:title" content="{data.pageTitle}" />
 <meta property="og:description" content="{data.pageDescription}">
 <meta property="og:type" content="website" />
-<meta property="og:url" content={`${$SveltePage.url}`} />
+<meta property="og:url" content={`${SveltePage.url}`} />
 <meta property="og:site_name" content="{config.siteName}" />
-<link rel="canonical" href={`${$SveltePage.url}`} />
+<link rel="canonical" href={`${SveltePage.url}`} />
 {#if featureImage }
 <meta property="og:image" content="{featureImage}" />
 {/if}
@@ -58,9 +58,9 @@
         <p class="text-indigo-50 text-[1.2rem] p-3">Reason: {errorMsg}</p>
 
         <a href="/" class="text-amber-400">
-        <button class="group relative h-12 w-48 overflow-hidden rounded-lg bg-white text-lg shadow-sm mt-4">
+        <button class="group relative h-12 w-48 overflow-hidden rounded-lg bg-white text-lg shadow-sm mt-4 cursor-pointer">
             <div class="absolute inset-0 w-3 bg-amber-400 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
-            <span class="relative text-black group-hover:text-white text-[1.4rem]"><span class="opacity-40" >➲</span> Return Home</span>
+            <span class="relative text-black group-hover:text-white text-[1.4rem]"><span class="opacity-60" >➲</span> Return Home</span>
           </button>
           </a>
         </div>

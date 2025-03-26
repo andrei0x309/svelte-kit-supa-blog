@@ -5,3 +5,4 @@ export const isLoading = writable(false);
 export const currentUser = writable(null as ICurrentUser | null);
 export const modalOpen = writable(false);
 export const theme = writable('dark');
+export const isViewingFromFrame = writable(false);

@@ -23,7 +23,7 @@ export const load: PageServerLoad = async (rest) => {
     
     default: {
       throw error(404, {
-        message: 'No posts found',
+        message: 'Resource not found',
         pageType: 'posts'
       } as App.Error)
     }

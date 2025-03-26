@@ -21,7 +21,7 @@
 <User {...data.user}>
     {#snippet header()}
         <div >
-            <h1 class="font-medium text-3xl">Edit User { data.user?.id || ''}</h1>
+            <h1 class="font-medium text-3xl">Edit User - {data?.user?.username} - ID - { data.user?.id || ''}</h1>
         </div>
     {/snippet}
 </User>

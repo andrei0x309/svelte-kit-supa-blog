@@ -1,6 +1,7 @@
 import { loadTags } from  '@/lib/utils/db/catOrTag'
-import { shuffleFY } from '@/lib/utils/server/misc'
+import { shuffleFY } from '@/lib/utils/common/misc'
 import { supabase } from '@/lib/node/supaClientFS'
+import { getDiffFromNow } from '@/lib/utils/common/misc'
 
 const generateTagCloud = async () => {
 
@@ -55,19 +56,13 @@ export const getTagCloud = async () => {
                 value: tagCloud,
                 updated_at: new Date().toISOString()
             }
-        ).then((res) => {
-            console.log("Operation result: ", res)
-        })
+        )
         return tagCloud
     } else {
-        const date = new Date(data.updated_at)
-        const now = new Date()
-        const diff = Math.abs(now.getTime() - date.getTime())
-        const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24))
-        if(diffDays > 3) {
+        if(getDiffFromNow(data.updated_at) > 3) {
                 generateTagCloud().then((res) => {
                 supabase.from('fsk_blog_store').upsert( { name: 'tagCloud', value: res, updated_at: new Date().toISOString() }).then((res) => {
-                    console.log("Operation result: ", res)
+                    console.info("Update tagCloud: ", res)
                     })
                 })
                 
@@ -105,14 +100,10 @@ export const getGoodReadsData = async () => {
         supabase.from('fsk_blog_store').upsert( { name: 'goodreads', value: widget, updated_at: new Date().toISOString() })
         return widget
     } else {
-        const date = new Date(data.updated_at)
-        const now = new Date()
-        const diff = Math.abs(now.getTime() - date.getTime())
-        const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24))
-        if(diffDays > 7) {
+        if(getDiffFromNow(data.updated_at) > 6) {
                 createGoodReadsData().then((res) => {
                 supabase.from('fsk_blog_store').upsert( { name: 'goodreads', value: res, updated_at: new Date().toISOString() }).then((res) => {
-                    console.log("Operation result: ", res)
+                    console.info("Update goodreads widget: ", res)
                 })
             })
             }
