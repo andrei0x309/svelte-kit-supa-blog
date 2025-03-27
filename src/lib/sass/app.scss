@@ -95,7 +95,7 @@ div#root-app.light{
 }
  */
 
-.article-body a, .yarpp-related-shortcode a  {
+.article-body a {
     color: var(--link-color);
     border-bottom: 1px solid var(--link-underline-color);
     transition: all .3s ease-out; 
@@ -115,6 +115,7 @@ div#root-app.light{
     }
     
 }
+
 
 .header {
     /*background: linear-gradient(to bottom, rgba(153,92,0,1) 0%, rgba(255,161,10,1) 3%, rgba(253,135,33,0.91) 87%, rgba(222,105,2,0.9) 100%);*/

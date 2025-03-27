@@ -4,7 +4,7 @@
   import MenuDesktop from './menu/MenuDesktop.svelte';
   import MenuMobileToggle from './menu/MenuMobileToggle.svelte';
   import MenuMobile from './menu/MenuMobile.svelte';
-
+  import { theme as themeStore } from '@/stores/main';
   interface Props {
     theme?: string;
   }
@@ -39,6 +39,7 @@ const themeSwitch = () => {
         svgContainer.classList.add('bg-yellow-500','-translate-x-2');
         svgContainer.classList.remove('bg-gray-700','translate-x-full');
         theme = 'light';
+        themeStore.set('light');
         setCookie('theme_color','light', 90);
         setTimeout(() => {
           if (svgContainer === undefined) return;
@@ -49,6 +50,7 @@ const themeSwitch = () => {
         svgContainer.classList.remove('bg-yellow-500','-translate-x-2');
         svgContainer.classList.add('bg-gray-700','translate-x-full');
         theme = 'dark';
+        themeStore.set('dark');
         setCookie('theme_color','dark', 90);
         setTimeout(() => {
           if (svgContainer === undefined) return;

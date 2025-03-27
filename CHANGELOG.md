@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.1 - 2025-03-27
+
+- configured dark mode to work with tailwind v4
+- deleted bunch of unused scss code
+- triggerd global theme update so other components can react to it
+- added preview link to admin menu
+- added draft column to posts table in admin panel
+
 ## v0.2.1 - 2025-03-25
 
 - migrated most of deprecated code

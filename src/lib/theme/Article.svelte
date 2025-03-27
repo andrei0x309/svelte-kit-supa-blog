@@ -124,9 +124,9 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
     {@const tags = data.tags.slice(0, 6)}
     <h3 class="text-xl font-bold mt-8 mb-4">Tags</h3>
 
-    <div class="flex gap-4">
+    <div class="flex gap-4 related-tags">
         {#each tags as tag}
-        <a class=" text-[0.85rem] px46 py-2 rounded-full font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center bg-gray-700/60 text-gray-100" href="{`/tag/${tag.slug}`}" title={tag.name}>
+        <a class=" text-[0.85rem] px46 py-2 rounded-full font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center bg-neutral-100 text-gray-100 dark:bg-neutral-700/60" href="{`/tag/${tag.slug}`}" title={tag.name}>
             <svg class="w-4 mr-2 block-inline" viewBox="0 0 30 30" ><path fill="currentColor" d="M23,3h-6c-0.512,0-1.024,0.195-1.414,0.586l-12,12c-0.781,0.781-0.781,2.047,0,2.828l8,8c0.781,0.781,2.047,0.781,2.828,0  c0.391-0.391,11.609-11.609,12-12C26.805,14.024,27,13.512,27,13V7C27,4.791,25.209,3,23,3z M23,9c-1.105,0-2-0.895-2-2  c0-1.105,0.895-2,2-2s2,0.895,2,2C25,8.105,24.105,9,23,9z"/></svg>
             {tag.name || 'No tag'}
         </a>
@@ -136,7 +136,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
 
     {#if data.isFull && related && (related.length ?? 0) > 0 }
     <h3 class="text-xl font-bold mt-8 mb-4">Related Articles</h3>
-    <div class="flex flex-wrap gap-4">
+    <div class="flex flex-wrap gap-4 justify-center related-articles">
     {#each related as aRelated }
         <RelatedArticle relatedArticle={aRelated} />
     {/each}
@@ -167,8 +167,21 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
 </div>
 </article>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .clearfix {
     clear: both;
 }
+
+.related-articles :global(a){
+    border-bottom: 0;
+}
+
+.related-tags a {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.2rem;
+    font-size: 0.7rem;
+}
+
 </style>

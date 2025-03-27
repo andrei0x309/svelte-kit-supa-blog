@@ -1,6 +1,7 @@
 import { config } from './index'
 const IS_DEV_ENABLED = config.IS_DEV_ENABLED
- 
+import type { TriggerConfig } from '$lib/types/farcaster-frame-v2'
+
 export const FCConfig = {
     JFS: { // JSON Farcaster Signature for ./well-known account association
         accountAssociation:
@@ -64,5 +65,25 @@ export const FCConfig = {
         // Required if the frame application uses notifications.
         // Example: "https://yoink.party/webhook"
         webhookUrl:  IS_DEV_ENABLED ? config.devBaseUrl + '/api/fc-webhook' :  config.baseSiteUrl + '/api/fc-webhook',
-    }
+    },
+
+    triggers: [
+        {   
+            // Type of trigger, either cast or composer. Required.
+            type: 'cast',
+
+            // Unique ID. Required. Reported to the frame.
+            // Example: "yoink-score"
+            id: 'flashsoft-blog-id',
+
+            // Handler URL. Required.
+            // Example: "https://yoink.party/triggers/cast"
+            url: IS_DEV_ENABLED ? config.devBaseUrl : config.baseSiteUrl
+        },
+        {
+            type: 'composer',
+            id: 'flashsoft-blog-id',
+            url: IS_DEV_ENABLED ? config.devBaseUrl : config.baseSiteUrl
+        }
+    ] as TriggerConfig[]
 }

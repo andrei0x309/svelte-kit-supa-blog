@@ -1,8 +1,9 @@
 <script lang="ts">
-
+import PreviewEyeIcon from './icons/PreviewEyeIcon.svelte';
 import { goto } from '$app/navigation';
 import { eraseCookie } from '$lib/utils/common';
 import { currentUser } from '@/stores/main';
+
 
 const logout = () =>{
     eraseCookie('hash');
@@ -59,6 +60,18 @@ const logout = () =>{
                 <div>
                     <p class="font-bold text-base lg:text-lg text-slate-200 leading-4 group-hover:text-indigo-400">Home</p>
                 <p class="text-slate-400 text-sm hidden md:block">Front Page</p>
+                </div>
+                
+            </div>
+        </a>
+        <a href="/preview" class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group">
+            <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
+                <div>
+                    <PreviewEyeIcon class="w-6 h-6 group-hover:text-indigo-400" />
+                </div>
+                <div>
+                    <p class="font-bold text-base lg:text-lg text-slate-200 leading-4 group-hover:text-indigo-400">Preview Drafts</p>
+                <p class="text-slate-400 text-sm hidden md:block">Preview Drafts</p>
                 </div>
                 
             </div>

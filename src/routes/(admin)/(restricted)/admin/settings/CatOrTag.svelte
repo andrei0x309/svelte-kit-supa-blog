@@ -86,7 +86,7 @@
           type="text"
           id="name"
           class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-          placeholder="{`${type === 'cat'? 'cat slug' : 'tag slug'}`}"
+          placeholder="{`${type === 'cat'? 'cat name' : 'tag name'}`}"
           bind:value={catOrTag.name}
         />
       </div>

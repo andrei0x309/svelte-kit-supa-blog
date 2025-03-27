@@ -1,11 +1,13 @@
+
 import type { RequestHandler, EntryGenerator } from  './$types';
 import { generateFcWellKnown } from '$lib/utils/server/fc-frame-v2'
 
 export const entries: EntryGenerator = () => {
 	return [
-		{ dot: '.' }
+		{ dotwn: '.well-known' }
 	];
 };
+
 
 export const prerender = true;
 

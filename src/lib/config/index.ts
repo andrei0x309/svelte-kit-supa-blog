@@ -43,7 +43,7 @@ export const config = {
     // -1 to disable the feature, 0 to show all links, any other number to show that number of links
     numLinksForAuthor: 0,
     // IS_DEV_ENABLED mainly used to expose a public dev URL for testing
-    IS_DEV_ENABLED: true,
+    IS_DEV_ENABLED: false,
 }
 
 // Use empty string if you don't want to include a social link

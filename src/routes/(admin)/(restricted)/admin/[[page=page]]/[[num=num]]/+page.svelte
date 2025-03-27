@@ -323,6 +323,7 @@
                 <tr>
                   <th class="text-left py-3 px-2 rounded-l-lg">Slug</th>
                   <th class="text-left py-3 px-2">Title</th>
+                  <th class="text-left py-3 px-2">Draft</th>
                   <th class="text-left py-3 px-2">F-Image</th>
                   <th class="text-left py-3 px-2">Category</th>
                   <th class="text-left py-3 px-2 rounded-r-lg">Actions</th>
@@ -338,7 +339,8 @@
                                 </div> -->
                       {post.slug}
                     </td>
-                    <td class="py-3 px-2 max-w-20 truncate">{post.title}</td>
+                    <td class="py-3 px-2 max-w-24 truncate">{post.title}</td>
+                    <td class="py-3 px-2 max-w-20 w-8 truncate">{post.draft ? 'Yes': 'No'}</td>
                     <td class="py-3 px-2">
                       <div class="inline-flex space-x-3 items-center">
                         <img class="w-16 h-8 object-fit" src={post.feature_image} alt="" />
