@@ -43,6 +43,12 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
     <h1 class="blog-post-title">
         {data.title}
     </h1>
+    {:else if !data.isFull && index === 0}
+    <h1 itemprop="headline" class="blog-post-title">
+        <a href="{`/${draft ? 'preview/' : ''}${data.slug}`}" title={data.title}>
+            {data.title}
+        </a>
+    </h1>
     {:else}
     <h2 itemprop="headline" class="blog-post-title blog-post-title-link">
     <a href="{`/${draft ? 'preview/' : ''}${data.slug}`}" title={data.title}>

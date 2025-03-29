@@ -33,10 +33,11 @@
 
 <svelte:head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta name="author" content="andrei0x309">
 	<link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com"/>
 	<title>Login - flashsoft.eu</title>
+  <meta name="description" content="Login - flashsoft.eu - Admin panel"/>
 </svelte:head>
 
 {#if $isLoading}

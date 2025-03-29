@@ -68,7 +68,7 @@
             <img src="/images/author_bg.webp" alt="author bg" />
             <figcaption>
               <img src="{data.res.avatar}" alt="profile-sample4" class="profile" />
-              <h2>{data.res.username}<span>{data.res.role}</span></h2>
+              <div class="flex flex-row"><h1>{data.res.username}</h1><span>( Role: {data.res.role} )</span></div>
               <p>{data.res.description}</p>
               {#if data.res.social_links}
               {#each Object.entries(data.res.social_links) as link }
@@ -162,14 +162,15 @@
   border-color: #2980b9;
   color: #2980b9;
 }
-.snip1336 h2 {
+.snip1336 h1 {
   margin: 0 0 5px;
   font-weight: 300;
 }
-.snip1336 h2 span {
-  display: block;
-  font-size: 0.5em;
+.snip1336 span {
+  display: inline-block;
+  font-size: 0.5rem;
   color: #2980b9;
+  margin-left: 0.6rem;
 }
 .snip1336 p {
   margin: 0 0 10px;

@@ -36,7 +36,7 @@ export const FCConfig = {
         // Max 512 characters.
         // Image must be 200x200px and less than 1MB.
         // Example: "https://yoink.party/img/icon.png"
-        iconUrl:  IS_DEV_ENABLED ? config.devBaseUrl + '/icon/flashsoft-blog-200.png' : config.baseSiteUrl + '/icon/flashsoft-blog-200.png',
+        iconUrl:  IS_DEV_ENABLED ? config.devBaseUrl + '/hotlink-ok/splash.png' : config.baseSiteUrl + '/hotlink-ok/splash.png',
 
         // Default image to show when frame is rendered in a feed.
         // Max 512 characters.
@@ -53,7 +53,7 @@ export const FCConfig = {
         // Max 512 characters.
         // Image must be 200x200px and less than 1MB.
         // Example: "https://yoink.party/img/splash.png"
-        splashImageUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/icon/flashsoft-blog-200.png' : config.baseSiteUrl + '/icon/flashsoft-blog-200.png' ,
+        splashImageUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/hotlink-ok/splash.png' : config.baseSiteUrl + '/hotlink-ok/splash.png' ,
 
         // Hex color code.
         // Example: "#eeeee4"
