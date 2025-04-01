@@ -6,17 +6,23 @@ import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
 import FeatureImage from '$lib/theme/FeatureImage.svelte';
 import type { Component } from 'svelte';
 import { isViewingFromFrame as isViewingFromFrameStore } from '@/stores/main';
+import { onMount } from 'svelte';
+    import WrenchAdmin from './icons/WrenchAdmin.svelte';
 
 interface Props {
     data: IPost;
     draft?: boolean;
     index?: number;
+    renderH1?: boolean
 }
 
-let { data, draft = false, index = 0 }: Props = $props();
+let { data, draft = false, index = 0, renderH1 = false}: Props = $props();
 let Comments: null | Component<{}> = $state(null)
 
 let related: IPost['related'] | undefined = $state()
+
+let renderEditLink = $state(false)
+let WrenchIconComponent: null | Component<{}> = $state(null)
 
 const loadComments = async () => {
     if(data.isFull && config.giscusCommentsEnabled && (config.farcasterFrameV2Enabled && !$isViewingFromFrameStore )) {
@@ -32,6 +38,18 @@ related = []
 }
 
 
+onMount( async () => {
+    const { getCookie } = await import('@/lib/utils/common')
+    console.log('getCookie', getCookie('role'))
+
+    const presumedRole = getCookie('role')
+    if(presumedRole === 'admin' || presumedRole === 'contribuitor') {
+        renderEditLink = true
+        const { default: WrenchAdmin } = await import('@/lib/theme/icons/WrenchAdmin.svelte')
+        WrenchIconComponent = WrenchAdmin
+    }
+})
+
 </script>
 
 <article itemscope={!data.isFull ? true : null} itemtype={!data.isFull ? 'http://schema.org/BlogPosting' : null} 
@@ -39,11 +57,12 @@ class="{`${data.isFull ? '' : 'content-va-on '}break-word post-body mb-2`}"
 id="{`post-${data.slug}`}" 
 data-id={data.slug} data-slug={data.slug} data-title={data.title}>
 <header>
+    
     {#if data.isFull}
     <h1 class="blog-post-title">
         {data.title}
     </h1>
-    {:else if !data.isFull && index === 0}
+    {:else if !data.isFull && index === 0 && renderH1}
     <h1 itemprop="headline" class="blog-post-title">
         <a href="{`/${draft ? 'preview/' : ''}${data.slug}`}" title={data.title}>
             {data.title}
@@ -54,10 +73,15 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
     <a href="{`/${draft ? 'preview/' : ''}${data.slug}`}" title={data.title}>
         {data.title}
         </a>
+
     </h2>
     {/if}
-    
     <div class="blog-post-meta flex flex-row">
+        {#if renderEditLink}
+        <a href={`/admin/posts/edit/${data.slug}`} title="Edit post" class="px-2 pt-[0.8rem] pb-6 inline">
+            <WrenchIconComponent />Edit
+        </a>
+        {/if}
         <address class="author px-2 pt-3 pb-6">
         {#if config.authorPageEnabled}
         <a rel="author" title="Author's page" href={`/author/${data?.author?.username}`}>
@@ -99,7 +123,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
 
 
     {#if !data.isFull}
-    <a href="{data.slug}" 
+    <a href="/{data.slug}" 
         title={data?.feature_image_alt}
         class="{`post-image post-image-left p-0 ${data.isFull ? '' : 'post-image-link'}`}">
         <div class="pt-2 pr-4 pl-4 pb-6 featured-thumbnail w-full content-center justify-center md:w-2/5 md:float-left text-center">

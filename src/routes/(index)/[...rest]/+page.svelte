@@ -71,7 +71,7 @@
      
         {#if data?.res?.data?.length}
             {#each data?.res?.data as post, i}
-                <Article data={post} index={i} />
+                <Article data={post} index={i} renderH1={true} />
             {/each}
         {:else}
         <div class="flex flex-col items-center">

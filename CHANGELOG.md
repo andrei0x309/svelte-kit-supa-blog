@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1 - 2025-03-31
+
+- added CSR for rendering edit link when logged in with admin or contribuitor role
+- Other minor SEO improvements
+- Deprecate V1 Farcaster frames in favor of Framecaster Frames V2 ( Mini Apps)
+
 ## v0.2.1 - 2025-03-27
 
 - configured dark mode to work with tailwind v4

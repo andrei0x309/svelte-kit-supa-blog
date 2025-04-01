@@ -53,7 +53,7 @@
 <div id="main" class="{`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70': ''}`}">
  
     <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
-     <h1 class="text-3xl font-bold">Category {data?.cat?.name}</h1>
+     <h1 class="text-1xl font-bold mb-4">Category {data?.cat?.name}</h1>
         {#if data?.res?.data?.length}
             {#each data?.res?.data as post, i}
             <Article data={post} index={i} />

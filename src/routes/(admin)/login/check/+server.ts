@@ -16,7 +16,7 @@ export const POST: RequestHandler = (async ({ request }) => {
     }
     
     const user = (await supabase.from('fsk_blog_author')
-    .select('username, password_hash')
+    .select('username, password_hash, role')
     .eq('username', username).single()).data
     if(!user) {
         return json({error: 'User not found'}, {status: 404})
@@ -27,7 +27,7 @@ export const POST: RequestHandler = (async ({ request }) => {
         return json({error: 'Wrong password'}, {status: 401})
     }
     
-    return json({data: 'ok', hash})
+    return json({data: 'ok', hash, role: user.role}, {status: 200})
 
     } catch (e) {
       console.log(e)

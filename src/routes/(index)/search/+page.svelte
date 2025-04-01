@@ -4,7 +4,8 @@
     import SideBar from '@/lib/theme/SideBar.svelte';
     import { isLoading } from '@/stores/main';
     import { config } from '$lib/config';
-    // import { fcFrame, getDefaultButtons } from '$lib/utils/server/fc-frame'
+    import { generateURLFCFrameEmbed } from '$lib/utils/client/fc-frame-v2';
+
 
 
     interface Props {
@@ -31,13 +32,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content={pageUrl} />
 <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
-<!-- {`${fcFrame({
-    image: `${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`,
-    postUrl: `${config.baseSiteUrl}/fc-frame-handler`,
-    buttons: getDefaultButtons($SveltePage.url.toString())
-})}`} -->
 <link rel="alternate" type="application/rss+xml" title="{`${config.siteName} » Feed`}" href="{`${config.baseSiteUrl}/feed`}">
 <link rel="canonical" href={pageUrl} />
+{#if config.farcasterFrameV2Enabled}
+<meta name="fc:frame" content={generateURLFCFrameEmbed(`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`, pageUrl)} />
+{/if}
+
 
 
 {#if (data?.res?.hasNext ?? false)}
@@ -53,7 +53,7 @@
 <div id="main" class="{`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70': ''}`}">
  
     <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
-     <h1 class="text-3xl font-bold">Search for {data?.query}</h1>
+        <h1 class="text-1xl font-bold mb-4">Search for {data?.query}</h1>
         {#if data?.res?.data?.length}
             {#each data?.res?.data as post, i}
             <Article data={post} index={i} />

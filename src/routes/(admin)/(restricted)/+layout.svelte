@@ -1,55 +1,68 @@
-<script>
-// @ts-nocheck
-  import '$lib/sass/tailwind.css'
-  import '$lib/sass/admin.scss'
-  import { afterNavigate, beforeNavigate }  from '$app/navigation'
+<script lang="ts">
+  import '$lib/sass/tailwind.css';
+  import '$lib/sass/admin.scss';
+  import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { isLoading, currentUser } from '@/stores/main';
   import { onMount } from 'svelte';
-
+  import { config } from '$lib/config/index';
 
   beforeNavigate(() => {
-    isLoading.set(true)
-  })
+    isLoading.set(true);
+  });
 
   afterNavigate(() => {
-    isLoading.set(false)
-  })
+    isLoading.set(false);
+  });
 
   const handlePopstate = () => {
-    isLoading.set(false)
-  }
+    isLoading.set(false);
+  };
 
   /** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
   let { data, children } = $props();
-  currentUser.set(data.currentUser ?? null)
+  currentUser.set(data.currentUser ?? null);
 
   onMount(() => {
-  
-  window.addEventListener('popstate', handlePopstate);
+    window.addEventListener('popstate', handlePopstate);
 
     return () => {
-        window.removeEventListener('popstate', handlePopstate);
+      window.removeEventListener('popstate', handlePopstate);
     };
-  })
-
-
+  });
 </script>
 
 <svelte:head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="author" content="andrei0x309">
-	<link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com"/>
-	<title>Admin Panel</title>
-	<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.2/jodit.es2018.min.css"
-/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="andrei0x309" />
+  <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com" />
+  <title>Admin Panel {config.siteName}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.24.2/jodit.es2018.min.css" />
+
+  <!-- FavIcon  -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-icon-60x60.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-icon-76x76.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-icon-120x120.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-icon-180x180.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon/android-icon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/icon/favicon-96x96.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png" />
+  <link rel="manifest" href="/icon/manifest.json" />
+  <meta name="msapplication-TileColor" content="#ffffff" />
+  <meta name="msapplication-TileImage" content="/icon/ms-icon-144x144.png" />
+  <meta name="theme-color" content="#ffffff" />
+  <!-- /FavIcon  -->
 </svelte:head>
 
 {#if $isLoading}
-	<div class="load-line"></div>
-	<div class="nav-spinner spinner__1"></div>
+  <div class="load-line"></div>
+  <div class="nav-spinner spinner__1"></div>
 {/if}
 
-{@render children?.({ isLoading, })}
+{@render children?.()}

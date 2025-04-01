@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { preventDefault } from 'svelte/legacy';
-
 import Alert from '$lib/components/shared/Alert.svelte';
 import { goto } from '$app/navigation';
 import { setCookie } from '$lib/utils/common';
@@ -26,6 +24,7 @@ const login = async (event: Event) => {
     const hash = data.hash;
     setCookie('hash', hash, 90);
     setCookie('username', username, 90);
+    setCookie('role', data.role, 90);
     goto('/admin')
   } else {
     (alert as unknown as {showError: (m: string) => void })?.showError('Wrong username or password');

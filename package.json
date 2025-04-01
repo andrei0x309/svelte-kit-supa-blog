@@ -1,6 +1,6 @@
 {
 	"name": "svelte-kit-supa-blog",
-	"version": "0.2.0",
+	"version": "0.2.2",
 	"scripts": {
 		"dev": "bun run vite dev",
 		"build": "bun run vite build",
