@@ -1,8 +1,8 @@
-# Svelte Kit & supaBase blog - blog.flashsoft.eu
+# Svelte Kit & SupaBase blog - `blog.flashsoft.eu`
 
 ## Description
 
-This is a fast lightweight blog/blog-engine source and can be used by anyone, with small adjusments, to config and its code.
+This is a fast lightweight blog/blog-engine source and can be used by anyone, with small adjustments, to config and its code.
 
 It is based on Svelte Kit and SupaBase.
 
@@ -10,6 +10,7 @@ It can be used with Netlify or Vercel.
 Most of the features were made to suit my needs, but I hope they will also be useful to others.
 
 Deployed on [https://blog.flashsoft.eu](https://blog.flashsoft.eu)
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fc8f8d80-365f-4e3a-8dc4-ee441c44eef5/deploy-status)](https://app.netlify.com/sites/bfsk/deploys)
 
 ## Features
@@ -49,7 +50,7 @@ Lightweight blog with SupaBase database with the following features:
 
 ## Demo Admin Panel
 
-Vist [https://tun-5512.flashsoft.eu/login](https://tun-5512.flashsoft.eu/login) and login with the following credentials:
+Visit [https://blog.flashsoft.eu/login](https://blog.flashsoft.eu/login) and log in with the following credentials:
 > user: admin
 > password: demo
 
