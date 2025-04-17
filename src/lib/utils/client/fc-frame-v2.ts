@@ -17,7 +17,7 @@ export const generateURLFCFrameEmbed = (featureImage = '', url: string) => {
           // Button text.
           // Max length of 32 characters.
           // Example: "Yoink Flag"
-          title: 'Open Frame',
+          title: 'Open Article',
       
           // Action attributes
           action: {

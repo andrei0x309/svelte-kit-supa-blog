@@ -47,7 +47,7 @@ export const FCConfig = {
         // Default button title to use when frame is rendered in a feed.
         // Max 32 characters.
         // Example: "🚩 Start"
-        buttonTitle: 'Open Frame',
+        buttonTitle: 'Open Article',
 
         // Splash image URL.
         // Max 512 characters.
