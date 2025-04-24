@@ -8,7 +8,7 @@
 
   const buttonClick = () => {
     sdk.actions.viewProfile({
-      fid: config.farcasterV2FollowFid
+      fid: config.farcaster.followFid
     });
   };
 
