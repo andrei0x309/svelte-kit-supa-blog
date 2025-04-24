@@ -32,7 +32,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content={pageUrl} />
 <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
-{#if config.farcasterFrameV2Enabled}
+{#if config.farcaster.miniAppEnabled}
 <meta name="fc:frame" content={generateURLFCFrameEmbed(`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`, pageUrl)} />
 {/if}
 

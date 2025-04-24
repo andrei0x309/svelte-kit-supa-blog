@@ -51,7 +51,7 @@
 
 {#if featureImage }
 <meta property="og:image" content="{featureImage}" />
-{#if config.farcasterFrameV2Enabled}
+{#if config.farcaster.miniAppEnabled}
 <meta name="fc:frame" content={generateURLFCFrameEmbed(featureImage, pageUrl)} />
 {/if}
 {/if}

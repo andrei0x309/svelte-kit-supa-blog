@@ -1,13 +1,19 @@
-
 // This file contains the configuration for the site. You can change the values here to customize the site.
+const IS_DEV_ENABLED = false
+const devBaseUrl = 'https://tun-5512.flashsoft.eu'
+const baseSiteUrl = 'https://blog.flashsoft.eu'
+const siteIndexDescription = 'Blog | flashsoft.eu articles from andrei0x309 about projects, web development, programming, web3, and more.'
+const siteName = 'blog.flashsoft.eu'
+const siteIndexTitle = 'Blog | flashsoft.eu'
+
 export const config = {
     // Site Information
     defaultThemeMode: 'dark',
-    siteName: 'blog.flashsoft.eu',
-    siteIndexTitle: 'Blog | flashsoft.eu',
-    siteIndexDescription: 'Blog | flashsoft.eu articles from andrei0x309 about projects, web development, programming, web3, and more.',
-    baseSiteUrl: 'https://blog.flashsoft.eu',
-    devBaseUrl: 'https://tun-5512.flashsoft.eu',
+    siteName,
+    siteIndexTitle,
+    siteIndexDescription,
+    baseSiteUrl,
+    devBaseUrl,
     tipMeName: 'andrei0x309',
     tipKoFiLink: 'https://ko-fi.com/andrei0x309',
     tipNowPaymentsLink: 'https://nowpayments.io/donation/andrei0x309',
@@ -18,10 +24,6 @@ export const config = {
     signatureDisplayEnabled: true, // Enables EVM signature display
     // Giscus commenting system
     giscusCommentsEnabled: true,
-    // Requres MarketCap API KEY for eth price for donnate
-    farcasterFrameV2Enabled: true,
-    farcasterFollowButtonEnabled: true,
-    farcasterV2FollowFid: 1791,
     // Publish to IPFS - requires Appelion KEY
     enableAppelionIpfs: true,
     // Analytics Settings - Google
@@ -43,7 +45,23 @@ export const config = {
     // -1 to disable the feature, 0 to show all links, any other number to show that number of links
     numLinksForAuthor: 0,
     // IS_DEV_ENABLED mainly used to expose a public dev URL for testing
-    IS_DEV_ENABLED: false,
+    IS_DEV_ENABLED,
+    farcaster: {
+    // Requres MarketCap API KEY for eth price for donnate
+            miniAppEnabled: true,
+            followButtonEnabled: true,
+            followFid: 1791,
+            extendedMetadata: {
+                description: siteIndexDescription,
+                tags: ['blog', 'developer', 'personal', 'flashsoft', 'sveltekit'],
+                primaryCategory: 'social',
+                subtitle: siteIndexTitle,
+                screenshotUrls: [
+                    IS_DEV_ENABLED ? devBaseUrl + '/hotlink-ok/screenshots/screenshot-1.png' : baseSiteUrl + '/hotlink-ok/screenshots/screenshot-1.png',
+                    IS_DEV_ENABLED ? devBaseUrl + '/hotlink-ok/screenshots/screenshot-2.png' : baseSiteUrl + '/hotlink-ok/screenshots/screenshot-2.png',
+                ],
+            }
+    }
 }
 
 // Use empty string if you don't want to include a social link

@@ -1,12 +1,18 @@
 # Changelog
 
-## v0.2.1 - 2025-03-31
+## v0.2.4 - 2025-04-24
+
+- change farcaster mini app config
+- added CI package
+- added extended metadata for farcaster mini apps
+
+## v0.2.3 - 2025-03-31
 
 - added CSR for rendering edit link when logged in with admin or contribuitor role
 - Other minor SEO improvements
 - Deprecate V1 Farcaster frames in favor of Framecaster Frames V2 ( Mini Apps)
 
-## v0.2.1 - 2025-03-27
+## v0.2.2 - 2025-03-27
 
 - configured dark mode to work with tailwind v4
 - deleted bunch of unused scss code

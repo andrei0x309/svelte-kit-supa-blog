@@ -85,5 +85,17 @@ export const FCConfig = {
             id: 'flashsoft-blog-id',
             url: IS_DEV_ENABLED ? config.devBaseUrl : config.baseSiteUrl
         }
-    ] as TriggerConfig[]
+    ] as TriggerConfig[],
+
+    // Extended Metadata.
+    subtitle: config.farcaster.extendedMetadata.subtitle,
+    description: config.farcaster.extendedMetadata.description,
+    screenshotUrls: config.farcaster.extendedMetadata.screenshotUrls,
+    primaryCategory: config.farcaster.extendedMetadata.primaryCategory,
+    tags: config.farcaster.extendedMetadata.tags,
+    heroImageUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/images/ogs/ffe-og-index.webp' : config.baseSiteUrl  + '/images/ogs/ffe-og-index.webp',
+    tagline: config.farcaster.extendedMetadata.description,
+    ogTitle: config.siteName,
+    ogDescription: config.farcaster.extendedMetadata.description,
+    ogImageUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/images/ogs/ffe-og-index.webp' : config.baseSiteUrl  + '/images/ogs/ffe-og-index.webp',
 }

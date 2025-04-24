@@ -5,9 +5,7 @@ import Signature from '$lib/theme/Article/Signature.svelte';
 import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
 import FeatureImage from '$lib/theme/FeatureImage.svelte';
 import type { Component } from 'svelte';
-import { isViewingFromFrame as isViewingFromFrameStore } from '@/stores/main';
 import { onMount } from 'svelte';
-    import WrenchAdmin from './icons/WrenchAdmin.svelte';
 
 interface Props {
     data: IPost;
@@ -25,7 +23,7 @@ let renderEditLink = $state(false)
 let WrenchIconComponent: null | Component<{}> = $state(null)
 
 const loadComments = async () => {
-    if(data.isFull && config.giscusCommentsEnabled && (config.farcasterFrameV2Enabled && !$isViewingFromFrameStore )) {
+    if(data.isFull && config.giscusCommentsEnabled) {
         const { default: comm } = await import('$lib/theme/Article/Comments.svelte')
         Comments = comm
      }

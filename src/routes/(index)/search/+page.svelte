@@ -34,7 +34,7 @@
 <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
 <link rel="alternate" type="application/rss+xml" title="{`${config.siteName} » Feed`}" href="{`${config.baseSiteUrl}/feed`}">
 <link rel="canonical" href={pageUrl} />
-{#if config.farcasterFrameV2Enabled}
+{#if config.farcaster.miniAppEnabled}
 <meta name="fc:frame" content={generateURLFCFrameEmbed(`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`, pageUrl)} />
 {/if}
 

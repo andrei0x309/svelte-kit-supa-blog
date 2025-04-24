@@ -34,7 +34,7 @@
 <meta property="og:url" content={`${pageUrl}`} />
 <meta property="og:image" content={indexFeatureImage} />
 
-{#if config.farcasterFrameV2Enabled}
+{#if config.farcaster.miniAppEnabled}
 <meta name="fc:frame" content={generateURLFCFrameEmbed(indexFeatureImage, pageUrl)} />
 {/if}
 

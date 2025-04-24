@@ -37,7 +37,7 @@
   let scriptEl: HTMLScriptElement | undefined = $state()
 
   const loadFCButton = async () => {
-    if(config.farcasterFrameV2Enabled && config.farcasterFollowButtonEnabled) {
+    if(config.farcaster.miniAppEnabled && config.farcaster.followButtonEnabled) {
         const { default: comp } = await import('@/routes/(index)/FarcasterFollowButton.svelte')
         DynFarcasterFollowButton = comp
      }
@@ -52,7 +52,7 @@
 
   window.addEventListener('popstate', handlePopstate);
 
-  if(config.farcasterFrameV2Enabled) {
+  if(config.farcaster.miniAppEnabled) {
       import('@farcaster/frame-sdk').then((lib) => {
         lib.sdk.actions.ready()
       })
