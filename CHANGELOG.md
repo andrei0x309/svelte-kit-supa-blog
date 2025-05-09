@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.4 - 2025-05-09
+
+- added backup action I made for supabase database
+- other minor changes to improve accessibility and recommended practices
+
 ## v0.2.4 - 2025-04-24
 
 - change farcaster mini app config

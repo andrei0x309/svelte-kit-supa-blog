@@ -1,0 +1,21 @@
+name: Supa-Database-Backup
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 */3 * *' # At 01:00 on every 3rd day-of-month.
+jobs:   
+  run_db_backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: andrei0x309/supabase-backup-action@v1.1.6
+        with:
+          supabase-postgre-url: ${{ secrets.SUPABASE_POSTRGE_URL }}
+          supabase-url: ${{ secrets.SUPABASE_URL }}
+          supabase-service-key: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          supabase-bucket: ${{ secrets.SUPABASE_BUCKET }}
+          delete-older-backups: 'true'
+          delete-older-backups-days: '7'
+          folder-name: 'backups'
