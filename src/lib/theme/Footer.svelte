@@ -13,6 +13,6 @@
         | <a href="https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md" rel="external" class="hover:underline">Changelog</a>
     </p>
     <a rel="nofollow external" href="https://status.flashsoft.eu" class="mb-3 hover:scale-105 transition-transform">
-        <img class="mx-auto mt-4" src="https://uptime.betterstack.com/status-badges/v1/monitor/1u13o.svg" alt="FlashSoft.eu Status" />
+        <img class="mx-auto mt-4 w-[6rem] h-[1.4rem]" src="https://uptime.betterstack.com/status-badges/v1/monitor/1u13o.svg" alt="FlashSoft.eu Status" />
     </a>
 </footer>

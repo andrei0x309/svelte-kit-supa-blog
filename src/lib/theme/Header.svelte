@@ -125,7 +125,7 @@ afterNavigate(() => {
 <header class="header flex flex-row bg-gray-200 items-center content-va-off">
     <div class="logo min-h-full h-16 w-40 py-2 rounded-tr-full bg-[#1d1d1d]">
 <a title="home" href="/">
-<img height="48" width="96" class="h-full ml-4" src="/images/blogLogo.svg" role="presentation"  alt="flashsoft.eu Blog Logo" >
+<img height="48" width="96" class="h-full ml-4" src="/images/blogLogo.svg" alt="flashsoft.eu Blog Logo" >
 </a>
     </div>
  

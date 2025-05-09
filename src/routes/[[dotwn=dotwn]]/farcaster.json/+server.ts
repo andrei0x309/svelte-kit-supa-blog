@@ -1,6 +1,6 @@
 
 import type { RequestHandler, EntryGenerator } from  './$types';
-import { generateFcWellKnown } from '$lib/utils/server/fc-frame-v2'
+import { generateFcWellKnown } from '@/lib/utils/server/fc-mini-app'
 
 export const entries: EntryGenerator = () => {
 	return [

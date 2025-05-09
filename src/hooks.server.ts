@@ -9,7 +9,7 @@ export const handle = (async ({ event, resolve }) => {
     if (hostname.startsWith('www.')) {
       return redirect(301, `${config.baseSiteUrl}${path}`, )
     } else if (['andrei.flashsoft.eu', 'andrei0x309.flashsoft.eu', 'bfsk.netlify.app'].includes(hostname)) {
-      return redirect(301, `https://blog.flashsoft.eu${path}`, )
+      return redirect(301, `https://blog.flashsoft.eu/${path}`, )
     }
 
     const lang = getLangFromPath(path)
