@@ -13,7 +13,6 @@
   <button onclick={closeMenu} bind:this={close} aria-label="Close Side Menu" id="menu-close">×</button>
 
   <ul class="sidebar-menu-nav">
-    <ul>
       <li class="side-menu">
         <a class="value" rel="external" href="https://www.flashsoft.eu">
           <FrontIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative"/>
@@ -44,7 +43,6 @@
           Tip
         </a>
       </li>
-    </ul>
   </ul>
   <div class="rst-sb text-2xl mt-16">
     <p class="text-gray-200">

@@ -24,6 +24,7 @@
 
   onMount(() => {
     window.addEventListener('popstate', handlePopstate);
+    isLoading.set(false);
 
     return () => {
       window.removeEventListener('popstate', handlePopstate);

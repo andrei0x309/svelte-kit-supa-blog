@@ -84,7 +84,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
         {#if config.authorPageEnabled}
         <a rel="author" title="Author's page" href={`/author/${data?.author?.username}`}>
         {#if data?.author?.avatar}
-        <img width="8" height="8" src={data.author.avatar} alt={data.author.username} class="rounded-xl w-6 inline-block" />
+        <img width="8" height="8" src={data.author.avatar} alt={'post author'} class="rounded-xl w-6 inline-block" />
         {:else}
         <i class="icon-user-solid-square"></i>
         {/if}
@@ -92,7 +92,7 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
         </a>
         {:else}
         {#if data?.author?.avatar}
-        <img  width="8" height="8" src={data.author.avatar} alt={data.author.username} class="rounded-xl w-6 inline-block" />
+        <img  width="8" height="8" src={data.author.avatar} alt={'post author'} class="rounded-xl w-6 inline-block" />
         {:else}
         <i class="icon-user-solid-square"></i>
         {/if}
@@ -122,7 +122,8 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
 
     {#if !data.isFull}
     <a href="/{data.slug}" 
-        title={data?.feature_image_alt}
+        title={data?.feature_image_alt ?? data?.title}
+        aria-label={`Read more about ${data?.title}`}
         class="{`post-image post-image-left p-0 ${data.isFull ? '' : 'post-image-link'}`}">
         <div class="pt-2 pr-4 pl-4 pb-6 featured-thumbnail w-full content-center justify-center md:w-2/5 md:float-left text-center">
         <FeatureImage full={data.isFull} imgSource={data.feature_image} alt={data?.feature_image_alt} index={index} />

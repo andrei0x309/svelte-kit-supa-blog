@@ -47,8 +47,7 @@ export const config = {
     // IS_DEV_ENABLED mainly used to expose a public dev URL for testing
     IS_DEV_ENABLED,
     farcaster: {
-    // Requres MarketCap API KEY for eth price for donnate
-            miniAppEnabled: true,
+             miniAppEnabled: true,
             followButtonEnabled: true,
             followFid: 1791,
             extendedMetadata: {
