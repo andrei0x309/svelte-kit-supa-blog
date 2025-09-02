@@ -8,7 +8,7 @@ const AUTHOR_PATH = 'author'
 
 type SitemapPath = {
     url: string
-    priority: number
+    priority: string
     changefreq: string
 }
 
@@ -42,7 +42,7 @@ export const generatePosts = async () => {
     for (const post of data ?? []) {
         paths.push({
             url: `${post?.slug}`,
-            priority: 0.9,
+            priority: '0.9',
             changefreq: 'monthly',
         })
     }
@@ -56,7 +56,7 @@ export const generateCategories = async () => {
     for (const cat of data ?? []) {
         paths.push({
             url: `${CAT_PATH}/${cat?.slug}`,
-            priority: 0.7,
+            priority: '0.7',
             changefreq: 'monthly',
         })
     }
@@ -70,7 +70,7 @@ export const generateAuthors = async () => {
             for (const author of data ?? []) {
                 paths.push({
                     url: `${AUTHOR_PATH}/${author?.username}`,
-                    priority: 0.8,
+                    priority: '0.8',
                     changefreq: 'monthly',
                 })
             }
@@ -84,7 +84,7 @@ export const generateTags = async () => {
     for (const tag of data ?? []) {
         paths.push({
             url: `${TAG_PATH}/${tag.slug}`,
-            priority: 0.6,
+            priority: '0.6',
             changefreq: 'monthly',
         })
     }
@@ -103,7 +103,7 @@ export const generatePaths = async () => {
     // Front
     paths.push({
         url: '',
-        priority: 1.0,
+        priority: '1.0',
         changefreq: 'daily',
     })
 
