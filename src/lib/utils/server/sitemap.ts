@@ -42,7 +42,7 @@ export const generatePosts = async () => {
     for (const post of data ?? []) {
         paths.push({
             url: `${post?.slug}`,
-            priority: 0.85,
+            priority: 0.9,
             changefreq: 'monthly',
         })
     }
@@ -103,7 +103,7 @@ export const generatePaths = async () => {
     // Front
     paths.push({
         url: '',
-        priority: 1,
+        priority: 1.0,
         changefreq: 'daily',
     })
 
