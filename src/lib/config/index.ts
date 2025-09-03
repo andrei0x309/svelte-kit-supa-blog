@@ -12,8 +12,7 @@ export const config = {
     siteName,
     siteIndexTitle,
     siteIndexDescription,
-    baseSiteUrl,
-    devBaseUrl,
+    baseSiteUrl: IS_DEV_ENABLED ? devBaseUrl : baseSiteUrl,
     tipMeName: 'andrei0x309',
     tipKoFiLink: 'https://ko-fi.com/andrei0x309',
     tipNowPaymentsLink: 'https://nowpayments.io/donation/andrei0x309',
@@ -56,8 +55,8 @@ export const config = {
                 primaryCategory: 'social',
                 subtitle: siteIndexTitle,
                 screenshotUrls: [
-                    IS_DEV_ENABLED ? devBaseUrl + '/hotlink-ok/screenshots/screenshot-1.png' : baseSiteUrl + '/hotlink-ok/screenshots/screenshot-1.png',
-                    IS_DEV_ENABLED ? devBaseUrl + '/hotlink-ok/screenshots/screenshot-2.png' : baseSiteUrl + '/hotlink-ok/screenshots/screenshot-2.png',
+                    baseSiteUrl + '/hotlink-ok/screenshots/screenshot-1.png',
+                    baseSiteUrl + '/hotlink-ok/screenshots/screenshot-2.png',
                 ],
             }
     }
