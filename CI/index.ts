@@ -62,7 +62,13 @@ const main = async () => {
     })
 
  if (action === 'push') {
-        if (ENABLED && !GithubEvent.forced && GithubEvent?.head_commit?.message.includes('chore:') && !GithubEvent?.head_commit?.message.includes('!')) {
+        const isPushOrMerge = GithubEvent?.head_commit?.message.includes('chore:') || GithubEvent?.head_commit?.message.includes('Merge ')
+        const isNotHidden = !GithubEvent?.head_commit?.message.includes('!')
+        const isNotForce = !GithubEvent.forced
+
+        const announceCondition = ENABLED && isPushOrMerge && isNotHidden && isNotForce
+
+        if (announceCondition) {
             const commiter = GithubEvent?.head_commit?.author.username || GithubEvent?.head_commit?.committer?.username || ''
             const message = `Github https://blog.flashsoft.eu new repo commit!\n
 - Commit: ${GithubEvent.head_commit.url} \n
