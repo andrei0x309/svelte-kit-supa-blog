@@ -8,6 +8,7 @@
   import { schemas } from '$lib/types/post';
   import truncate from 'truncate-html';
   import { getParams } from '$lib/utils/client/misc';
+  import type { Jodit } from 'jodit';
 
   interface Props {
     data?: any;
@@ -52,8 +53,8 @@
     | null = $state(null);
 
   let editor: HTMLElement | undefined = $state();
-  let Jodit: any;
-  let JoditModule: any;
+  let Jodit: Jodit;
+  let JoditModule: typeof import('jodit').Jodit;
 
   const goToAnchor = (anchor: string) => {
     const loc = document.location.toString().split('#')[0];
@@ -65,6 +66,12 @@
       postData = makeEmptyPost();
     }
     JoditModule = (await import('jodit')).Jodit;
+
+    const plugins = await Promise.all([
+      import('jodit/esm/plugins/all'),
+    ])
+
+    JoditModule.plugins.add('all', plugins[0].default);
 
     const buttons = [
       {
@@ -121,7 +128,7 @@
           dialog.setSize('100%', '100%');
           dialog.setModal(true);
 
-          JoditModule.modules.Helpers.css(editor, {
+          JoditModule.modules.Helpers.css(editor as HTMLElement, {
             width: '100%',
             height: '100%'
           });
@@ -185,15 +192,11 @@
       { name: 'justify' }
     ];
 
-    Jodit = JoditModule.make(editor, {
+    Jodit = JoditModule.make(editor as HTMLElement, {
       theme: 'a309',
       defaultLineHeight: 1.6,
       sourceEditorNativeOptions: {
-        spellcheck: false,
-        autocorrect: false,
-        autocapitalize: false,
-        autocomplete: false,
-        theme: 'ace/theme/tomorrow_night'
+         theme: 'ace/theme/tomorrow_night'
       },
       toolbarButtonSize: 'large',
 

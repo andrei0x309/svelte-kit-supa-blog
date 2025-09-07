@@ -135,7 +135,7 @@ const logout = () =>{
                 
             </div>
         </a>
-        <button onclick={logout} class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group">
+        <button onclick={logout} class="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group cursor-pointer">
             <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
                 <div>
                       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6 group-hover:text-indigo-400"><g><path d="M0 0h24v24H0z" fill="none"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2a9.985 9.985 0 0 1 8 4h-2.71a8 8 0 1 0 .001 12h2.71A9.985 9.985 0 0 1 12 22zm7-6v-3h-8v-2h8V8l5 4-5 4z"/></g></svg>

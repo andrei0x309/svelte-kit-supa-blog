@@ -30,19 +30,19 @@ export const FCConfig = {
         // Default launch URL. Required.
         // Max 512 characters.
         // Example: "https://yoink.party/"
-        homeUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/' : config.baseSiteUrl + '/',
+        homeUrl: config.baseSiteUrl + '/',
 
         // Frame application icon URL.
         // Max 512 characters.
         // Image must be 200x200px and less than 1MB.
         // Example: "https://yoink.party/img/icon.png"
-        iconUrl:  IS_DEV_ENABLED ? config.devBaseUrl + '/hotlink-ok/splash.png' : config.baseSiteUrl + '/hotlink-ok/splash.png',
+        iconUrl: config.baseSiteUrl + '/hotlink-ok/splash.png',
 
         // Default image to show when frame is rendered in a feed.
         // Max 512 characters.
         // Image must have a 3:2 ratio.
         // Example: "https://yoink.party/framesV2/opengraph-image"
-        imageUrl:  IS_DEV_ENABLED ? config.devBaseUrl + '/images/frame-v2.png' : config.baseSiteUrl  + '/images/frame-v2.png',
+        imageUrl: config.baseSiteUrl  + '/images/frame-v2.png',
 
         // Default button title to use when frame is rendered in a feed.
         // Max 32 characters.
@@ -53,7 +53,7 @@ export const FCConfig = {
         // Max 512 characters.
         // Image must be 200x200px and less than 1MB.
         // Example: "https://yoink.party/img/splash.png"
-        splashImageUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/hotlink-ok/splash.png' : config.baseSiteUrl + '/hotlink-ok/splash.png' ,
+        splashImageUrl: config.baseSiteUrl + '/hotlink-ok/splash.png' ,
 
         // Hex color code.
         // Example: "#eeeee4"
@@ -64,7 +64,7 @@ export const FCConfig = {
         // Max 512 characters.
         // Required if the frame application uses notifications.
         // Example: "https://yoink.party/webhook"
-        webhookUrl:  IS_DEV_ENABLED ? config.devBaseUrl + '/api/fc-webhook' :  config.baseSiteUrl + '/api/fc-webhook',
+        webhookUrl: config.baseSiteUrl + '/api/fc-webhook',
     },
 
     triggers: [
@@ -78,12 +78,12 @@ export const FCConfig = {
 
             // Handler URL. Required.
             // Example: "https://yoink.party/triggers/cast"
-            url: IS_DEV_ENABLED ? config.devBaseUrl : config.baseSiteUrl
+            url: config.baseSiteUrl
         },
         {
             type: 'composer',
             id: 'flashsoft-blog-id',
-            url: IS_DEV_ENABLED ? config.devBaseUrl : config.baseSiteUrl
+            url: config.baseSiteUrl
         }
     ] as TriggerConfig[],
 
@@ -93,9 +93,9 @@ export const FCConfig = {
     screenshotUrls: config.farcaster.extendedMetadata.screenshotUrls,
     primaryCategory: config.farcaster.extendedMetadata.primaryCategory,
     tags: config.farcaster.extendedMetadata.tags,
-    heroImageUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/images/ogs/ffe-og-index.webp' : config.baseSiteUrl  + '/images/ogs/ffe-og-index.webp',
+    heroImageUrl: config.baseSiteUrl  + '/images/ogs/ffe-og-index.webp',
     tagline: config.farcaster.extendedMetadata.description,
     ogTitle: config.siteName,
     ogDescription: config.farcaster.extendedMetadata.description,
-    ogImageUrl: IS_DEV_ENABLED ? config.devBaseUrl + '/images/ogs/ffe-og-index.webp' : config.baseSiteUrl  + '/images/ogs/ffe-og-index.webp',
+    ogImageUrl: config.baseSiteUrl  + '/images/ogs/ffe-og-index.webp',
 }

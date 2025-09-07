@@ -1,6 +1,15 @@
 # Changelog
 
-## v0.2.4 - 2025-05-09
+## v0.2.6 - 2025-09-07
+
+- updated depencencies
+- updated farcaster mini app config and profile button
+- made a new component for sharing articles
+- updated Jodit editor to latest major v4 version
+- minor config changes
+- improved sitemap generation
+
+## v0.2.5 - 2025-05-09
 
 - added backup action I made for supabase database
 - other minor changes to improve accessibility and recommended practices

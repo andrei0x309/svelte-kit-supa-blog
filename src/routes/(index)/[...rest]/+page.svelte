@@ -20,7 +20,7 @@
         dataLoading = val
     })
 
-    const indexFeatureImage = `${config.IS_DEV_ENABLED ? config.devBaseUrl : config.baseSiteUrl}/images/og/default-og-v2-c1.webp`
+    const indexFeatureImage = `${config.baseSiteUrl}/images/og/default-og-v2-c1.webp`
     const pageUrl = SveltePage.url.href.replace('http:', 'https:')
 
 </script>

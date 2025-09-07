@@ -4,6 +4,7 @@ import { config } from '$lib/config';
 import Signature from '$lib/theme/Article/Signature.svelte';
 import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
 import FeatureImage from '$lib/theme/FeatureImage.svelte';
+import ShareArticle from '$lib/theme/Article/ShareArticle.svelte';
 import type { Component } from 'svelte';
 import { onMount } from 'svelte';
 
@@ -110,6 +111,8 @@ data-id={data.slug} data-slug={data.slug} data-title={data.title}>
         {:else}
         <span class="px-2 pt-3 pb-6" ><i class="inline-block w-4 icon-folder"></i> {data?.cat?.name ?? 'No category'}</span> 
         {/if}
+
+        <span class="relative ml-auto right-4"><ShareArticle articleLink={`${config.baseSiteUrl}/${data.slug}`} articleTitle={data.title} featureImage={data.feature_image} /></span>
         
     <!-- //    <?php if (!$articleFull) { ?> 
     //    <meta itemprop="mainEntityOfPage" content="<?php echo site_url(); ?>">

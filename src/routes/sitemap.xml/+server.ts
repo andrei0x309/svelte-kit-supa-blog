@@ -11,7 +11,7 @@ export const GET: RequestHandler = async () => {
     (page) => `<url>
   <loc>${website}/${page.url}</loc>
   <changefreq>${page.changefreq}</changefreq>
-  <priority>${page.priority ?? 0.5}</priority>
+  <priority>${page.priority ?? '0.5'}</priority>
   </url>`
   )
   .join('')

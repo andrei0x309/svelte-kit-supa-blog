@@ -38,10 +38,11 @@ Lightweight blog with SupaBase database with the following features:
 - Support for ld+json structured data
 - Custom page type schema per post
 - FTS search with Supabase
-- Support for ECHO commenting / other features third-party service
+- Support Giscus comments
 - Few to no dependencies
+- Component for sharing posts (copy link, x, farcasterXYZ, fosscaster, whatsapp, pinterest, bluesky, reddit, telegram)
 - Tag cloud widget with cache
-- Good Reads widget with cache
+- GoodReads widget with cache
 - XML Sitemap
 - Optimizations function for Google CDN images
 - Draft support

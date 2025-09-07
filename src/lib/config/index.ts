@@ -12,8 +12,7 @@ export const config = {
     siteName,
     siteIndexTitle,
     siteIndexDescription,
-    baseSiteUrl,
-    devBaseUrl,
+    baseSiteUrl: IS_DEV_ENABLED ? devBaseUrl : baseSiteUrl,
     tipMeName: 'andrei0x309',
     tipKoFiLink: 'https://ko-fi.com/andrei0x309',
     tipNowPaymentsLink: 'https://nowpayments.io/donation/andrei0x309',
@@ -47,7 +46,7 @@ export const config = {
     // IS_DEV_ENABLED mainly used to expose a public dev URL for testing
     IS_DEV_ENABLED,
     farcaster: {
-             miniAppEnabled: true,
+            miniAppEnabled: true,
             followButtonEnabled: true,
             followFid: 1791,
             extendedMetadata: {
@@ -56,11 +55,32 @@ export const config = {
                 primaryCategory: 'social',
                 subtitle: siteIndexTitle,
                 screenshotUrls: [
-                    IS_DEV_ENABLED ? devBaseUrl + '/hotlink-ok/screenshots/screenshot-1.png' : baseSiteUrl + '/hotlink-ok/screenshots/screenshot-1.png',
-                    IS_DEV_ENABLED ? devBaseUrl + '/hotlink-ok/screenshots/screenshot-2.png' : baseSiteUrl + '/hotlink-ok/screenshots/screenshot-2.png',
+                    baseSiteUrl + '/hotlink-ok/screenshots/screenshot-1.png',
+                    baseSiteUrl + '/hotlink-ok/screenshots/screenshot-2.png',
                 ],
             }
     }
+}
+
+
+export const articleSettings = 
+{
+        // Enable the share button
+        enableShareButton: true,
+        // Sharing platforms to enable
+        enableSharePlatforms: {
+            copyLink: { enabled: true, order: 0 },
+            email: { enabled: true, order: 1 },
+            x: { enabled: true, order: 2 },
+            farcasterXYZ: { enabled: false, order: 3 },
+            fosscaster: { enabled: true, order: 4 },
+            whatsapp: { enabled: true, order: 5 },
+            pinterest: { enabled: true, order: 6 },
+            bluesky: { enabled: true, order: 7 },
+            reddit: { enabled: true, order: 8 },
+            telegram: { enabled: true, order: 9 },
+        },
+
 }
 
 // Use empty string if you don't want to include a social link
