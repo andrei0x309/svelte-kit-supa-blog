@@ -53,8 +53,6 @@ const enabledPlatforms = Object.keys(articleSettings.enableSharePlatforms)
     return aIndex - bIndex;
 })
 
-console.log('enabledPlatforms', enabledPlatforms)
-
 const copyLink = async () => {
     try {
       // Use the modern Clipboard API
@@ -84,10 +82,6 @@ const shareTo = (platform: string) => {
      const encodedLink = encodeURIComponent(articleLink);
      const encodedTitle = encodeURIComponent(articleTitle);
      showPopup = false;
-
-
-    console.log('platform', platform, encodedLink, encodedTitle)
-
      switch (platform) {
          case 'x':
           window.open(`
@@ -131,7 +125,6 @@ beforeNavigate(() => {
 
 <div use:clickOutside={() => showPopup = false} >
 <button aria-label="share button" class="share-wrapper" onclick={() => {
-  console.log('showPopup', showPopup)
 }}>
 
   <input id="{`share-toggle-${slug}`}" type="checkbox" class="check" bind:checked={showPopup} />
