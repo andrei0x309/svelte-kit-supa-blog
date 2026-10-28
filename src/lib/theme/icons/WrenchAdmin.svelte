@@ -1,10 +1,4 @@
-<svg
-  class="inline-block"
-  height="24"
-  width="24"
-  style="enable-background:new 0 0 512 512;"
-  version="1.1"
-  viewBox="0 0 512 512"
+<svg class="inline-block" height="24" width="24" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"
   ><g id="_x34_8_x2C__Admin"
     ><g
       ><circle cx="442" cy="63.5" r="30" style="fill:#FFFFFF;" /><path

@@ -76,7 +76,7 @@
           type="text"
           id="slug"
           class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-          placeholder="{`${type === 'cat'? 'cat slug' : 'tag slug'}`}"
+          placeholder={`${type === 'cat' ? 'cat slug' : 'tag slug'}`}
           bind:value={catOrTag.slug}
         />
       </div>
@@ -86,18 +86,20 @@
           type="text"
           id="name"
           class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-          placeholder="{`${type === 'cat'? 'cat name' : 'tag name'}`}"
+          placeholder={`${type === 'cat' ? 'cat name' : 'tag name'}`}
           bind:value={catOrTag.name}
         />
       </div>
       <div>
-        <label for="description" class="text-sm text-gray-200 block mb-1 font-medium">{`${type === 'cat'? 'Cat Description' : 'Tag Description'}`}</label>
+        <label for="description" class="text-sm text-gray-200 block mb-1 font-medium"
+          >{`${type === 'cat' ? 'Cat Description' : 'Tag Description'}`}</label
+        >
         <textarea
           id="description"
           class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
           placeholder="my description"
           bind:value={catOrTag.description}
-></textarea>
+        ></textarea>
       </div>
       <div class="space-x-4 mt-8">
         <button
@@ -108,19 +110,19 @@
           })}>Save</button
         >
         {#if type === 'cat'}
-        <a href="/admin/settings/categories">
-          <button
-            class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
-            >Cancel</button
-          >
-        </a>
+          <a href="/admin/settings/categories">
+            <button
+              class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+              >Cancel</button
+            >
+          </a>
         {:else}
-        <a href="/admin/settings/tags">
-          <button
-            class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
-            >Cancel</button
-          >
-        </a>
+          <a href="/admin/settings/tags">
+            <button
+              class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+              >Cancel</button
+            >
+          </a>
         {/if}
       </div>
     </div>

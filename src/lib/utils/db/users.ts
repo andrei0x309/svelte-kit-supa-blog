@@ -1,22 +1,22 @@
-import { supabase } from '@/lib/node/supaClientFS'
+import { supabase } from '@/lib/node/supaClientFS';
 
 export const loadUsers = async (page: number, perPege = 4) => {
-    try {
-    
-  const res = await supabase.from('fsk_blog_author').select('*')
-    .order('created_at', { ascending: false })
-    .range((page-1)*(perPege), (page*(perPege)))
+  try {
+    const res = await supabase
+      .from('fsk_blog_author')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .range((page - 1) * perPege, page * perPege);
 
-      const hasNext = res.data?.length === (perPege+1)
-      res.data = res.data?.slice(0, perPege) ?? []
+    const hasNext = res.data?.length === perPege + 1;
+    res.data = res.data?.slice(0, perPege) ?? [];
+    (res as unknown as { page: number }).page = page;
+    (res as unknown as { hasNext: boolean }).hasNext = hasNext;
 
-      ;(res as unknown as {page: number}).page = page
-      ;(res as unknown as {hasNext: boolean}).hasNext = hasNext
-      
-      return {
-          res
-        }; 
-      } catch (e) {
-       return null
-      }
-}
+    return {
+      res
+    };
+  } catch (e) {
+    return null;
+  }
+};

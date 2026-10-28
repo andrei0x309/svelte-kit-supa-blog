@@ -24,11 +24,9 @@
 
 {#if isViewingFromFrame}
   <button class="farcaster-button" onclick={buttonClick} aria-label="follow me on Farcaster" title="follow me on Farcaster">
-    <span class="icon"
-      >
+    <span class="icon">
       <FarcasterIcon class="w-8" />
-      </span
-    >
+    </span>
   </button>
 {/if}
 

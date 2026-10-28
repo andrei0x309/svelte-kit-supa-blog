@@ -13,36 +13,36 @@
   <button onclick={closeMenu} bind:this={close} aria-label="Close Side Menu" id="menu-close">×</button>
 
   <ul class="sidebar-menu-nav">
-      <li class="side-menu">
-        <a class="value" rel="external" href="https://www.flashsoft.eu">
-          <FrontIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative"/>
-          Front
-        </a>
-      </li>
-      <li class="side-menu">
-        <a class="value" rel="external" href="https://www.flashsoft.eu/projects">
-          <ProjectsIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
-          Projects
-        </a>
-      </li>
-      <li class="side-menu">
-        <a class="value" rel="external" href="https://www.flashsoft.eu/certs">
-          <CoursesIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
-          Courses
-        </a>
-      </li>
-      <li class="side-menu">
-        <a class="value" rel="external" href="https://flashsoft.eu/#section-contact">
-          <ContactIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
-          Contact
-        </a>
-      </li>
-      <li class="side-menu">
-        <a class="value" href="/tip-me" onclick={closeMenu}>
-          <TipIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
-          Tip
-        </a>
-      </li>
+    <li class="side-menu">
+      <a class="value" rel="external" href="https://www.flashsoft.eu">
+        <FrontIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
+        Front
+      </a>
+    </li>
+    <li class="side-menu">
+      <a class="value" rel="external" href="https://www.flashsoft.eu/projects">
+        <ProjectsIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
+        Projects
+      </a>
+    </li>
+    <li class="side-menu">
+      <a class="value" rel="external" href="https://www.flashsoft.eu/certs">
+        <CoursesIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
+        Courses
+      </a>
+    </li>
+    <li class="side-menu">
+      <a class="value" rel="external" href="https://flashsoft.eu/#section-contact">
+        <ContactIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
+        Contact
+      </a>
+    </li>
+    <li class="side-menu">
+      <a class="value" href="/tip-me" onclick={closeMenu}>
+        <TipIcon class="h-8 w-8 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative" />
+        Tip
+      </a>
+    </li>
   </ul>
   <div class="rst-sb text-2xl mt-16">
     <p class="text-gray-200">
@@ -95,13 +95,12 @@
     font-size: 1.4em;
     margin-bottom: 1rem;
     margin-left: 3rem;
-}
+  }
 
-.rsd-sb {
+  .rsd-sb {
     margin-left: 3rem;
     margin-top: 0.6rem;
     font-size: 1.05rem;
     margin-bottom: 2rem;
-}
-
+  }
 </style>

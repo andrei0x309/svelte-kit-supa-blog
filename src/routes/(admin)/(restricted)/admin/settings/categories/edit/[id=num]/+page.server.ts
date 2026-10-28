@@ -1,3 +1,3 @@
-import { getLoad } from '@/lib/utils/db/catOrTag'
+import { getLoad } from '@/lib/utils/db/catOrTag';
 
-export const load = getLoad('cat')
+export const load = getLoad('cat');

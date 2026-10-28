@@ -1,11 +1,11 @@
 @mixin blueBtn {
-    padding: 0.3em;
-    background: #3f4c6b;
-    background: linear-gradient(to bottom, #463e6d 0%, #252527 100%);
-    color: #ffffff;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    text-transform: uppercase;
-    border-bottom: 3px solid var(--text-color);
-    margin: 1rem;
+  padding: 0.3em;
+  background: #3f4c6b;
+  background: linear-gradient(to bottom, #463e6d 0%, #252527 100%);
+  color: #ffffff;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-transform: uppercase;
+  border-bottom: 3px solid var(--text-color);
+  margin: 1rem;
 }

@@ -15,7 +15,7 @@ on:
         type: boolean
         required: true
         default: false
- 
+
 jobs:
   run-bun-script:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Dependencies
         run: bun install
-        
+
       - name: Run Bun Script - Update
         if: github.event_name == 'workflow_dispatch'
         run: bun run index.ts '${{ toJSON(secrets) }}' '${{ toJSON(github.event) }}' update

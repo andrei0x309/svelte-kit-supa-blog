@@ -1,6 +1,4 @@
-<svg
-  style="enable-background:new 0 0 56.693 56.693"
-  viewBox="0 0 56.693 56.693"
+<svg style="enable-background:new 0 0 56.693 56.693" viewBox="0 0 56.693 56.693"
   ><style type="text/css">
     .st0 {
       fill-rule: evenodd;

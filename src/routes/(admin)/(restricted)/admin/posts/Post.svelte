@@ -15,14 +15,15 @@
     header?: import('svelte').Snippet;
   }
 
-  let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props = $props();
+  let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props =
+    $props();
 
   let postData: IPost = $state(data.post as IPost);
- 
+
   if (!data.post) {
     postData = makeEmptyPost();
   } else {
-    let related
+    let related;
     try {
       related = JSON.parse((data.post?.related as unknown as string) || '[]') as IRelatedPost[];
     } catch {
@@ -67,9 +68,7 @@
     }
     JoditModule = (await import('jodit')).Jodit;
 
-    const plugins = await Promise.all([
-      import('jodit/esm/plugins/all'),
-    ])
+    const plugins = await Promise.all([import('jodit/esm/plugins/all')]);
 
     JoditModule.plugins.add('all', plugins[0].default);
 
@@ -196,7 +195,7 @@
       theme: 'a309',
       defaultLineHeight: 1.6,
       sourceEditorNativeOptions: {
-         theme: 'ace/theme/tomorrow_night'
+        theme: 'ace/theme/tomorrow_night'
       },
       toolbarButtonSize: 'large',
 
@@ -346,7 +345,10 @@
                 <div id="cats" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                   {#each cats as cat}
                     <button
-                      onclickcapture={((e) => { e.preventDefault(); postData.cat_id = cat.id })}
+                      onclickcapture={(e) => {
+                        e.preventDefault();
+                        postData.cat_id = cat.id;
+                      }}
                       class={`px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center ${
                         postData.cat_id === cat.id ? 'bg-gray-700/60 text-gray-100' : ''
                       }`}
@@ -355,7 +357,10 @@
 
                       {#if postData.cat_id === cat.id}
                         <div
-                          onclick={((e) => { e.stopPropagation(); postData.cat_id = undefined})}
+                          onclick={(e) => {
+                            e.stopPropagation();
+                            postData.cat_id = undefined;
+                          }}
                           class="bg-transparent hover focus:outline-hidden hover:text-red-500"
                           aria-label="Remove Category"
                           role="button"
@@ -431,7 +436,10 @@
               <div id="tags" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                 {#each tags as tag}
                   <button
-                    onclickcapture={(e) => {e.preventDefault();postData.tags_id = [...new Set([...(postData?.tags_id ?? []), tag.id])]}}
+                    onclickcapture={(e) => {
+                      e.preventDefault();
+                      postData.tags_id = [...new Set([...(postData?.tags_id ?? []), tag.id])];
+                    }}
                     class={`px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center ${
                       postData.tags_id?.includes(tag.id) ? 'bg-gray-700/60 text-gray-100' : ''
                     }`}
@@ -440,7 +448,10 @@
 
                     {#if postData.tags_id?.includes(tag.id)}
                       <div
-                        onclick={(e) => {e.stopPropagation();postData.tags_id = postData.tags_id?.filter((t) => t !== tag.id)}}
+                        onclick={(e) => {
+                          e.stopPropagation();
+                          postData.tags_id = postData.tags_id?.filter((t) => t !== tag.id);
+                        }}
                         class="bg-transparent hover focus:outline-hidden hover:text-red-500"
                         aria-label="Remove Tag"
                         role="button"
@@ -539,11 +550,11 @@
             {#if relatedMechanism === 'tags'}
               <button
                 type="button"
-                onclickcapture={(e) =>{
+                onclickcapture={(e) => {
                   e.stopPropagation();
                   getRelated().then(() => {
                     console.log('related', postData.related);
-                  })
+                  });
                 }}
                 class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                 >Find & Link Related Posts

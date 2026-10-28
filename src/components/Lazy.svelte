@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
-  import { fade } from "svelte/transition";
+  import { onDestroy, onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
   interface Props {
     children?: import('svelte').Snippet;
   }

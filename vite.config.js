@@ -1,3 +1,7 @@
+// import adapter from '@sveltejs/adapter-auto';
+import preprocess from 'svelte-preprocess';
+
+import adapter from '@sveltejs/adapter-netlify';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 // import { partytownVite } from '@builder.io/partytown/utils'
@@ -11,7 +15,15 @@ const config = {
     // nodePolyfills({
     // 	protocolImports: true
     // }),
-    sveltekit(),
+    sveltekit({
+      // Consult https://github.com/sveltejs/svelte-preprocess
+      // for more information about preprocessors
+      preprocess: [preprocess({ preserve: ['ld+json'] })],
+      adapter: adapter({ edge: true, split: false }),
+      // adapter: adapter(),
+      alias: { '@': './src' }
+    }),
+
     // partytownVite({
     // 	// `dest` specifies where files are copied to in production
     // 	dest: join(process.cwd(), 'build', '~partytown')

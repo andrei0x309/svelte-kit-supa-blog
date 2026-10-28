@@ -1,5 +1,4 @@
-<svg
-  viewBox="0 0 24 24"
+<svg viewBox="0 0 24 24"
   ><g
     id="social/logos/bluesky"
     stroke="none"

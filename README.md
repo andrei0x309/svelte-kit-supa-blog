@@ -52,6 +52,7 @@ Lightweight blog with SupaBase database with the following features:
 ## Demo Admin Panel
 
 Visit [https://blog.flashsoft.eu/login](https://blog.flashsoft.eu/login) and log in with the following credentials:
+
 > user: admin
 > password: demo
 

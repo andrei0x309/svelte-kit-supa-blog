@@ -340,7 +340,7 @@
                       {post.slug}
                     </td>
                     <td class="py-3 px-2 max-w-24 truncate">{post.title}</td>
-                    <td class="py-3 px-2 max-w-20 w-8 truncate">{post.draft ? 'Yes': 'No'}</td>
+                    <td class="py-3 px-2 max-w-20 w-8 truncate">{post.draft ? 'Yes' : 'No'}</td>
                     <td class="py-3 px-2">
                       <div class="inline-flex space-x-3 items-center">
                         <img class="w-16 h-8 object-fit" src={post.feature_image} alt="" />
@@ -355,9 +355,8 @@
                     </td>
                     <td class="py-3 px-2">
                       <div class="inline-flex items-center space-x-3">
-                        <a href={`/admin/posts/edit/${post.slug}`} title="Edit" class="hover:text-white"
-                            aria-label="Edit"  
-                        ><svg
+                        <a href={`/admin/posts/edit/${post.slug}`} title="Edit" class="hover:text-white" aria-label="Edit"
+                          ><svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"

@@ -1,14 +1,8 @@
 <script lang="ts">
-
-const { class: className } = $props<{ class?: string | undefined }>();
-
+  const { class: className } = $props<{ class?: string | undefined }>();
 </script>
 
-<svg
-  style="enable-background:new 0 0 128 128;"
-  version="1.1"
-  viewBox="0 0 128 128"
-  class={className}
+<svg style="enable-background:new 0 0 128 128;" version="1.1" viewBox="0 0 128 128" class={className}
   ><g id="_x31_2_3D_Printing" /><g id="_x31_1_VR_Gear" /><g id="_x31_0_Virtual_reality" /><g id="_x39__Augmented_reality" /><g
     id="_x38__Teleport"
   /><g id="_x37__Glassess" /><g id="_x36__Folding_phone" /><g id="_x35__Drone" /><g id="_x34__Retina_scan"
