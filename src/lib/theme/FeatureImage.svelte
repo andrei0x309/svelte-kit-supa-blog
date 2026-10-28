@@ -1,7 +1,7 @@
 <script lang="ts">
   import { optimizeGoogleCDNImage } from '$lib/utils/server/image';
   import { onMount } from 'svelte';
-  import { browser } from '$app/environment';
+  import { browser } from '$app/env';
 
   interface Props {
     imgSource: string;
