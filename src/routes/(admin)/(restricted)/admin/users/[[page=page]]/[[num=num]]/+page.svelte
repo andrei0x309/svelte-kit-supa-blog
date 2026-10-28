@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
+  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
   import type { ICurrentUser } from '#lib/types/user.js';
-  import ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
+  import ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
   import { slide } from 'svelte/transition';
-  import { modalOpen } from '@/stores/main';
-  import Alert from '@/lib/components/shared/Alert.svelte';
+  import { modalOpen } from '#/stores/main';
+  import Alert from '#/lib/components/shared/Alert.svelte';
 
   let confirm: ConfirmModal;
   let alert: Alert;

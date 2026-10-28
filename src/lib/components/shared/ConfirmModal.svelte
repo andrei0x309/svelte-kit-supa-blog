@@ -1,7 +1,7 @@
 <script lang="ts">
   import { run } from 'svelte/legacy';
 
-  import { modalOpen } from '@/stores/main';
+  import { modalOpen } from '#/stores/main';
   import Modal from './Modal.svelte';
 
   const initalState = {

@@ -37,13 +37,13 @@
   }
 
   onMount(async () => {
-    const { getCookie } = await import('@/lib/utils/common');
+    const { getCookie } = await import('#/lib/utils/common');
     console.log('getCookie', getCookie('role'));
 
     const presumedRole = getCookie('role');
     if (presumedRole === 'admin' || presumedRole === 'contribuitor') {
       renderEditLink = true;
-      const { default: WrenchAdmin } = await import('@/lib/theme/icons/WrenchAdmin.svelte');
+      const { default: WrenchAdmin } = await import('#/lib/theme/icons/WrenchAdmin.svelte');
       WrenchIconComponent = WrenchAdmin;
     }
   });

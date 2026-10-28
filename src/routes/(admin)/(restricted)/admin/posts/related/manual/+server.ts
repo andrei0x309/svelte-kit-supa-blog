@@ -1,4 +1,4 @@
-import { checkAuth } from '@/lib/utils/server/auth';
+import { checkAuth } from '#/lib/utils/server/auth';
 import { json } from '@sveltejs/kit';
 import type { ICookies } from '#lib/types/cookies.js';
 import { loadRelatedPosts } from '#lib/utils/db/posts.js';

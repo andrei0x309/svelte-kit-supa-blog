@@ -1,5 +1,5 @@
-import { loadTags } from '@/lib/utils/db/posts';
-import { loadCats } from '@/lib/utils/db/posts';
+import { loadTags } from '#/lib/utils/db/posts';
+import { loadCats } from '#/lib/utils/db/posts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = (async (req) => {

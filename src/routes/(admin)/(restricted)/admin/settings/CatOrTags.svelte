@@ -1,8 +1,8 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
-  import { modalOpen } from '@/stores/main';
-  import type { ICatTag } from '@/lib/types/catTag';
-  import type ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
+  import { modalOpen } from '#/stores/main';
+  import type { ICatTag } from '#/lib/types/catTag';
+  import type ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
 
   export let data: { catOrTags: ICatTag[] } & { notFound: boolean } = { catOrTags: [], notFound: false };
   export let confirm: ConfirmModal;

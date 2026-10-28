@@ -1,4 +1,4 @@
-import { loadPosts } from '@/lib/utils/db/posts';
+import { loadPosts } from '#/lib/utils/db/posts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (req) => {

@@ -1,9 +1,9 @@
 import type { PageServerLoad } from './$types';
-import { checkData, appendToData } from '@/lib/utils/page';
+import { checkData, appendToData } from '#/lib/utils/page';
 import truncate from 'truncate-html';
-import { loadPost } from '@/lib/utils/db/posts';
-import { supabase } from '@/lib/node/supaClientFS';
-import { error } from '@/lib/utils/page';
+import { loadPost } from '#/lib/utils/db/posts';
+import { supabase } from '#/lib/node/supaClientFS';
+import { error } from '#/lib/utils/page';
 
 const defaultError = {
   message: 'Unauthorized',

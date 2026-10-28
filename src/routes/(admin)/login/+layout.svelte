@@ -4,7 +4,7 @@
   import '#lib/sass/admin.scss';
   import { onMount } from 'svelte';
   import { afterNavigate, beforeNavigate } from '$app/navigation';
-  import { isLoading } from '@/stores/main';
+  import { isLoading } from '#/stores/main';
   /** @type {{children?: import('svelte').Snippet<[any]>}} */
   let { children } = $props();
 

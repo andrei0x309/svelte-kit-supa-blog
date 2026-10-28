@@ -1,4 +1,4 @@
-import { config } from '@/lib/config';
+import { config } from '#/lib/config';
 
 const baseData = `User-agent: *
 Disallow: 

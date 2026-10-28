@@ -1,5 +1,5 @@
 import type { RequestHandler, EntryGenerator } from './$types';
-import { generateFcWellKnown } from '@/lib/utils/server/fc-mini-app';
+import { generateFcWellKnown } from '#/lib/utils/server/fc-mini-app';
 
 export const entries: EntryGenerator = () => {
   return [{ dotwn: '.well-known' }];

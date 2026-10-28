@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/node/supaClientFS';
-import { getSha256 } from '@/lib/utils/server/crypto';
+import { supabase } from '#/lib/node/supaClientFS';
+import { getSha256 } from '#/lib/utils/server/crypto';
 
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';

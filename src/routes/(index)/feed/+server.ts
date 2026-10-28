@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { loadPosts } from '@/lib/utils/db/posts';
+import { loadPosts } from '#/lib/utils/db/posts';
 import type { IPost } from '#lib/types/post.js';
 import { generateRssFeed, generateRssNotFound } from '#lib/utils/server/feed.js';
 import { getLatsPostDate } from '#lib/utils/db/posts.js';

@@ -1,4 +1,4 @@
-import { loadCategories } from '@/lib/utils/db/catOrTag';
+import { loadCategories } from '#/lib/utils/db/catOrTag';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = (async (req) => {

@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (req) => {

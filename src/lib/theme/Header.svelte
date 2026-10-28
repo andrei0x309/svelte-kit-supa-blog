@@ -4,7 +4,7 @@
   import MenuDesktop from './menu/MenuDesktop.svelte';
   import MenuMobileToggle from './menu/MenuMobileToggle.svelte';
   import MenuMobile from './menu/MenuMobile.svelte';
-  import { theme as themeStore } from '@/stores/main';
+  import { theme as themeStore } from '#/stores/main';
   interface Props {
     theme?: string;
   }

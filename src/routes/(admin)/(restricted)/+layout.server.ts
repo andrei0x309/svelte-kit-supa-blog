@@ -1,6 +1,6 @@
-import { supabase } from '@/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS';
 import { error } from '@sveltejs/kit';
-import { checkAuth } from '@/lib/utils/server/auth';
+import { checkAuth } from '#/lib/utils/server/auth';
 import type { LayoutServerLoad } from './$types';
 import type { ICookies } from '#lib/types/cookies.js';
 

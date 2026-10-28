@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
+  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
   import type { IPost } from '#lib/types/post.js';
-  import ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
-  import Alert from '@/lib/components/shared/Alert.svelte';
+  import ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
+  import Alert from '#/lib/components/shared/Alert.svelte';
   import { slide } from 'svelte/transition';
-  import { modalOpen } from '@/stores/main';
+  import { modalOpen } from '#/stores/main';
 
   export let data: {
     page: number;

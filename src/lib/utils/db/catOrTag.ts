@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS';
 
 export const loadCategories = async () => {
   const { data: categories, error } = await supabase

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { theme as themeStore } from '@/stores/main';
+  import { theme as themeStore } from '#/stores/main';
   import { onMount, onDestroy } from 'svelte';
   import Giscus from '@giscus/svelte';
 

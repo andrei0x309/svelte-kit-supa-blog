@@ -1,6 +1,6 @@
 import type { ICatTag } from '#lib/types/catTag.js';
-import { supabase } from '@/lib/node/supaClientFS';
-import { checkAuth } from '@/lib/utils/server/auth';
+import { supabase } from '#/lib/node/supaClientFS';
+import { checkAuth } from '#/lib/utils/server/auth';
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
 import type { ICookies } from '#lib/types/cookies.js';

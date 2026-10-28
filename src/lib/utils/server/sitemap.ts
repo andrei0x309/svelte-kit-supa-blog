@@ -1,6 +1,6 @@
-import { supabase } from '@/lib/node/supaClientFS';
-import { config } from '@/lib/config';
-import { getDiffFromNow } from '@/lib/utils/common/misc';
+import { supabase } from '#/lib/node/supaClientFS';
+import { config } from '#/lib/config';
+import { getDiffFromNow } from '#/lib/utils/common/misc';
 
 const CAT_PATH = 'category';
 const TAG_PATH = 'tag';

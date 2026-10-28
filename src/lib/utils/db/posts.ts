@@ -1,6 +1,6 @@
-import { supabase } from '@/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS';
 import truncate from 'truncate-html';
-import { config } from '@/lib/config';
+import { config } from '#/lib/config';
 
 export const preparePostResponse = ({
   tags,

@@ -6,9 +6,9 @@
   import Header from '#lib/theme/Header.svelte';
   import Footer from '#lib/theme/Footer.svelte';
   import { afterNavigate, beforeNavigate } from '$app/navigation';
-  import { isLoading } from '@/stores/main';
+  import { isLoading } from '#/stores/main';
   import { onMount } from 'svelte';
-  import { theme as themeStore } from '@/stores/main';
+  import { theme as themeStore } from '#/stores/main';
   import { config } from '#lib/config/index.js';
   import { getGoogleAnalyticsCode } from '#lib/utils/client/analytics.js';
   // import { partytownSnippet } from '@builder.io/partytown/integration'
@@ -42,7 +42,7 @@
 
   const loadFCButton = async () => {
     if (config.farcaster.miniAppEnabled && config.farcaster.followButtonEnabled) {
-      const { default: comp } = await import('@/routes/(index)/FarcasterFollowButton.svelte');
+      const { default: comp } = await import('#/routes/(index)/FarcasterFollowButton.svelte');
       DynFarcasterFollowButton = comp;
     }
   };

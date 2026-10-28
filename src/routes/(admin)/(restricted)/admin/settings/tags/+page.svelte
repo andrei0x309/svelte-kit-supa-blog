@@ -1,12 +1,12 @@
 <script lang="ts">
-  import Settings from '@/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
-  import Alert from '@/lib/components/shared/Alert.svelte';
-  import Tabs from '@/routes/(admin)/(restricted)/admin/settings/Tabs.svelte';
-  import { tabs } from '@/routes/(admin)/(restricted)/admin/settings/tabs';
-  import ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
-  import type { ICatTag } from '@/lib/types/catTag';
+  import Settings from '#/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
+  import Alert from '#/lib/components/shared/Alert.svelte';
+  import Tabs from '#/routes/(admin)/(restricted)/admin/settings/Tabs.svelte';
+  import { tabs } from '#/routes/(admin)/(restricted)/admin/settings/tabs';
+  import ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
+  import type { ICatTag } from '#/lib/types/catTag';
   import { deleteCatOrTag } from '#lib/utils/client/catTag.js';
-  import CatOrTags from '@/routes/(admin)/(restricted)/admin/settings/CatOrTags.svelte';
+  import CatOrTags from '#/routes/(admin)/(restricted)/admin/settings/CatOrTags.svelte';
 
   interface Props {
     data?: { catOrTags: ICatTag[] } & { notFound: boolean };

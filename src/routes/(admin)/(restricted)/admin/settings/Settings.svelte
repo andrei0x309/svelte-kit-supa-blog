@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
+  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
   interface Props {
     content?: import('svelte').Snippet;
   }

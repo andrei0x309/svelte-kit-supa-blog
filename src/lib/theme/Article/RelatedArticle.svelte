@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IPost } from '@/lib/types/post';
+  import type { IPost } from '#/lib/types/post';
   interface Props {
     relatedArticle: IPost['related'][number];
   }

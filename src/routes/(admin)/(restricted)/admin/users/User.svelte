@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
+  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
   import { onMount } from 'svelte';
-  import { currentUser } from '@/stores/main';
-  import Alert from '@/lib/components/shared/Alert.svelte';
+  import { currentUser } from '#/stores/main';
+  import Alert from '#/lib/components/shared/Alert.svelte';
 
   interface Props {
     id?: number | null;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import User from '@/routes/(admin)/(restricted)/admin/users/User.svelte';
+  import User from '#/routes/(admin)/(restricted)/admin/users/User.svelte';
   import type { ICurrentUser } from '#lib/types/user.js';
 
   interface ICurrentUserEx {

@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS';
 
 export const loadUsers = async (page: number, perPege = 4) => {
   try {

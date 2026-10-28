@@ -1,10 +1,10 @@
 import type { PageServerLoad } from './$types';
-import { appendToData } from '@/lib/utils/page';
+import { appendToData } from '#/lib/utils/page';
 import truncate from 'truncate-html';
-// import { getSchemaContent } from '@/lib/utils/server/schema'
+// import { getSchemaContent } from '#/lib/utils/server/schema'
 // import type { ICurrentUser } from '#lib/types/user.js'
-import { supabase } from '@/lib/node/supaClientFS';
-import { error } from '@/lib/utils/page';
+import { supabase } from '#/lib/node/supaClientFS';
+import { error } from '#/lib/utils/page';
 import { config } from '#lib/config/index.js';
 
 const defaultError = {

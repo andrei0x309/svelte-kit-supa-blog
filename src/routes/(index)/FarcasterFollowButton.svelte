@@ -1,9 +1,9 @@
 <script lang="ts">
   import sdk from '@farcaster/frame-sdk';
-  import { config } from '@/lib/config';
+  import { config } from '#/lib/config';
   import { onMount } from 'svelte';
-  import { isViewingFromFrame as isViewingFromFrameStore } from '@/stores/main';
-  import FarcasterIcon from '@/lib/theme/icons/platfroms/FarcasterIcon.svelte';
+  import { isViewingFromFrame as isViewingFromFrameStore } from '#/stores/main';
+  import FarcasterIcon from '#/lib/theme/icons/platfroms/FarcasterIcon.svelte';
 
   let isViewingFromFrame = $state(false);
 

@@ -1,7 +1,7 @@
-import { loadTags } from '@/lib/utils/db/catOrTag';
-import { shuffleFY } from '@/lib/utils/common/misc';
-import { supabase } from '@/lib/node/supaClientFS';
-import { getDiffFromNow } from '@/lib/utils/common/misc';
+import { loadTags } from '#/lib/utils/db/catOrTag';
+import { shuffleFY } from '#/lib/utils/common/misc';
+import { supabase } from '#/lib/node/supaClientFS';
+import { getDiffFromNow } from '#/lib/utils/common/misc';
 
 const generateTagCloud = async () => {
   const config = {

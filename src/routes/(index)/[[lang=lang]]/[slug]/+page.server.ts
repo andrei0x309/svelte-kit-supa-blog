@@ -1,12 +1,12 @@
 import type { PageServerLoad } from './$types';
-import { checkData, appendToData, extractPage, error } from '@/lib/utils/page';
+import { checkData, appendToData, extractPage, error } from '#/lib/utils/page';
 import truncate from 'truncate-html';
-import { loadPost, loadPosts } from '@/lib/utils/db/posts';
-import { getPostSchema } from '@/lib/utils/server/schema';
+import { loadPost, loadPosts } from '#/lib/utils/db/posts';
+import { getPostSchema } from '#/lib/utils/server/schema';
 import type { IPost } from '#lib/types/post.js';
-import { isSupportedLang } from '@/lib/utils/server/lang';
+import { isSupportedLang } from '#/lib/utils/server/lang';
 import { config } from '#lib/config/index.js';
-import { getIndexSchema } from '@/lib/utils/server/schema';
+import { getIndexSchema } from '#/lib/utils/server/schema';
 
 export const load: PageServerLoad = async (data) => {
   let slug;

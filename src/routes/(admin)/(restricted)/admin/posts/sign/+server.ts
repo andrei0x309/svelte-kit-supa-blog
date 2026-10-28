@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/node/supaClientFS';
-import { checkAuth } from '@/lib/utils/server/auth';
+import { supabase } from '#/lib/node/supaClientFS';
+import { checkAuth } from '#/lib/utils/server/auth';
 import { json } from '@sveltejs/kit';
 import type { ICookies } from '#lib/types/cookies.js';
 import { loadPost } from '#lib/utils/db/posts.js';

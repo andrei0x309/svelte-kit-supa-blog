@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 

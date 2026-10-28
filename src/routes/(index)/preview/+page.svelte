@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page as SveltePage } from '$app/state';
   import Article from '#lib/theme/Article.svelte';
-  import SideBar from '@/lib/theme/SideBar.svelte';
-  import { isLoading } from '@/stores/main';
+  import SideBar from '#/lib/theme/SideBar.svelte';
+  import { isLoading } from '#/stores/main';
 
   interface Props {
     data: any;

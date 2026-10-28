@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { makeTitle, appendToData } from '@/lib/utils/common';
+import { makeTitle, appendToData } from '#/lib/utils/common';
 
 const defaultError = {
   message: 'Resource not found',

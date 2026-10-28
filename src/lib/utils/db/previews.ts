@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/node/supaClientFS';
-import { loadTags, preparePostResponse } from '@/lib/utils/db/posts';
+import { supabase } from '#/lib/node/supaClientFS';
+import { loadTags, preparePostResponse } from '#/lib/utils/db/posts';
 
 export const loadLast20Drafts = async () => {
   try {

@@ -2,7 +2,7 @@ getSha256('123').then(console.log);
 
 // console.log(typeof Deno)
 
-// import { supabase } from '@/lib/node/supaClientFS'
+// import { supabase } from '#/lib/node/supaClientFS'
 // import crypto from 'crypto'
 
 // import type { RequestHandler } from  './$types';
