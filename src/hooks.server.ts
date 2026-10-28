@@ -1,6 +1,6 @@
-import type { Handle } from '@sveltejs/kit';
-import { getLangFromPath } from '@/lib/utils/server/lang';
+import type { Handle } from '@sveltejs/kit/hooks';
 import { redirect } from '@sveltejs/kit';
+import { getLangFromPath } from '@/lib/utils/server/lang';
 import { config } from './lib/config';
 
 export const handle = (async ({ event, resolve }) => {
