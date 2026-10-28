@@ -1,6 +1,6 @@
 <script lang="ts">
   import Post from '@/routes/(admin)/(restricted)/admin/posts/Post.svelte';
-  import type { IPost, ICat, ITag } from '$lib/types/post';
+  import type { IPost, ICat, ITag } from '#lib/types/post.js';
   interface Props {
     data?: any;
   }

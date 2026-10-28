@@ -1,8 +1,8 @@
-import { findCat, loadPostsByCat } from '$lib/utils/db/posts';
+import { findCat, loadPostsByCat } from '#lib/utils/db/posts.js';
 import type { PageServerLoad } from './$types';
 import { checkData, appendToData } from '@/lib/utils/page';
 import { error } from '@/lib/utils/page';
-import { config } from '$lib/config';
+import { config } from '#lib/config/index.js';
 
 const defaultError = {
   message: 'Category not found',

@@ -1,6 +1,6 @@
 <script lang="ts">
   import MenuIcon from './icons/MenuIcon.svelte';
-  import { Swipe } from '$lib/utils/swipe';
+  import { Swipe } from '#lib/utils/swipe.js';
   import { onMount } from 'svelte';
 
   let { sideMenu, closeMenu } = $props();

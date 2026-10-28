@@ -1,7 +1,7 @@
 <script lang="ts">
   import Settings from '@/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
   import CatOrTag from '@/routes/(admin)/(restricted)/admin/settings/CatOrTag.svelte';
-  import type { ICatTag } from '$lib/types/catTag';
+  import type { ICatTag } from '#lib/types/catTag.js';
 
   interface Props {
     data: { catOrTag: ICatTag } & { notFound: boolean };

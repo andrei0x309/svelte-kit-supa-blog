@@ -1,16 +1,16 @@
 <script lang="ts">
-  import '$lib/sass/tailwind.css';
-  import '$lib/sass/app.scss';
+  import '#lib/sass/tailwind.css';
+  import '#lib/sass/app.scss';
   import type { Component } from 'svelte';
 
-  import Header from '$lib/theme/Header.svelte';
-  import Footer from '$lib/theme/Footer.svelte';
+  import Header from '#lib/theme/Header.svelte';
+  import Footer from '#lib/theme/Footer.svelte';
   import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { isLoading } from '@/stores/main';
   import { onMount } from 'svelte';
   import { theme as themeStore } from '@/stores/main';
-  import { config } from '$lib/config';
-  import { getGoogleAnalyticsCode } from '$lib/utils/client/analytics';
+  import { config } from '#lib/config/index.js';
+  import { getGoogleAnalyticsCode } from '#lib/utils/client/analytics.js';
   // import { partytownSnippet } from '@builder.io/partytown/integration'
 
   interface Props {

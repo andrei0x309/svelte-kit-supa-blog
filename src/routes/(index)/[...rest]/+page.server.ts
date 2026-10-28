@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { checkData, extractPage, error, appendToData } from '@/lib/utils/page';
 import { loadPosts } from '@/lib/utils/db/posts';
-import { config } from '$lib/config';
+import { config } from '#lib/config/index.js';
 import { getIndexSchema } from '@/lib/utils/server/schema';
 
 export const load: PageServerLoad = async (rest) => {

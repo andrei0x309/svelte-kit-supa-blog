@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IPost } from '$lib/types/post';
+  import type { IPost } from '#lib/types/post.js';
   import { slide } from 'svelte/transition';
   import { onMount } from 'svelte';
   interface Props {

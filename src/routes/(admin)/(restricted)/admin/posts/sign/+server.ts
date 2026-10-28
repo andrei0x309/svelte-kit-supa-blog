@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/node/supaClientFS';
 import { checkAuth } from '@/lib/utils/server/auth';
 import { json } from '@sveltejs/kit';
-import type { ICookies } from '$lib/types/cookies';
-import { loadPost } from '$lib/utils/db/posts';
+import type { ICookies } from '#lib/types/cookies.js';
+import { loadPost } from '#lib/utils/db/posts.js';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {

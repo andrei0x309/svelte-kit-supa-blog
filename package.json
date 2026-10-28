@@ -64,5 +64,9 @@
   "browser": {
     "stream": false
   },
-  "packageManager": "^bun@1.2.1"
+  "packageManager": "^bun@1.2.1",
+  "imports": {
+    "#lib": "./src/lib/index.js",
+    "#lib/*": "./src/lib/*"
+  }
 }

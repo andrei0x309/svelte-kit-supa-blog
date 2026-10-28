@@ -1,8 +1,8 @@
-import { findTag, loadPostsByTag } from '$lib/utils/db/posts';
+import { findTag, loadPostsByTag } from '#lib/utils/db/posts.js';
 import type { PageServerLoad } from './$types';
 import { checkData, appendToData } from '@/lib/utils/page';
 import { error } from '@/lib/utils/page';
-import { config } from '$lib/config';
+import { config } from '#lib/config/index.js';
 
 const defaultError = {
   message: 'Tag not found',

@@ -1,13 +1,13 @@
 <script lang="ts">
   import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
   import { onMount } from 'svelte';
-  import { makeEmptyPost } from '$lib/utils/client/posts';
+  import { makeEmptyPost } from '#lib/utils/client/posts.js';
   import Alert from '@/lib/components/shared/Alert.svelte';
-  import type { IPost, ICat, ITag, IRelatedPost } from '$lib/types/post';
+  import type { IPost, ICat, ITag, IRelatedPost } from '#lib/types/post.js';
   import { currentUser } from '@/stores/main';
-  import { schemas } from '$lib/types/post';
+  import { schemas } from '#lib/types/post.js';
   import truncate from 'truncate-html';
-  import { getParams } from '$lib/utils/client/misc';
+  import { getParams } from '#lib/utils/client/misc.js';
   import type { Jodit } from 'jodit';
 
   interface Props {

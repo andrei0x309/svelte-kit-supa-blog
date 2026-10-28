@@ -2,8 +2,8 @@
   import SideBar from '@/lib/theme/SideBar.svelte';
   import { page as SveltePage } from '$app/state';
   import { isLoading } from '@/stores/main';
-  import { config } from '$lib/config';
-  // import type { ICurrentUser } from '$lib/types/user';
+  import { config } from '#lib/config/index.js';
+  // import type { ICurrentUser } from '#lib/types/user.js';
 
   interface Props {
     data: {

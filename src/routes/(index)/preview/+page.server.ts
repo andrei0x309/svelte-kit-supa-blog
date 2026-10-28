@@ -1,4 +1,4 @@
-import { loadLast20Drafts } from '$lib/utils/db/previews';
+import { loadLast20Drafts } from '#lib/utils/db/previews.js';
 import type { PageServerLoad } from './$types';
 import { checkData, appendToData } from '@/lib/utils/page';
 import { error } from '@/lib/utils/page';

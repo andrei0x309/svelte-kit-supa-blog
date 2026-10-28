@@ -1,10 +1,10 @@
 import { supabase } from '@/lib/node/supaClientFS';
 import { checkAuth } from '@/lib/utils/server/auth';
 import { json } from '@sveltejs/kit';
-import type { ICookies } from '$lib/types/cookies';
-import { loadCatOrTag } from '$lib/utils/db/catOrTag';
+import type { ICookies } from '#lib/types/cookies.js';
+import { loadCatOrTag } from '#lib/utils/db/catOrTag.js';
 import type { RequestHandler } from './$types';
-import { rem_tag_from_posts } from '$lib/utils/db/posts';
+import { rem_tag_from_posts } from '#lib/utils/db/posts.js';
 
 export const DELETE: RequestHandler = (async ({ request, cookies }) => {
   try {

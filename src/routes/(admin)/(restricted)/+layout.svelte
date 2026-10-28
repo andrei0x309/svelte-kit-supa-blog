@@ -1,10 +1,10 @@
 <script lang="ts">
-  import '$lib/sass/tailwind.css';
-  import '$lib/sass/admin.scss';
+  import '#lib/sass/tailwind.css';
+  import '#lib/sass/admin.scss';
   import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { isLoading, currentUser } from '@/stores/main';
   import { onMount } from 'svelte';
-  import { config } from '$lib/config/index';
+  import { config } from '#lib/config/index.js';
 
   beforeNavigate(({ shallow, type }) => {
     if (shallow && type === 'goto') return;

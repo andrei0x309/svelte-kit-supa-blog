@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { getGoodReadsData, getTagCloud } from '$lib/utils/server/widgets';
+import { getGoodReadsData, getTagCloud } from '#lib/utils/server/widgets.js';
 import { SECRET_CRON_PASS } from '$app/env/private';
 
 const cronFnToExec = [getGoodReadsData, getTagCloud];

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setCookie } from '$lib/utils/common';
+  import { setCookie } from '#lib/utils/common.js';
   import { afterNavigate } from '$app/navigation';
   import MenuDesktop from './menu/MenuDesktop.svelte';
   import MenuMobileToggle from './menu/MenuMobileToggle.svelte';

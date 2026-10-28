@@ -1,11 +1,11 @@
 <script lang="ts">
   import { preventDefault } from 'svelte/legacy';
 
-  import type { ICatTag } from '$lib/types/catTag';
-  import { makeEmptyCatTag } from '$lib/utils/client/catTag';
-  import Alert from '$lib/components/shared/Alert.svelte';
+  import type { ICatTag } from '#lib/types/catTag.js';
+  import { makeEmptyCatTag } from '#lib/utils/client/catTag.js';
+  import Alert from '#lib/components/shared/Alert.svelte';
   import { onMount } from 'svelte';
-  import { getParams } from '$lib/utils/client/misc';
+  import { getParams } from '#lib/utils/client/misc.js';
 
   let { data = { catOrTag: makeEmptyCatTag() as ICatTag, notFound: false }, type = 'cat' }: Props = $props();
 

@@ -2,13 +2,13 @@ import { supabase } from '@/lib/node/supaClientFS';
 import { checkAuth } from '@/lib/utils/server/auth';
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
-import type { ICookies } from '$lib/types/cookies';
+import type { ICookies } from '#lib/types/cookies.js';
 import { loadPost } from '@/lib/utils/db/posts';
-import type { IPost, IRelatedPost } from '$lib/types/post';
+import type { IPost, IRelatedPost } from '#lib/types/post.js';
 import truncate from 'truncate-html';
 import { inc_tags_count, dec_tags_count } from '@/lib/utils/db/posts';
-// import { getSetting, STORE } from '$lib/utils/server/settings'
-// import { pinPostToPinata } from '$lib/utils/server/pinata'
+// import { getSetting, STORE } from '#lib/utils/server/settings.js'
+// import { pinPostToPinata } from '#lib/utils/server/pinata.js'
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
   try {

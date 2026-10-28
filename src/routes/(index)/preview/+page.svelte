@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page as SveltePage } from '$app/stores';
-  import Article from '$lib/theme/Article.svelte';
+  import Article from '#lib/theme/Article.svelte';
   import SideBar from '@/lib/theme/SideBar.svelte';
   import { isLoading } from '@/stores/main';
 

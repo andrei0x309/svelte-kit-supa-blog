@@ -1,6 +1,6 @@
 import { config } from './index';
 const IS_DEV_ENABLED = config.IS_DEV_ENABLED;
-import type { TriggerConfig } from '$lib/types/farcaster-frame-v2';
+import type { TriggerConfig } from '#lib/types/farcaster-frame-v2.js';
 
 export const FCConfig = {
   JFS: {

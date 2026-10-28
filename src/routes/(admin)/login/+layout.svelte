@@ -1,7 +1,7 @@
 <script>
   // @ts-nocheck
-  import '$lib/sass/tailwind.css';
-  import '$lib/sass/admin.scss';
+  import '#lib/sass/tailwind.css';
+  import '#lib/sass/admin.scss';
   import { onMount } from 'svelte';
   import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { isLoading } from '@/stores/main';

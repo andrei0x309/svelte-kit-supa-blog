@@ -2,9 +2,9 @@
   import SideBar from '@/lib/theme/SideBar.svelte';
   import { page as SveltePage } from '$app/state';
   import { isLoading } from '@/stores/main';
-  import { config } from '$lib/config';
-  import type { ICurrentUser } from '$lib/types/user';
-  import { generateURLFCFrameEmbed } from '$lib/utils/client/fc-frame-v2';
+  import { config } from '#lib/config/index.js';
+  import type { ICurrentUser } from '#lib/types/user.js';
+  import { generateURLFCFrameEmbed } from '#lib/utils/client/fc-frame-v2.js';
 
   interface Props {
     data: {

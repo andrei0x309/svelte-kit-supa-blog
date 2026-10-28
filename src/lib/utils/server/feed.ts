@@ -1,6 +1,6 @@
-import { config } from '$lib/config';
+import { config } from '#lib/config/index.js';
 import truncate from 'truncate-html';
-import type { IPost } from '$lib/types/post';
+import type { IPost } from '#lib/types/post.js';
 
 function cleanInvalidXmlChars(input: string) {
   const enc = new TextEncoder().encode(input);

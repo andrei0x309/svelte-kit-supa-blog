@@ -1,17 +1,17 @@
 <script lang="ts">
-  import BlueSkyIcon from '$lib/theme/icons/platfroms/BlueSkyIcon.svelte';
-  import LinkCopyIcon from '$lib/theme/icons/platfroms/LinkCopyIcon.svelte';
-  import WhatsAppIcon from '$lib/theme/icons/platfroms/WhatsAppIcon.svelte';
-  import XIcon from '$lib/theme/icons/platfroms/XIcon.svelte';
-  import TelegramIcon from '$lib/theme/icons/platfroms/TelegramIcon.svelte';
-  import FaceBookIcon from '$lib/theme/icons/platfroms/FaceBookIcon.svelte';
-  import FarcasterIcon from '$lib/theme/icons/platfroms/FarcasterIcon.svelte';
-  import PinterestIcon from '$lib/theme/icons/platfroms/PinterestIcon.svelte';
-  import RedditIcon from '$lib/theme/icons/platfroms/RedditIcon.svelte';
-  import { articleSettings } from '$lib/config/index';
+  import BlueSkyIcon from '#lib/theme/icons/platfroms/BlueSkyIcon.svelte';
+  import LinkCopyIcon from '#lib/theme/icons/platfroms/LinkCopyIcon.svelte';
+  import WhatsAppIcon from '#lib/theme/icons/platfroms/WhatsAppIcon.svelte';
+  import XIcon from '#lib/theme/icons/platfroms/XIcon.svelte';
+  import TelegramIcon from '#lib/theme/icons/platfroms/TelegramIcon.svelte';
+  import FaceBookIcon from '#lib/theme/icons/platfroms/FaceBookIcon.svelte';
+  import FarcasterIcon from '#lib/theme/icons/platfroms/FarcasterIcon.svelte';
+  import PinterestIcon from '#lib/theme/icons/platfroms/PinterestIcon.svelte';
+  import RedditIcon from '#lib/theme/icons/platfroms/RedditIcon.svelte';
+  import { articleSettings } from '#lib/config/index.js';
   import type { Component } from 'svelte';
   import { beforeNavigate } from '$app/navigation';
-  import { clickOutside } from '$lib/utils/client/misc';
+  import { clickOutside } from '#lib/utils/client/misc.js';
   import { fade } from 'svelte/transition';
 
   interface Props {

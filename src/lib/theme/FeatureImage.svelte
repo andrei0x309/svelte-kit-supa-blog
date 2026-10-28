@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { optimizeGoogleCDNImage } from '$lib/utils/server/image';
+  import { optimizeGoogleCDNImage } from '#lib/utils/server/image.js';
   import { onMount } from 'svelte';
   import { browser } from '$app/env';
 

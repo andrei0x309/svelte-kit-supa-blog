@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Alert from '$lib/components/shared/Alert.svelte';
+  import Alert from '#lib/components/shared/Alert.svelte';
   import { goto } from '$app/navigation';
-  import { setCookie } from '$lib/utils/common';
+  import { setCookie } from '#lib/utils/common.js';
 
   let username = $state('');
   let password = $state('');

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { IPost } from '$lib/types/post';
-  import { config } from '$lib/config';
-  import Signature from '$lib/theme/Article/Signature.svelte';
-  import RelatedArticle from '$lib/theme/Article/RelatedArticle.svelte';
-  import FeatureImage from '$lib/theme/FeatureImage.svelte';
-  import ShareArticle from '$lib/theme/Article/ShareArticle.svelte';
+  import type { IPost } from '#lib/types/post.js';
+  import { config } from '#lib/config/index.js';
+  import Signature from '#lib/theme/Article/Signature.svelte';
+  import RelatedArticle from '#lib/theme/Article/RelatedArticle.svelte';
+  import FeatureImage from '#lib/theme/FeatureImage.svelte';
+  import ShareArticle from '#lib/theme/Article/ShareArticle.svelte';
   import type { Component } from 'svelte';
   import { onMount } from 'svelte';
 
@@ -25,7 +25,7 @@
 
   const loadComments = async () => {
     if (data.isFull && config.giscusCommentsEnabled) {
-      const { default: comm } = await import('$lib/theme/Article/Comments.svelte');
+      const { default: comm } = await import('#lib/theme/Article/Comments.svelte');
       Comments = comm;
     }
   };

@@ -1,6 +1,6 @@
 <script lang="ts">
   import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
-  import type { ICurrentUser } from '$lib/types/user';
+  import type { ICurrentUser } from '#lib/types/user.js';
   import ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
   import { slide } from 'svelte/transition';
   import { modalOpen } from '@/stores/main';

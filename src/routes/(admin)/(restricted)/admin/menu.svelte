@@ -1,7 +1,7 @@
 <script lang="ts">
   import PreviewEyeIcon from './icons/PreviewEyeIcon.svelte';
   import { goto } from '$app/navigation';
-  import { eraseCookie } from '$lib/utils/common';
+  import { eraseCookie } from '#lib/utils/common.js';
   import { currentUser } from '@/stores/main';
 
   const logout = () => {

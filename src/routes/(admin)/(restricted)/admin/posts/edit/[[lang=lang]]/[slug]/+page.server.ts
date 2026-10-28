@@ -1,7 +1,7 @@
 import { loadPost } from '@/lib/utils/db/posts';
 import { loadCats } from '@/lib/utils/db/posts';
 import type { PageServerLoad } from './$types';
-import type { IPost, ICat, ITag } from '$lib/types/post';
+import type { IPost, ICat, ITag } from '#lib/types/post.js';
 
 export const load: PageServerLoad = (async (req) => {
   try {

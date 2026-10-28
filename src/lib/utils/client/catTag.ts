@@ -1,5 +1,5 @@
-import type { ICatTag } from '$lib/types/catTag';
-import type { IAlert } from '$lib/types/alert';
+import type { ICatTag } from '#lib/types/catTag.js';
+import type { IAlert } from '#lib/types/alert.js';
 
 export const makeEmptyCatTag = (): ICatTag => {
   return {

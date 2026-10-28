@@ -1,8 +1,8 @@
 import type { RequestHandler } from './$types';
 import { loadPosts } from '@/lib/utils/db/posts';
-import type { IPost } from '$lib/types/post';
-import { generateRssFeed, generateRssNotFound } from '$lib/utils/server/feed';
-import { getLatsPostDate } from '$lib/utils/db/posts';
+import type { IPost } from '#lib/types/post.js';
+import { generateRssFeed, generateRssNotFound } from '#lib/utils/server/feed.js';
+import { getLatsPostDate } from '#lib/utils/db/posts.js';
 
 export const GET: RequestHandler = (async ({ url }) => {
   const lastPostDateP = getLatsPostDate();
