@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page as SveltePage } from '$app/stores';
+  import { page as SveltePage } from '$app/state';
   import Article from '#lib/theme/Article.svelte';
   import SideBar from '@/lib/theme/SideBar.svelte';
   import { isLoading } from '@/stores/main';
@@ -23,9 +23,11 @@
   <meta property="og:title" content={data.pageTitle} />
   <meta property="og:description" content={data.pageDescription} />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={`${$SveltePage.url}`} />
+  <meta property="og:url" content={`${SveltePage.url}`} />
+
   <meta property="og:image" content="https://flashsoft.eu/res/flashsoftLogo.png" />
-  <link rel="canonical" href={`${$SveltePage.url}`} />
+
+  <link rel="canonical" href={`${SveltePage.url}`} />
 
   {#if data?.res?.hasNext ?? false}
     <link rel="next" href="/page/{(data?.res?.page ?? 1) + 1}" />
