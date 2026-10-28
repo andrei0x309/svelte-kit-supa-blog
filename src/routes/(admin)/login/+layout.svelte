@@ -8,11 +8,15 @@
   /** @type {{children?: import('svelte').Snippet<[any]>}} */
   let { children } = $props();
 
-  beforeNavigate(() => {
+  beforeNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     isLoading.set(true);
   });
 
-  afterNavigate(() => {
+  afterNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     isLoading.set(false);
   });
 

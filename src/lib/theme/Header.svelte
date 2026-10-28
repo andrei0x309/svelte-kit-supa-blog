@@ -113,12 +113,15 @@
     }
   };
 
-  afterNavigate(() => {
+  afterNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     closeSearchModal();
   });
 </script>
 
 <MenuMobile {closeMenu} bind:sideMenu />
+
 <header class="header flex flex-row bg-gray-200 items-center content-va-off">
   <div class="logo min-h-full h-16 w-40 py-2 rounded-tr-full bg-[#1d1d1d]">
     <a title="home" href="/">
@@ -151,7 +154,7 @@
           stroke-linejoin="round"
           stroke-width="2"
           d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-        />
+        ></path>
       </svg>
     </div>
   </button>

@@ -121,7 +121,9 @@
     }
   };
 
-  beforeNavigate(() => {
+  beforeNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     showPopup = false;
   });
 </script>
@@ -129,6 +131,7 @@
 <div use:clickOutside={() => (showPopup = false)}>
   <button aria-label="share button" class="share-wrapper" onclick={() => {}}>
     <input id={`share-toggle-${slug}`} type="checkbox" class="check" bind:checked={showPopup} />
+
     <label for={`share-toggle-${slug}`} class="container">
       <svg class="icon inactive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path

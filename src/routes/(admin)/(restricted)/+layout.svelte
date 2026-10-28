@@ -6,11 +6,15 @@
   import { onMount } from 'svelte';
   import { config } from '$lib/config/index';
 
-  beforeNavigate(() => {
+  beforeNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     isLoading.set(true);
   });
 
-  afterNavigate(() => {
+  afterNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     isLoading.set(false);
   });
 

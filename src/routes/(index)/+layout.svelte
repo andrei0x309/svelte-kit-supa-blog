@@ -22,11 +22,15 @@
   let theme = $state(data?.theme || 'dark');
   let DynFarcasterFollowButton: Component | null = $state(null);
 
-  beforeNavigate(() => {
+  beforeNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     isLoading.set(true);
   });
 
-  afterNavigate(() => {
+  afterNavigate(({ shallow, type }) => {
+    if (shallow && type === 'goto') return;
+
     isLoading.set(false);
   });
 
