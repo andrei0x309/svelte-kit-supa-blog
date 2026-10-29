@@ -1,24 +1,21 @@
-import { supabase } from '#/lib/node/supaClientFS';
-import { checkAuth } from '#/lib/utils/server/auth';
-import type { RequestHandler } from './$types';
-import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
-import { loadPost } from '#/lib/utils/db/posts';
-import type { IPost, IRelatedPost } from '#lib/types/post.js';
 import truncate from 'truncate-html';
-import { inc_tags_count, dec_tags_count } from '#/lib/utils/db/posts';
-// import { getSetting, STORE } from '#lib/utils/server/settings.js'
-// import { pinPostToPinata } from '#lib/utils/server/pinata.js'
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { dec_tags_count, inc_tags_count, loadPost } from '#/lib/utils/db/posts.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
+import type { IPost, IRelatedPost } from '#lib/types/post.ts';
+import type { RequestHandler } from './$types';
+// import { getSetting, STORE } from '#lib/utils/server/settings.ts'
+// import { pinPostToPinata } from '#lib/utils/server/pinata.ts'
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
   try {
     const req = { cookies } as ICookies;
     const currentUser = await checkAuth(req);
-    const { slug, title, content, tags_id, cat_id, author_id, seo_description, feature_image, feature_image_alt, schema, related, draft } =
-      await request.json();
+    const { slug, title, content, tags_id, cat_id, author_id, seo_description, feature_image, feature_image_alt, schema, related, draft } = await request.json();
 
     if (currentUser.role === 'demo') {
-      return json(
+      return Response.json(
         {
           error: "Demo User can't take this action"
         },
@@ -26,24 +23,50 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       );
     }
 
+    const requestedAuthorId = author_id !== undefined && author_id !== null ? Number(author_id) : null;
+    const isAdmin = currentUser.role === 'admin';
+    if (!slug) {
+      return Response.json(
+        {
+          error: 'Slug is required'
+        },
+        { status: 400 }
+      );
+    }
     const exists = await loadPost(slug);
 
     if (exists?.res?.slug) {
-      if (exists.res.author_id !== currentUser.id && currentUser.role !== 'admin') {
-        return json(
+      if (exists.res.author_id !== currentUser.id && !isAdmin) {
+        return Response.json(
           {
             error: 'Only admin edit other users posts'
           },
           { status: 403 }
         );
       }
-    } else {
-      if (!slug || !title || !content || !author_id) {
-        return json(
+      if (requestedAuthorId !== null && requestedAuthorId !== exists.res.author_id && !isAdmin) {
+        return Response.json(
           {
-            error: 'Required fields are missing( slug, title, content, author_id )'
+            error: 'You cannot change the author of an existing post'
+          },
+          { status: 403 }
+        );
+      }
+    } else {
+      if (!slug || !title || !content) {
+        return Response.json(
+          {
+            error: 'Required fields are missing( slug, title, content )'
           },
           { status: 400 }
+        );
+      }
+      if (requestedAuthorId !== null && requestedAuthorId !== currentUser.id && !isAdmin) {
+        return Response.json(
+          {
+            error: 'You cannot assign a different author_id when creating a post'
+          },
+          { status: 403 }
         );
       }
     }
@@ -51,7 +74,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     update.slug = slug;
     update.title = title;
     update.content = content;
-    update.author_id = author_id;
+    update.author_id = requestedAuthorId !== null && isAdmin ? requestedAuthorId : currentUser.id;
     const lang = slug.includes('/') ? slug.split('/')[0] : 'en';
     update.language = lang;
     if (cat_id) update.cat_id = cat_id;
@@ -65,7 +88,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
 
     if (related) {
       if (!Array.isArray(related)) {
-        return json(
+        return Response.json(
           {
             error: 'Invalid JSON for related posts must be an array'
           },
@@ -73,7 +96,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
         );
       }
       if (related.length > 5) {
-        return json(
+        return Response.json(
           {
             error: 'Invalid JSON for related posts must be an array with max 3 items'
           },
@@ -89,7 +112,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
           return false;
         })
       ) {
-        return json(
+        return Response.json(
           {
             error: 'Invalid JSON for related posts must be an array of objects with slug, title, feature_image and excerpt'
           },
@@ -122,7 +145,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       if (arrPromises.length > 0) await Promise.all(arrPromises);
     }
 
-    return json(
+    return Response.json(
       {
         success: true
       },
@@ -130,14 +153,14 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     );
   } catch (e) {
     if (e === 'denied') {
-      return json(
+      return Response.json(
         {
           error: 'Access denied'
         },
         { status: 403 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'Internal Server Error'
       },

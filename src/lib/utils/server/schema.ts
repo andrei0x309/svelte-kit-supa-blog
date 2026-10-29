@@ -1,7 +1,7 @@
-import type { IPost } from '#lib/types/post.js';
-import { schemas } from '#lib/types/post.js';
 import truncate from 'truncate-html';
-import { config, schemaSocials } from '#lib/config/index.js';
+import { config, schemaSocials } from '#lib/config/index.ts';
+import type { IPost } from '#lib/types/post.ts';
+import { schemas } from '#lib/types/post.ts';
 
 export const getSchemaArticle = (post: IPost) => {
   if (!post) return '';

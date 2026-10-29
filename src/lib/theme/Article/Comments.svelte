@@ -1,24 +1,24 @@
 <script lang="ts">
-  import { theme as themeStore } from '#/stores/main';
-  import { onMount, onDestroy } from 'svelte';
-  import Giscus from '@giscus/svelte';
+import { theme as themeStore } from '#/stores/main';
+import { onMount, onDestroy } from 'svelte';
+import Giscus from '@giscus/svelte';
 
-  const darkTheme = 'noborder_dark';
-  const lightTheme = 'noborder_light';
+const darkTheme = 'noborder_dark';
+const lightTheme = 'noborder_light';
 
-  let localTheme = $state($themeStore === 'dark' ? darkTheme : lightTheme);
+let localTheme = $state($themeStore === 'dark' ? darkTheme : lightTheme);
 
-  let themeUnsub: () => void;
+let themeUnsub: () => void;
 
-  onMount(() => {
-    themeUnsub = themeStore.subscribe((theme) => {
-      localTheme = theme === 'dark' ? darkTheme : lightTheme;
-    });
+onMount(() => {
+  themeUnsub = themeStore.subscribe((theme) => {
+    localTheme = theme === 'dark' ? darkTheme : lightTheme;
   });
+});
 
-  onDestroy(() => {
-    themeUnsub?.();
-  });
+onDestroy(() => {
+  themeUnsub?.();
+});
 </script>
 
 <Giscus

@@ -1,5 +1,5 @@
-import { loadUsers } from '#/lib/utils/db/users';
-import type { PageServerLoad } from '../../$types';
+import { loadUsers } from '#/lib/utils/db/users.ts';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = (async (req) => {
   try {

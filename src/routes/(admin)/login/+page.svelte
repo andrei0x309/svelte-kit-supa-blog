@@ -1,35 +1,29 @@
 <script lang="ts">
-  import Alert from '#lib/components/shared/Alert.svelte';
-  import { goto } from '$app/navigation';
-  import { setCookie } from '#lib/utils/common.js';
+import Alert from '#lib/components/shared/Alert.svelte';
+import { goto } from '$app/navigation';
 
-  let username = $state('');
-  let password = $state('');
-  let alert: Alert | null = $state(null);
+let username = $state('');
+let password = $state('');
+let alert: Alert | null = $state(null);
 
-  const login = async (event: Event) => {
-    event.preventDefault();
-    const res = await fetch('/login/check', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username,
-        password
-      })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      const hash = data.hash;
-      setCookie('hash', hash, 90);
-      setCookie('username', username, 90);
-      setCookie('role', data.role, 90);
-      goto('/admin');
-    } else {
-      (alert as unknown as { showError: (m: string) => void })?.showError('Wrong username or password');
-    }
-  };
+const login = async (event: Event) => {
+  event.preventDefault();
+  const res = await fetch('/login/check', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username,
+      password
+    })
+  });
+  if (res.ok) {
+    goto('/admin');
+  } else {
+    (alert as unknown as { showError: (m: string) => void })?.showError('Wrong username or password');
+  }
+};
 </script>
 
 <div class="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat">

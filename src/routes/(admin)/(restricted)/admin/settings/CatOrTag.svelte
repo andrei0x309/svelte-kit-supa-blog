@@ -1,56 +1,58 @@
 <script lang="ts">
-  import { preventDefault } from 'svelte/legacy';
+import { onMount } from 'svelte';
+import { preventDefault } from 'svelte/legacy';
+import Alert from '#lib/components/shared/Alert.svelte';
+import type { ICatTag } from '#lib/types/catTag.ts';
+import { makeEmptyCatTag } from '#lib/utils/client/catTag.ts';
+import { getParams } from '#lib/utils/client/misc.ts';
 
-  import type { ICatTag } from '#lib/types/catTag.js';
-  import { makeEmptyCatTag } from '#lib/utils/client/catTag.js';
-  import Alert from '#lib/components/shared/Alert.svelte';
-  import { onMount } from 'svelte';
-  import { getParams } from '#lib/utils/client/misc.js';
+let { data = { catOrTag: makeEmptyCatTag() as ICatTag, notFound: false }, type = 'cat' }: Props = $props();
 
-  let { data = { catOrTag: makeEmptyCatTag() as ICatTag, notFound: false }, type = 'cat' }: Props = $props();
+let catOrTag: ICatTag = $state(makeEmptyCatTag());
+$effect(() => {
+  catOrTag = data.catOrTag as ICatTag;
+});
+let alert: Alert | undefined = $state();
+interface Props {
+  data?: any;
+  type?: string;
+}
 
-  const catOrTag: ICatTag = $state(data.catOrTag as ICatTag);
-  let alert: Alert | undefined = $state();
-  interface Props {
-    data?: any;
-    type?: string;
+const save = async () => {
+  if (!catOrTag.name || !catOrTag.slug) {
+    alert?.showError('Please fill required fields (name, slug)');
+    return;
   }
 
-  const save = async () => {
-    if (!catOrTag.name || !catOrTag.slug) {
-      alert?.showError('Please fill required fields (name, slug)');
-      return;
-    }
+  if (catOrTag.slug.match(/[^a-z0-9-\/]/g)) {
+    alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
+    return;
+  }
 
-    if (catOrTag.slug.match(/[^a-z0-9-\/]/g)) {
-      alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
-      return;
-    }
+  catOrTag.type = type as 'cat';
 
-    catOrTag.type = type as 'cat';
-
-    const res = await fetch('/admin/settings/cat-tag/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(catOrTag)
-    });
-    const data = await res.json();
-    if (res.ok) {
-      const updateId = data.updateId;
-      window.location.href = `/admin/settings/${type === 'cat' ? 'categories' : 'tags'}/edit/${updateId}?saved=true`;
-    } else {
-      alert?.showError(data?.error || 'Something went wrong');
-    }
-  };
-
-  onMount(() => {
-    if (getParams('saved')) {
-      const resource = type === 'cat' ? 'Category' : 'Tag';
-      alert?.showSuccess(resource + ' saved successfully');
-    }
+  const res = await fetch('/admin/settings/cat-tag/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(catOrTag)
   });
+  const data = await res.json();
+  if (res.ok) {
+    const updateId = data.updateId;
+    window.location.href = `/admin/settings/${type === 'cat' ? 'categories' : 'tags'}/edit/${updateId}?saved=true`;
+  } else {
+    alert?.showError(data?.error || 'Something went wrong');
+  }
+};
+
+onMount(() => {
+  if (getParams('saved')) {
+    const resource = type === 'cat' ? 'Category' : 'Tag';
+    alert?.showSuccess(resource + ' saved successfully');
+  }
+});
 </script>
 
 <div class="p-8 rounded-sm border border-gray-200">

@@ -1,13 +1,11 @@
-import type { PageServerLoad } from './$types';
-import { checkData, appendToData } from '#/lib/utils/page';
 import truncate from 'truncate-html';
-import { loadPost } from '#/lib/utils/db/posts';
-import { supabase } from '#/lib/node/supaClientFS';
-import { error } from '#/lib/utils/page';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { loadPost } from '#/lib/utils/db/posts.ts';
+import { appendToData, checkData, error } from '#/lib/utils/page.ts';
+import type { PageServerLoad } from './$types';
 
 const defaultError = {
-  message: 'Unauthorized',
-  pageType: 'author'
+  message: 'Unauthorized'
 } as App.Error;
 
 export const load: PageServerLoad = async (req) => {
@@ -18,7 +16,7 @@ export const load: PageServerLoad = async (req) => {
     const user = (await supabase.from('fsk_blog_author').select('username, password_hash').eq('username', username).single()).data;
     if (user) {
       if (hash !== user.password_hash) {
-        throw error(401, defaultError);
+        throw error(401, defaultError.message);
       }
     }
   }

@@ -1,94 +1,97 @@
 <script lang="ts">
-  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
-  import { onMount } from 'svelte';
-  import { makeEmptyPost } from '#lib/utils/client/posts.js';
-  import Alert from '#/lib/components/shared/Alert.svelte';
-  import type { IPost, ICat, ITag, IRelatedPost } from '#lib/types/post.js';
-  import { currentUser } from '#/stores/main';
-  import { schemas } from '#lib/types/post.js';
-  import truncate from 'truncate-html';
-  import { getParams } from '#lib/utils/client/misc.js';
-  import type { Jodit } from 'jodit';
+import type { Jodit } from 'jodit';
+import { onMount } from 'svelte';
+import truncate from 'truncate-html';
+import Alert from '#/lib/components/shared/Alert.svelte';
+import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
+import { currentUser } from '#/stores/main.ts';
+import type { ICat, IPost, IRelatedPost, ITag } from '#lib/types/post.ts';
+import { schemas } from '#lib/types/post.ts';
+import { getParams } from '#lib/utils/client/misc.ts';
+import { makeEmptyPost } from '#lib/utils/client/posts.ts';
 
-  interface Props {
-    data?: any;
-    header?: import('svelte').Snippet;
-  }
-
-  let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props =
-    $props();
-
-  let postData: IPost = $state(data.post as IPost);
-
-  if (!data.post) {
-    postData = makeEmptyPost();
-  } else {
-    let related;
-    try {
-      related = JSON.parse((data.post?.related as unknown as string) || '[]') as IRelatedPost[];
-    } catch {
-      // do nothing
-    }
-    if (related) {
-      postData = { ...data.post, related };
-    }
-  }
-
-  let cats = data.cats ?? ([] as ICat[]);
-  let tags = data.tags ?? ([] as ITag[]);
-  let manualSlugs = $state('');
-  let relatedMechanism = $state('tags');
-
-  let alert:
-    | (Alert & {
-        showError: (m: string) => void;
-        showSuccess: (m: string) => void;
-      })
-    | null = $state(null);
-
-  let alertRelated:
-    | (Alert & {
-        showError: (m: string) => void;
-        showSuccess: (m: string) => void;
-      })
-    | null = $state(null);
-
-  let editor: HTMLElement | undefined = $state();
-  let Jodit: Jodit;
-  let JoditModule: typeof import('jodit').Jodit;
-
-  const goToAnchor = (anchor: string) => {
-    const loc = document.location.toString().split('#')[0];
-    document.location = `${loc}#${anchor}`;
+interface Props {
+  data?: {
+    post: IPost | null;
+    cats: ICat[];
+    tags: ITag[];
+    notfound: boolean;
   };
+  header?: import('svelte').Snippet;
+}
 
-  onMount(async () => {
-    if (data.notfound) {
-      postData = makeEmptyPost();
-    }
-    JoditModule = (await import('jodit')).Jodit;
+let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props = $props();
 
-    const plugins = await Promise.all([import('jodit/esm/plugins/all')]);
+let postData: IPost = $derived.by(() => {
+  if (!data.post) {
+    return makeEmptyPost();
+  }
 
-    JoditModule.plugins.add('all', plugins[0].default);
+  let related;
+  try {
+    related = JSON.parse((data.post.related as unknown as string) || '[]') as IRelatedPost[];
+  } catch {
+    // do nothing
+  }
 
-    const buttons = [
-      {
-        name: 'source',
-        icon: '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><polygon points="28 19 28 11 26 11 26 21 32 21 32 19 28 19"/><polygon points="24 11 22 11 20.5 15 19 11 17 11 17 21 19 21 19 14 20.5 18 22 14 22 21 24 21 24 11"/><polygon points="9 13 11 13 11 21 13 21 13 13 15 13 15 11 9 11 9 13"/><polygon points="5 11 5 15 2 15 2 11 0 11 0 21 2 21 2 17 5 17 5 21 7 21 7 11 5 11"/></svg>'
-      },
-      {
-        name: 'empty',
-        icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.002 12H4z"/><path d="M9.293 9.293 5.586 13l3.707 3.707 1.414-1.414L8.414 13l2.293-2.293zm5.414 0-1.414 1.414L15.586 13l-2.293 2.293 1.414 1.414L18.414 13z"/></svg>',
-        exec: function (e: any) {
-          const dialog = new JoditModule.modules.Dialog({
-            theme: 'dark',
-            resizable: false,
-            draggable: false
-          });
-          const content = document.createElement('div');
+  return related ? { ...data.post, related } : data.post;
+});
 
-          const innerContent = `<div class="mt-8 space-y-6">
+let cats = $derived(data.cats ?? ([] as ICat[]));
+let tags = $derived(data.tags ?? ([] as ITag[]));
+let manualSlugs = $state('');
+let relatedMechanism = $state('tags');
+
+let alert:
+  | (Alert & {
+      showError: (m: string) => void;
+      showSuccess: (m: string) => void;
+    })
+  | null = $state(null);
+
+let alertRelated:
+  | (Alert & {
+      showError: (m: string) => void;
+      showSuccess: (m: string) => void;
+    })
+  | null = $state(null);
+
+let editor: HTMLElement | undefined = $state();
+let jodit: Jodit;
+let JoditModule: typeof import('jodit').Jodit;
+
+const goToAnchor = (anchor: string) => {
+  const loc = document.location.toString().split('#')[0];
+  document.location = `${loc}#${anchor}`;
+};
+
+onMount(async () => {
+  if (data.notfound) {
+    postData = makeEmptyPost();
+  }
+  JoditModule = (await import('jodit')).Jodit;
+
+  const plugins = await Promise.all([import('jodit/esm/plugins/all')]);
+
+  JoditModule.plugins.add('all', plugins[0].default);
+
+  const buttons = [
+    {
+      name: 'source',
+      icon: '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><polygon points="28 19 28 11 26 11 26 21 32 21 32 19 28 19"/><polygon points="24 11 22 11 20.5 15 19 11 17 11 17 21 19 21 19 14 20.5 18 22 14 22 21 24 21 24 11"/><polygon points="9 13 11 13 11 21 13 21 13 13 15 13 15 11 9 11 9 13"/><polygon points="5 11 5 15 2 15 2 11 0 11 0 21 2 21 2 17 5 17 5 21 7 21 7 11 5 11"/></svg>'
+    },
+    {
+      name: 'empty',
+      icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.002 12H4z"/><path d="M9.293 9.293 5.586 13l3.707 3.707 1.414-1.414L8.414 13l2.293-2.293zm5.414 0-1.414 1.414L15.586 13l-2.293 2.293 1.414 1.414L18.414 13z"/></svg>',
+      exec: function (e: any) {
+        const dialog = new JoditModule.modules.Dialog({
+          theme: 'dark',
+          resizable: false,
+          draggable: false
+        });
+        const content = document.createElement('div');
+
+        const innerContent = `<div class="mt-8 space-y-6">
 						<div style="
                             display: flex;
                             flex-direction: column;
@@ -121,191 +124,191 @@
                             ></textarea>
 			</div>
             `;
-          content.innerHTML = innerContent;
-          dialog.setHeader('Insert Code Block');
-          dialog.setContent(content);
-          dialog.setSize('100%', '100%');
-          dialog.setModal(true);
+        content.innerHTML = innerContent;
+        dialog.setHeader('Insert Code Block');
+        dialog.setContent(content);
+        dialog.setSize('100%', '100%');
+        dialog.setModal(true);
 
-          JoditModule.modules.Helpers.css(editor as HTMLElement, {
-            width: '100%',
-            height: '100%'
-          });
+        JoditModule.modules.Helpers.css(editor as HTMLElement, {
+          width: '100%',
+          height: '100%'
+        });
 
-          const but = document.createElement('button');
-          but.style.fontSize = '1.3rem';
-          but.style.border = '1px solid #ccc';
-          but.style.padding = '0.3rem 3rem';
-          but.style.margin = 'auto';
-          but.style.marginBottom = '3rem';
-          but.innerText = 'Insert Code Block';
+        const but = document.createElement('button');
+        but.style.fontSize = '1.3rem';
+        but.style.border = '1px solid #ccc';
+        but.style.padding = '0.3rem 3rem';
+        but.style.margin = 'auto';
+        but.style.marginBottom = '3rem';
+        but.innerText = 'Insert Code Block';
 
-          but.addEventListener('click', async () => {
-            const lang = (document.getElementById('code-block-lang') as any).value;
-            const code = (document.getElementById('code-block-code') as any).value;
-            const highlightedCode = await highLightCodeBlocks(code, lang);
-            if (!highlightedCode) {
-              alert?.showError('Unsuported language');
-              dialog.close();
-              return;
-            }
-            const codeBlock = `<pre><code class="language-${lang}">${highlightedCode}</code></pre>`;
-            e.selection.insertHTML(codeBlock);
+        but.addEventListener('click', async () => {
+          const lang = (document.getElementById('code-block-lang') as any).value;
+          const code = (document.getElementById('code-block-code') as any).value;
+          const highlightedCode = await highLightCodeBlocks(code, lang);
+          if (!highlightedCode) {
+            alert?.showError('Unsuported language');
             dialog.close();
-          });
+            return;
+          }
+          const codeBlock = `<pre><code class="language-${lang}">${highlightedCode}</code></pre>`;
+          e.selection.insertHTML(codeBlock);
+          dialog.close();
+        });
 
-          dialog.setFooter([but]);
-          dialog.open();
-        }
-      },
-      { name: 'fullsize' },
-      { name: 'image' },
-      { name: 'link' },
-      { name: 'video' },
-      { name: 'bold' },
-      { name: 'strikethrough' },
-      { name: 'underline' },
-      { name: 'italic' },
-      { name: 'superscript' },
-      { name: 'subscript' },
-      { name: 'selectall' },
-      { name: 'paste' },
-      { name: 'copy' },
-      { name: 'cut' },
-      { name: 'undo' },
-      { name: 'redo' },
-      { name: 'hr' },
-      { name: 'ul' },
-      { name: 'ol' },
-      { name: 'outdent' },
-      { name: 'indent' },
-      { name: 'font' },
-      { name: 'fontsize' },
-      { name: 'brush' },
-      { name: 'paragraph' },
-      { name: 'print' },
-      { name: 'table' },
-      { name: 'left' },
-      { name: 'center' },
-      { name: 'right' },
-      { name: 'justify' }
-    ];
-
-    Jodit = JoditModule.make(editor as HTMLElement, {
-      theme: 'a309',
-      defaultLineHeight: 1.6,
-      sourceEditorNativeOptions: {
-        theme: 'ace/theme/tomorrow_night'
-      },
-      toolbarButtonSize: 'large',
-
-      buttons: buttons,
-      buttonsMD: buttons,
-      buttonsSM: buttons,
-      buttonsXS: buttons,
-      disablePlugins: ['table', 'iframe']
-    });
-    if (getParams('saved')) {
-      alert?.showSuccess('Post saved successfully');
-    }
-    if (!postData.draft) {
-      const el = document.getElementById('draft-no') as HTMLInputElement;
-      el && (el.checked = true);
-    } else {
-      const el = document.getElementById('draft-yes') as HTMLInputElement;
-      el && (el.checked = true);
-    }
-  });
-
-  const highLightCodeBlocks = async (code: string, lang: string) => {
-    // const hljsUrl = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/highlight.min.js"
-    const hljs = (await import(/* @vite-ignore */ 'highlight.js/lib/core' /* @vite-ignore */)).default;
-    if (!hljs.getLanguage(lang)) {
-      const langUrl = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/languages/${lang}.min.js`;
-      try {
-        // const langPath = `highlight.js/es/languages/${lang}.js.js`.toString()
-        const langModule = (await import(/* @vite-ignore */ langUrl /* @vite-ignore */)).default;
-        hljs.registerLanguage(lang, langModule);
-      } catch (e) {
-        return null;
+        dialog.setFooter([but]);
+        dialog.open();
       }
+    },
+    { name: 'fullsize' },
+    { name: 'image' },
+    { name: 'link' },
+    { name: 'video' },
+    { name: 'bold' },
+    { name: 'strikethrough' },
+    { name: 'underline' },
+    { name: 'italic' },
+    { name: 'superscript' },
+    { name: 'subscript' },
+    { name: 'selectall' },
+    { name: 'paste' },
+    { name: 'copy' },
+    { name: 'cut' },
+    { name: 'undo' },
+    { name: 'redo' },
+    { name: 'hr' },
+    { name: 'ul' },
+    { name: 'ol' },
+    { name: 'outdent' },
+    { name: 'indent' },
+    { name: 'font' },
+    { name: 'fontsize' },
+    { name: 'brush' },
+    { name: 'paragraph' },
+    { name: 'print' },
+    { name: 'table' },
+    { name: 'left' },
+    { name: 'center' },
+    { name: 'right' },
+    { name: 'justify' }
+  ];
+
+  jodit = JoditModule.make(editor as HTMLElement, {
+    theme: 'a309',
+    defaultLineHeight: 1.6,
+    sourceEditorNativeOptions: {
+      theme: 'ace/theme/tomorrow_night'
+    },
+    toolbarButtonSize: 'large',
+
+    buttons: buttons,
+    buttonsMD: buttons,
+    buttonsSM: buttons,
+    buttonsXS: buttons,
+    disablePlugins: ['table', 'iframe']
+  });
+  if (getParams('saved')) {
+    alert?.showSuccess('Post saved successfully');
+  }
+  if (!postData.draft) {
+    const el = document.getElementById('draft-no') as HTMLInputElement;
+    el && (el.checked = true);
+  } else {
+    const el = document.getElementById('draft-yes') as HTMLInputElement;
+    el && (el.checked = true);
+  }
+});
+
+const highLightCodeBlocks = async (code: string, lang: string) => {
+  // const hljsUrl = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/highlight.min.js"
+  const hljs = (await import(/* @vite-ignore */ 'highlight.js/lib/core' /* @vite-ignore */)).default;
+  if (!hljs.getLanguage(lang)) {
+    const langUrl = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/languages/${lang}.min.js`;
+    try {
+      // const langPath = `highlight.js/es/languages/${lang}.js.js`.toString()
+      const langModule = (await import(/* @vite-ignore */ langUrl /* @vite-ignore */)).default;
+      hljs.registerLanguage(lang, langModule);
+    } catch (e) {
+      return null;
     }
-    return hljs.highlight(code, { language: lang }).value;
-  };
+  }
+  return hljs.highlight(code, { language: lang }).value;
+};
 
-  const save = async () => {
-    postData.content = Jodit.value;
-    if (!postData.title || !postData.slug || !postData.content) {
-      alert?.showError('Please fill required fields (title, slug, content)');
-      return;
-    }
+const save = async () => {
+  postData.content = jodit.value;
+  if (!postData.title || !postData.slug || !postData.content) {
+    alert?.showError('Please fill required fields (title, slug, content)');
+    return;
+  }
 
-    if (postData.slug.match(/[^a-z0-9-\/]/g)) {
-      alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
-      return;
-    }
+  if (postData.slug.match(/[^a-z0-9-\/]/g)) {
+    alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
+    return;
+  }
 
-    postData.slug = postData.slug.replace(/^\//, '').replace(/\/$/, '');
+  postData.slug = postData.slug.replace(/^\//, '').replace(/\/$/, '');
 
-    postData.author_id = $currentUser?.id as number;
+  postData.author_id = $currentUser?.id as number;
 
-    const res = await fetch('/admin/posts/save', {
+  const res = await fetch('/admin/posts/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(postData)
+  });
+  if (res.ok) {
+    location.href = `/admin/posts/edit/${postData.slug}?saved=ok`;
+  } else {
+    const req = await res.json();
+    alert?.showError(req?.error || 'Something went wrong');
+  }
+};
+
+const getRelated = async (slugs = false) => {
+  let res;
+  if (!slugs) {
+    res = await fetch(`/admin/posts/related`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(postData)
+      body: JSON.stringify({ tags_id: postData.tags_id, slug: postData.slug })
     });
-    if (res.ok) {
-      location.href = `/admin/posts/edit/${postData.slug}?saved=ok`;
-    } else {
-      const req = await res.json();
-      alert?.showError(req?.error || 'Something went wrong');
-    }
-  };
+  } else {
+    const inSlugs = manualSlugs
+      .split(',')
+      .map((s: string) => s.trim())
+      .filter((s: string) => s.length > 0);
+    res = await fetch(`/admin/posts/related/manual`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ slugs: inSlugs, slug: postData.slug })
+    });
+  }
 
-  const getRelated = async (slugs = false) => {
-    let res;
-    if (!slugs) {
-      res = await fetch(`/admin/posts/related`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ tags_id: postData.tags_id, slug: postData.slug })
-      });
-    } else {
-      const inSlugs = manualSlugs
-        .split(',')
-        .map((s: string) => s.trim())
-        .filter((s: string) => s.length > 0);
-      res = await fetch(`/admin/posts/related/manual`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ slugs: inSlugs, slug: postData.slug })
-      });
-    }
-
-    if (res.ok) {
-      const req = await res.json();
-      postData.related = (req?.relatedPosts?.res ?? []).map((r: any) => {
-        return {
-          title: r.title,
-          slug: r.slug,
-          excerpt: truncate(r.content, 260, { stripTags: true }),
-          created_at: r.created_at,
-          feature_image: r.feature_image,
-          feature_image_alt: r.feature_image_alt
-        } as IRelatedPost;
-      });
-      alertRelated?.showSuccess('Related posts linked');
-    } else {
-      const req = await res.json();
-      alertRelated?.showError(req?.error || 'Something went wrong');
-    }
-  };
+  if (res.ok) {
+    const req = await res.json();
+    postData.related = (req?.relatedPosts?.res ?? []).map((r: any) => {
+      return {
+        title: r.title,
+        slug: r.slug,
+        excerpt: truncate(r.content, 260, { stripTags: true }),
+        created_at: r.created_at,
+        feature_image: r.feature_image,
+        feature_image_alt: r.feature_image_alt
+      } as IRelatedPost;
+    });
+    alertRelated?.showSuccess('Related posts linked');
+  } else {
+    const req = await res.json();
+    alertRelated?.showError(req?.error || 'Something went wrong');
+  }
+};
 </script>
 
 <div id="top" class="antialiased bg-[#0000009c] w-full min-h-screen text-slate-300 relative py-4">

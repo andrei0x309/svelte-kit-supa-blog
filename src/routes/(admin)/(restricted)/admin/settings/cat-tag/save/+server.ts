@@ -1,9 +1,8 @@
-import type { ICatTag } from '#lib/types/catTag.js';
-import { supabase } from '#/lib/node/supaClientFS';
-import { checkAuth } from '#/lib/utils/server/auth';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICatTag } from '#lib/types/catTag.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
 import type { RequestHandler } from './$types';
-import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
   try {
@@ -11,7 +10,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     const currentUser = await checkAuth(req);
 
     if (currentUser.role === 'demo') {
-      return json(
+      return Response.json(
         {
           error: "Demo User can't take this action"
         },
@@ -21,7 +20,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
 
     const { name, slug, description, id, type } = await request.json();
     if (currentUser.role !== 'admin') {
-      return json(
+      return Response.json(
         {
           error: 'Only admin can edit or create categories'
         },
@@ -30,7 +29,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
 
     if (!name || !slug || !type)
-      return json(
+      return Response.json(
         {
           error: 'Missing required fields, name, slug, type'
         },
@@ -38,7 +37,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       );
 
     if (type !== 'cat' && type !== 'tag')
-      return json(
+      return Response.json(
         {
           error: 'Invalid type'
         },
@@ -69,7 +68,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       }
       updateId = updateResult?.data?.[0]?.id;
       if (updateResult?.error)
-        return json(
+        return Response.json(
           {
             error: updateResult.error.message
           },
@@ -77,7 +76,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
         );
     }
 
-    return json(
+    return Response.json(
       {
         success: true,
         updateId
@@ -86,14 +85,14 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     );
   } catch (e) {
     if (e === 'denied') {
-      return json(
+      return Response.json(
         {
           error: 'Access denied'
         },
         { status: 403 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'Internal Server Error'
       },

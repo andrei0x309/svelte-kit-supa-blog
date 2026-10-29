@@ -1,23 +1,23 @@
 <script lang="ts">
-  import type { IPost } from '#lib/types/post.js';
-  import { slide } from 'svelte/transition';
-  import { onMount } from 'svelte';
-  interface Props {
-    data: IPost['signature'] | string;
-  }
+import type { IPost } from '#lib/types/post.ts';
+import { slide } from 'svelte/transition';
+import { onMount } from 'svelte';
+interface Props {
+  data: IPost['signature'] | string;
+}
 
-  let { data }: Props = $props();
-  let expanded = $state(false);
-  let json: IPost['signature'] = $state();
-  let isValid = $state(true);
-  onMount(() => {
-    try {
-      json = JSON.parse(data as string);
-    } catch {
-      isValid = false;
-    }
+let { data }: Props = $props();
+let expanded = $state(false);
+let json: IPost['signature'] = $state();
+let isValid = $state(true);
+onMount(() => {
+  try {
     json = JSON.parse(data as string);
-  });
+  } catch {
+    isValid = false;
+  }
+  json = JSON.parse(data as string);
+});
 </script>
 
 {#if isValid}

@@ -1,25 +1,25 @@
 <script lang="ts">
-  import sdk from '@farcaster/frame-sdk';
-  import { config } from '#/lib/config';
-  import { onMount } from 'svelte';
-  import { isViewingFromFrame as isViewingFromFrameStore } from '#/stores/main';
-  import FarcasterIcon from '#/lib/theme/icons/platfroms/FarcasterIcon.svelte';
+import sdk from '@farcaster/frame-sdk';
+import { config } from '#/lib/config';
+import { onMount } from 'svelte';
+import { isViewingFromFrame as isViewingFromFrameStore } from '#/stores/main';
+import FarcasterIcon from '#/lib/theme/icons/platfroms/FarcasterIcon.svelte';
 
-  let isViewingFromFrame = $state(false);
+let isViewingFromFrame = $state(false);
 
-  const buttonClick = () => {
-    sdk.actions.viewProfile({
-      fid: config.farcaster.followFid
-    });
-  };
-
-  onMount(() => {
-    sdk.context.then((ctx) => {
-      console.log(ctx?.user?.fid);
-      isViewingFromFrame = (ctx?.user?.fid || 0) > 0;
-      isViewingFromFrameStore.set(isViewingFromFrame);
-    });
+const buttonClick = () => {
+  sdk.actions.viewProfile({
+    fid: config.farcaster.followFid
   });
+};
+
+onMount(() => {
+  sdk.context.then((ctx) => {
+    console.log(ctx?.user?.fid);
+    isViewingFromFrame = (ctx?.user?.fid || 0) > 0;
+    isViewingFromFrameStore.set(isViewingFromFrame);
+  });
+});
 </script>
 
 {#if isViewingFromFrame}

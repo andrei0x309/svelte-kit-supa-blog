@@ -1,127 +1,126 @@
 <script lang="ts">
-  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
-  import type { IPost } from '#lib/types/post.js';
-  import ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
-  import Alert from '#/lib/components/shared/Alert.svelte';
-  import { slide } from 'svelte/transition';
-  import { modalOpen } from '#/stores/main';
+import { slide } from 'svelte/transition';
+import Alert from '#/lib/components/shared/Alert.svelte';
+import ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
+import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
+import { modalOpen } from '#/stores/main.ts';
+import type { IPost } from '#lib/types/post.ts';
 
-  export let data: {
-    page: number;
-    hasNext: boolean;
-    posts: IPost[] | null;
-  };
+export let data: {
+  page: number;
+  hasNext: boolean;
+  posts: IPost[] | null;
+};
 
-  let confirm: ConfirmModal;
-  let alert: Alert;
+let confirm: ConfirmModal;
+let alert: Alert;
 
-  async function deletePost(slug: string) {
+async function deletePost(slug: string) {
+  try {
+    if (!data.posts?.length) return;
+    const res = await fetch(`/admin/posts/delete`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ slug })
+    });
+    const reqData = await res.json();
+    if (res.ok) {
+      if (!reqData?.error) {
+        alert.showSuccess('Post deleted successfully');
+        if (data.posts?.length === 1 && data.page > 1) {
+          location.href = `/admin/users/page/${data.page - 1}`;
+        } else {
+          data = {
+            ...data,
+            posts: data.posts.filter((p) => p.slug !== slug)
+          };
+        }
+      } else {
+        alert.showError(reqData?.error || 'Something went wrong');
+      }
+    } else {
+      alert.showError(reqData?.error || 'Something went wrong');
+    }
+  } catch (err) {
+    alert.showError('API network error');
+  }
+}
+
+const sign = async (slug: string, confirmOveride = false) => {
+  try {
+    const postItem = data.posts?.find((p) => p.slug === slug);
+    if (!postItem) {
+      alert.showError('Post to sign not found');
+      return;
+    }
+    if (typeof (window as any)?.ethereum === 'undefined') {
+      alert.showError('Please install EVM compatible wallet Clear Wallet or MetaMask');
+      return;
+    }
+    if (postItem.signature && !confirmOveride) {
+      confirm.setOkay(() => sign(slug, true));
+      confirm.show('Confirm', 'Post already signed, do you want to sign again and override the previous signature?');
+      return;
+    }
+
+    const ethereum = (window as any).ethereum;
+    let address: string;
+    let dataToSign: string;
+    let signature: string;
     try {
-      if (!data.posts?.length) return;
-      const res = await fetch(`/admin/posts/delete`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ slug })
+      address = await ethereum.request({ method: 'eth_requestAccounts' });
+      dataToSign = `${postItem?.author?.username ?? 'Author' + ','} signed this post slug (${postItem.slug}) on ${new Date().toLocaleString()}`.toString();
+      signature = await ethereum.request({
+        method: 'personal_sign',
+        params: [dataToSign, address[0]]
       });
-      const reqData = await res.json();
-      if (res.ok) {
-        if (!reqData?.error) {
-          alert.showSuccess('Post deleted successfully');
-          if (data.posts?.length === 1 && data.page > 1) {
-            location.href = `/admin/users/page/${data.page - 1}`;
-          } else {
-            data = {
-              ...data,
-              posts: data.posts.filter((p) => p.slug !== slug)
+    } catch (err) {
+      alert.showError('User denied signing');
+      return;
+    }
+    const res = await fetch(`/admin/posts/sign`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        slug,
+        signature: {
+          address: address[0],
+          data: dataToSign,
+          signature
+        }
+      })
+    });
+    const reqData = await res.json();
+    if (res.ok) {
+      if (!reqData?.error) {
+        alert.showSuccess('Post signed successfully');
+        (data as any).posts = data.posts?.map((p) => {
+          if (p.slug === slug) {
+            return {
+              ...p,
+              signature: {
+                address: address[0],
+                data: dataToSign,
+                signature
+              }
             };
           }
-        } else {
-          alert.showError(reqData?.error || 'Something went wrong');
-        }
-      } else {
-        alert.showError(reqData?.error || 'Something went wrong');
-      }
-    } catch (err) {
-      alert.showError('API network error');
-    }
-  }
-
-  const sign = async (slug: string, confirmOveride = false) => {
-    try {
-      const postItem = data.posts?.find((p) => p.slug === slug);
-      if (!postItem) {
-        alert.showError('Post to sign not found');
-        return;
-      }
-      if (typeof (window as any)?.ethereum === 'undefined') {
-        alert.showError('Please install EVM compatible wallet Clear Wallet or MetaMask');
-        return;
-      }
-      if (postItem.signature && !confirmOveride) {
-        confirm.setOkay(() => sign(slug, true));
-        confirm.show('Confirm', 'Post already signed, do you want to sign again and override the previous signature?');
-        return;
-      }
-
-      const ethereum = (window as any).ethereum;
-      let address: string;
-      let dataToSign: string;
-      let signature: string;
-      try {
-        address = await ethereum.request({ method: 'eth_requestAccounts' });
-        dataToSign =
-          `${postItem?.author?.username ?? 'Author' + ','} signed this post slug (${postItem.slug}) on ${new Date().toLocaleString()}`.toString();
-        signature = await ethereum.request({
-          method: 'personal_sign',
-          params: [dataToSign, address[0]]
+          return p;
         });
-      } catch (err) {
-        alert.showError('User denied signing');
-        return;
-      }
-      const res = await fetch(`/admin/posts/sign`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          slug,
-          signature: {
-            address: address[0],
-            data: dataToSign,
-            signature
-          }
-        })
-      });
-      const reqData = await res.json();
-      if (res.ok) {
-        if (!reqData?.error) {
-          alert.showSuccess('Post signed successfully');
-          (data as any).posts = data.posts?.map((p) => {
-            if (p.slug === slug) {
-              return {
-                ...p,
-                signature: {
-                  address: address[0],
-                  data: dataToSign,
-                  signature
-                }
-              };
-            }
-            return p;
-          });
-        } else {
-          alert.showError(reqData?.error || 'Something went wrong');
-        }
       } else {
         alert.showError(reqData?.error || 'Something went wrong');
       }
-    } catch (err) {
-      alert.showError('API network error');
+    } else {
+      alert.showError(reqData?.error || 'Something went wrong');
     }
-  };
+  } catch (err) {
+    alert.showError('API network error');
+  }
+};
 </script>
 
 <!-- 

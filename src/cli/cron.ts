@@ -1,4 +1,4 @@
-import { getGoodReadsData, getTagCloud } from '#lib/utils/server/widgets.js';
+import { getGoodReadsData, getTagCloud } from '#lib/utils/server/widgets.ts';
 
 const executeCron = async () => {
   const tasks = await Promise.all([getGoodReadsData(), getTagCloud()]);

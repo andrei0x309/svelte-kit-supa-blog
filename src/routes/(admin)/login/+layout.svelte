@@ -1,37 +1,37 @@
 <script>
-  // @ts-nocheck
-  import '#lib/sass/tailwind.css';
-  import '#lib/sass/admin.scss';
-  import { onMount } from 'svelte';
-  import { afterNavigate, beforeNavigate } from '$app/navigation';
-  import { isLoading } from '#/stores/main';
-  /** @type {{children?: import('svelte').Snippet<[any]>}} */
-  let { children } = $props();
+// @ts-nocheck
+import '#lib/sass/tailwind.css';
+import '#lib/sass/admin.scss';
+import { onMount } from 'svelte';
+import { afterNavigate, beforeNavigate } from '$app/navigation';
+import { isLoading } from '#/stores/main';
+/** @type {{children?: import('svelte').Snippet<[any]>}} */
+let { children } = $props();
 
-  beforeNavigate(({ shallow, type }) => {
-    if (shallow && type === 'goto') return;
+beforeNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-    isLoading.set(true);
-  });
+  isLoading.set(true);
+});
 
-  afterNavigate(({ shallow, type }) => {
-    if (shallow && type === 'goto') return;
+afterNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-    isLoading.set(false);
-  });
+  isLoading.set(false);
+});
 
-  const handlePopstate = () => {
-    isLoading.set(false);
+const handlePopstate = () => {
+  isLoading.set(false);
+};
+
+onMount(() => {
+  window.addEventListener('popstate', handlePopstate);
+  isLoading.set(false);
+
+  return () => {
+    window.removeEventListener('popstate', handlePopstate);
   };
-
-  onMount(() => {
-    window.addEventListener('popstate', handlePopstate);
-    isLoading.set(false);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopstate);
-    };
-  });
+});
 </script>
 
 <svelte:head>

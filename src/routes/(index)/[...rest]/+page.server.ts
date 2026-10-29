@@ -1,8 +1,8 @@
+import { loadPosts } from '#/lib/utils/db/posts.ts';
+import { appendToData, checkData, error, extractPage } from '#/lib/utils/page.ts';
+import { getIndexSchema } from '#/lib/utils/server/schema.ts';
+import { config } from '#lib/config/index.ts';
 import type { PageServerLoad } from './$types';
-import { checkData, extractPage, error, appendToData } from '#/lib/utils/page';
-import { loadPosts } from '#/lib/utils/db/posts';
-import { config } from '#lib/config/index.js';
-import { getIndexSchema } from '#/lib/utils/server/schema';
 
 export const load: PageServerLoad = async (rest) => {
   const slug = rest.params.rest ?? '/';
@@ -25,10 +25,7 @@ export const load: PageServerLoad = async (rest) => {
       }
 
       default: {
-        throw error(404, {
-          message: 'Resource not found',
-          pageType: 'posts'
-        } as App.Error);
+        throw error(404, 'Resource not found');
       }
     }
   }

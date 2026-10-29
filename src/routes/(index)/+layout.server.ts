@@ -1,5 +1,5 @@
+import { getGoodReadsData, getTagCloud } from '#lib/utils/server/widgets.ts';
 import type { LayoutServerLoad } from './$types';
-import { getTagCloud, getGoodReadsData } from '#lib/utils/server/widgets.js';
 
 export const load = (async (req) => {
   let theme;

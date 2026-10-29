@@ -1,4 +1,4 @@
-import cheerio from 'https://esm.sh/v106/cheerio@0.22.0/es2022/cheerio.js';
+import cheerio from 'https://esm.sh/v106/cheerio@0.22.0/es2022/cheerio.ts';
 
 // default options
 var defaultOptions = {
@@ -59,17 +59,7 @@ var helper = {
   },
   // test a char whether a whitespace char
   isBlank: function isBlank(char) {
-    return (
-      char === ' ' ||
-      char === '\f' ||
-      char === '\n' ||
-      char === '\r' ||
-      char === '\t' ||
-      char === '\v' ||
-      char === '\u00A0' ||
-      char === '\u2028' ||
-      char === '\u2029'
-    );
+    return char === ' ' || char === '\f' || char === '\n' || char === '\r' || char === '\t' || char === '\v' || char === '\u00A0' || char === '\u2028' || char === '\u2029';
   },
   /**
    * truncate text

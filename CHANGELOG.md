@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0 - 2026-10-29
+
+- migrated to SvelteKit 3
+- updated and removed some dependencies
+- added Biome in place of Eslint and Prettier
+
 ## v0.2.6 - 2025-09-07
 
 - updated depencencies

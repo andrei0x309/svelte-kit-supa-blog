@@ -1,6 +1,17 @@
 {
-  "name": "blog.flashsoft.eu",
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Blog flashsoft.eu",
+  "start_url": "/",
   "short_name": "blog.flashsoft.eu",
+  "description": "PWA for domain blog.flashsoft.eu.",
+  "categories": [
+    "programming",
+    "personal",
+    "blog",
+    "tech",
+    "dev"
+  ],
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/icon/web-app-manifest-192x192.png",

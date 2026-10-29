@@ -1,8 +1,7 @@
-import { supabase } from '#/lib/node/supaClientFS';
-import { checkAuth } from '#/lib/utils/server/auth';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
 import type { RequestHandler } from './$types';
-import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
   try {
@@ -10,7 +9,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     const currentUser = await checkAuth(req);
 
     if (currentUser.role === 'demo') {
-      return json(
+      return Response.json(
         {
           error: "Demo User can't take this action"
         },
@@ -20,7 +19,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
 
     const { id } = await request.json();
     if (currentUser.role !== 'admin') {
-      return json(
+      return Response.json(
         {
           error: 'Only admin can delete users'
         },
@@ -28,7 +27,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       );
     }
     if (currentUser.id === id) {
-      return json(
+      return Response.json(
         {
           error: 'You cannot delete yourself'
         },
@@ -37,14 +36,14 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
     if (id) {
       await supabase.from('fsk_blog_author').delete().eq('id', id);
-      return json(
+      return Response.json(
         {
           success: true
         },
         { status: 200 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'No id provided'
       },
@@ -52,14 +51,14 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     );
   } catch (e) {
     if (e === 'denied') {
-      return json(
+      return Response.json(
         {
           error: 'Access denied'
         },
         { status: 403 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'Internal Server Error'
       },

@@ -1,36 +1,26 @@
 <script lang="ts">
-  import { optimizeGoogleCDNImage } from '#lib/utils/server/image.js';
-  import { onMount } from 'svelte';
-  import { browser } from '$app/env';
+import { onMount } from 'svelte';
+import { optimizeGoogleCDNImage } from '#/lib/utils/common/image.ts';
 
-  interface Props {
-    imgSource: string;
-    index?: number;
-    full?: boolean;
-    alt?: string;
-  }
+interface Props {
+  imgSource: string;
+  index?: number;
+  full?: boolean;
+  alt?: string;
+}
 
-  let { imgSource = $bindable(), index = 0, full = false, alt = '' }: Props = $props();
+let { imgSource, index = 0, full = false, alt = '' }: Props = $props();
 
-  let isLoaded = $state(true);
-  let isError = $state(false);
-  let img: HTMLImageElement | undefined = $state();
+let isLoaded = $state(true);
+let isError = $state(false);
+let img = $state<HTMLImageElement>();
 
-  const loaded = () => {
-    isLoaded = true;
-  };
+const src = $derived(isError ? '/images/placeholder.svg' : optimizeGoogleCDNImage(imgSource));
 
-  const error = () => {
-    isLoaded = true;
-    isError = true;
-    imgSource = '/images/placeholder.svg';
-  };
-
-  onMount(() => {
-    if (!img?.complete) {
-      isLoaded = false;
-    }
-  });
+onMount(() => {
+  // Image may have finished loading before hydration, in which case onload never fires.
+  if (!img?.complete) isLoaded = false;
+});
 </script>
 
 <div class="relative">
@@ -39,14 +29,17 @@
   {/if}
   <img
     bind:this={img}
-    onload={loaded}
-    onerror={error}
-    itemprop={!full ? 'image' : ''}
+    onload={() => (isLoaded = true)}
+    onerror={() => {
+      isLoaded = true;
+      isError = true;
+    }}
+    itemprop={full ? undefined : 'image'}
     class="m-auto wp-post-image"
     width={isError ? 170 : 500}
     height="281"
     loading={index < 2 ? 'eager' : 'lazy'}
-    src={optimizeGoogleCDNImage(imgSource)}
+    {src}
     {alt}
   />
 </div>

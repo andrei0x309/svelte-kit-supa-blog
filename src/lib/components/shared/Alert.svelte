@@ -1,48 +1,48 @@
 <script lang="ts">
-  let errorTimer: any = 0;
-  let errorSec = $state(5);
-  let error = $state(false);
-  let success = $state(false);
-  let alertText = $state('Wrong username or password');
+let errorTimer: any = 0;
+let errorSec = $state(5);
+let error = $state(false);
+let success = $state(false);
+let alertText = $state('Wrong username or password');
 
-  const decSec = () => {
-    errorSec = errorSec - 1;
-    if (errorSec === 0) {
-      errorSec = 5;
-      error = false;
-      clearTimeout(errorTimer);
-    } else {
-      errorTimer = setTimeout(decSec, 1000);
-    }
-  };
-
-  export const showError = (text: string) => {
-    if (errorTimer) {
-      errorSec = 5;
-      clearTimeout(errorTimer);
-    }
-    success = false;
-    error = true;
-    alertText = text;
-    errorTimer = setTimeout(decSec, 1000);
-  };
-
-  export const showSuccess = (text: string) => {
-    if (errorTimer) {
-      errorSec = 5;
-      clearTimeout(errorTimer);
-    }
-    success = true;
-    error = true;
-    alertText = text;
-    errorTimer = setTimeout(decSec, 1000);
-  };
-
-  const hideError = () => {
+const decSec = () => {
+  errorSec = errorSec - 1;
+  if (errorSec === 0) {
+    errorSec = 5;
     error = false;
+    clearTimeout(errorTimer);
+  } else {
+    errorTimer = setTimeout(decSec, 1000);
+  }
+};
+
+export const showError = (text: string) => {
+  if (errorTimer) {
     errorSec = 5;
     clearTimeout(errorTimer);
-  };
+  }
+  success = false;
+  error = true;
+  alertText = text;
+  errorTimer = setTimeout(decSec, 1000);
+};
+
+export const showSuccess = (text: string) => {
+  if (errorTimer) {
+    errorSec = 5;
+    clearTimeout(errorTimer);
+  }
+  success = true;
+  error = true;
+  alertText = text;
+  errorTimer = setTimeout(decSec, 1000);
+};
+
+const hideError = () => {
+  error = false;
+  errorSec = 5;
+  clearTimeout(errorTimer);
+};
 </script>
 
 {#if error}

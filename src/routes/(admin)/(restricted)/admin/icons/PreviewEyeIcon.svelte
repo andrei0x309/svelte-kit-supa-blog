@@ -1,5 +1,9 @@
 <script lang="ts">
-  const { class: className } = $props<{ class?: string | undefined }>();
+interface Props {
+  class?: string | undefined;
+}
+
+const { class: className }: Props = $props();
 </script>
 
 <svg style="enable-background:new 0 0 128 128;" version="1.1" viewBox="0 0 128 128" class={className}

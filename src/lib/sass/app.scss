@@ -1,9 +1,9 @@
-@use './global';
-@use 'sass:math';
-@use 'mixins/blue_btn.scss' as *;
-@use 'mixins/search_modal.scss' as *;
-@use 'components/simpleSpinner' as *;
-@use 'components/alertBox' as *;
+@use "./global";
+@use "sass:math";
+@use "mixins/blue_btn.scss" as *;
+@use "mixins/search_modal.scss" as *;
+@use "components/simpleSpinner" as *;
+@use "components/alertBox" as *;
 
 @mixin dark-theme {
   --link-color: #eb933c;
@@ -239,7 +239,7 @@ button.link-search-icon {
   .menu-icon .navicon:before,
   .menu-icon .navicon:after {
     background: #eee;
-    content: '';
+    content: "";
     display: block;
     height: 100%;
     position: absolute;
@@ -438,7 +438,7 @@ button.link-search-icon {
   }
 
   ::marker {
-    content: '»';
+    content: "»";
     font-size: 1.2em;
     color: #0066cc;
   }
@@ -481,7 +481,7 @@ button.link-search-icon {
     }
 
     &:before {
-      content: '';
+      content: "";
     }
 
     i {
@@ -656,23 +656,23 @@ nav.pagination {
 /*theme Icons */
 
 @font-face {
-  font-family: 'icomoon';
-  src: url('/fonts/icomoon.eot');
+  font-family: "icomoon";
+  src: url("/fonts/icomoon.eot");
   src:
-    url('/fonts/icomoon.eot#iefix') format('embedded-opentype'),
-    url('/fonts/icomoon.ttf') format('truetype'),
-    url('/fonts/icomoon.woff') format('woff'),
-    url('/fonts/icomoon.svg#icomoon') format('svg');
+    url("/fonts/icomoon.eot#iefix") format("embedded-opentype"),
+    url("/fonts/icomoon.ttf") format("truetype"),
+    url("/fonts/icomoon.woff") format("woff"),
+    url("/fonts/icomoon.svg#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^='icon-'],
-[class*=' icon-'],
+[class^="icon-"],
+[class*=" icon-"],
 .article-body a:before {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon';
+  font-family: "icomoon";
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -685,49 +685,49 @@ nav.pagination {
 }
 
 .icon-stars:before {
-  content: '\e905';
+  content: "\e905";
 }
 .icon-tags:before {
-  content: '\e904';
+  content: "\e904";
 }
 .icon-read_more:before {
-  content: '\e900';
+  content: "\e900";
 }
 .icon-link:before {
-  content: '\e906';
+  content: "\e906";
 }
 .icon-search:before {
-  content: '\e908';
+  content: "\e908";
 }
 .icon-chat_bubble:before {
-  content: '\e909';
+  content: "\e909";
 }
 .icon-clear:before {
-  content: '\e90a';
+  content: "\e90a";
 }
 .icon-close:before {
-  content: '\e90a';
+  content: "\e90a";
 }
 .icon-folder:before {
-  content: '\e90b';
+  content: "\e90b";
 }
 .icon-file_download:before {
-  content: '\e90c';
+  content: "\e90c";
 }
 .icon-alternate_email:before {
-  content: '\e90d';
+  content: "\e90d";
 }
 .icon-triangle-down:before {
-  content: '\e901';
+  content: "\e901";
 }
 .icon-user-solid-square:before {
-  content: '\e902';
+  content: "\e902";
 }
 .icon-cheveron-down:before {
-  content: '\e903';
+  content: "\e903";
 }
 .icon-calendar:before {
-  content: '\e907';
+  content: "\e907";
 }
 
 .fade-in {

@@ -1,12 +1,11 @@
-import type { PageServerLoad } from './$types';
-import { checkData, appendToData, extractPage, error } from '#/lib/utils/page';
 import truncate from 'truncate-html';
-import { loadPost, loadPosts } from '#/lib/utils/db/posts';
-import { getPostSchema } from '#/lib/utils/server/schema';
-import type { IPost } from '#lib/types/post.js';
-import { isSupportedLang } from '#/lib/utils/server/lang';
-import { config } from '#lib/config/index.js';
-import { getIndexSchema } from '#/lib/utils/server/schema';
+import { loadPost, loadPosts } from '#/lib/utils/db/posts.ts';
+import { appendToData, checkData, error, extractPage } from '#/lib/utils/page.ts';
+import { isSupportedLang } from '#/lib/utils/server/lang.ts';
+import { getIndexSchema, getPostSchema } from '#/lib/utils/server/schema.ts';
+import { config } from '#lib/config/index.ts';
+import type { IPost } from '#lib/types/post.ts';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (data) => {
   let slug;
@@ -34,10 +33,7 @@ export const load: PageServerLoad = async (data) => {
   const post = (await loadPost(slug)) as { res: Record<string, any> };
 
   if (!post?.res) {
-    throw error(404, {
-      message: 'Resource not found',
-      pageType: 'posts'
-    } as App.Error);
+    throw error(404, 'Resource not found');
   }
 
   const fallBackDescription =

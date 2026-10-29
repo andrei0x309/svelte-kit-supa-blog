@@ -1,72 +1,73 @@
 <script lang="ts">
-  import { setCookie } from '#lib/utils/common.js';
-  import { afterNavigate } from '$app/navigation';
-  import MenuDesktop from './menu/MenuDesktop.svelte';
-  import MenuMobileToggle from './menu/MenuMobileToggle.svelte';
-  import MenuMobile from './menu/MenuMobile.svelte';
-  import { theme as themeStore } from '#/stores/main';
-  interface Props {
-    theme?: string;
-  }
+import { theme as themeStore } from '#/stores/main';
+import { setCookie } from '#lib/utils/common.ts';
+import { afterNavigate } from '$app/navigation';
+import MenuDesktop from './menu/MenuDesktop.svelte';
+import MenuMobile from './menu/MenuMobile.svelte';
+import MenuMobileToggle from './menu/MenuMobileToggle.svelte';
 
-  let sideMenu: HTMLElement | undefined = $state();
+interface Props {
+  theme?: string;
+}
 
-  const closeMenu = () => {
-    sideMenu?.classList.remove('sideMenuToggle');
-  };
+let sideMenu: HTMLElement | undefined = $state();
 
-  let { theme = $bindable('dark') }: Props = $props();
+const closeMenu = () => {
+  sideMenu?.classList.remove('sideMenuToggle');
+};
 
-  const darkIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+let { theme = $bindable('dark') }: Props = $props();
+
+const darkIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
 </svg>`;
 
-  const lightIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+const lightIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
 </svg>`;
 
-  let isSwitchingTheme = false;
-  let searchModalOpen = false;
-  let svgContainer: HTMLElement | undefined = $state();
+let isSwitchingTheme = false;
+let searchModalOpen = false;
+let svgContainer: HTMLElement | undefined = $state();
 
-  const themeSwitch = () => {
-    if (!isSwitchingTheme) {
-      const isDarkMode = theme === 'dark';
-      isSwitchingTheme = true;
-      if (svgContainer) {
-        if (isDarkMode) {
-          svgContainer.classList.add('bg-yellow-500', '-translate-x-2');
-          svgContainer.classList.remove('bg-gray-700', 'translate-x-full');
-          theme = 'light';
-          themeStore.set('light');
-          setCookie('theme_color', 'light', 90);
-          setTimeout(() => {
-            if (svgContainer === undefined) return;
-            svgContainer.innerHTML = darkIcon;
-          }, 50);
-        } else {
-          svgContainer.classList.remove('bg-yellow-500', '-translate-x-2');
-          svgContainer.classList.add('bg-gray-700', 'translate-x-full');
-          theme = 'dark';
-          themeStore.set('dark');
-          setCookie('theme_color', 'dark', 90);
-          setTimeout(() => {
-            if (svgContainer === undefined) return;
-            svgContainer.innerHTML = lightIcon;
-          });
-        }
+const themeSwitch = () => {
+  if (!isSwitchingTheme) {
+    const isDarkMode = theme === 'dark';
+    isSwitchingTheme = true;
+    if (svgContainer) {
+      if (isDarkMode) {
+        svgContainer.classList.add('bg-yellow-500', '-translate-x-2');
+        svgContainer.classList.remove('bg-gray-700', 'translate-x-full');
+        theme = 'light';
+        themeStore.set('light');
+        setCookie('theme_color', 'light', 90);
+        setTimeout(() => {
+          if (svgContainer === undefined) return;
+          svgContainer.innerHTML = darkIcon;
+        }, 50);
+      } else {
+        svgContainer.classList.remove('bg-yellow-500', '-translate-x-2');
+        svgContainer.classList.add('bg-gray-700', 'translate-x-full');
+        theme = 'dark';
+        themeStore.set('dark');
+        setCookie('theme_color', 'dark', 90);
+        setTimeout(() => {
+          if (svgContainer === undefined) return;
+          svgContainer.innerHTML = lightIcon;
+        });
       }
-      isSwitchingTheme = false;
     }
-  };
+    isSwitchingTheme = false;
+  }
+};
 
-  const showSearchModal = () => {
-    if (!searchModalOpen) {
-      searchModalOpen = true;
-      const searchModal = document.createElement('div');
-      searchModal.classList.add('full-search-modal');
-      searchModal.id = 'full-search-modal';
-      searchModal.innerHTML = `
+const showSearchModal = () => {
+  if (!searchModalOpen) {
+    searchModalOpen = true;
+    const searchModal = document.createElement('div');
+    searchModal.classList.add('full-search-modal');
+    searchModal.id = 'full-search-modal';
+    searchModal.innerHTML = `
 <button id="search-close-btn">X</button> 
 <form id="menu-search-form" role="search" method="get" class="search-form" action="${window.location.origin}/search">
 	<label style="display:none;" for="menu-search-input">Search</label>
@@ -74,50 +75,50 @@
         <input style="display:none;" type="submit" class="search-submit" value="search" />
 </form>
   </div>`;
-      document?.getElementById('root-app')?.append(searchModal);
-      document?.getElementById('search-close-btn')?.addEventListener('click', closeSearchModal);
-      document?.getElementById('menu-search-form')?.addEventListener('submit', searchAddSpinner);
-      document?.addEventListener('keydown', (e) => {
+    document?.getElementById('root-app')?.append(searchModal);
+    document?.getElementById('search-close-btn')?.addEventListener('click', closeSearchModal);
+    document?.getElementById('menu-search-form')?.addEventListener('submit', searchAddSpinner);
+    document?.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSearchModal();
+    });
+  }
+};
+
+const addSimpleSpinner = (element: any, prepend = true) => {
+  const spinner = document.createElement('div');
+  spinner.classList.add('loadingspinner');
+  if (prepend) element.prepend(spinner);
+  else element.appendChild(spinner);
+  return spinner;
+};
+
+const searchAddSpinner = (e: any) => {
+  addSimpleSpinner(e.target, false);
+};
+
+const closeSearchModal = () => {
+  if (searchModalOpen) {
+    const searchModal = document.getElementById('full-search-modal');
+    if (searchModal) {
+      (document?.getElementById('search-close-btn') as any).removeEventListener('click', closeSearchModal);
+      (document?.getElementById('menu-search-form') as any).removeEventListener('menu-search-form', searchAddSpinner);
+      document?.removeEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeSearchModal();
       });
+      searchModalOpen = false;
+      searchModal.style.animation = 'search-modal-close 0.4s linear forwards';
+      searchModal.addEventListener('animationend', () => {
+        searchModal.parentElement?.removeChild(searchModal);
+      });
     }
-  };
+  }
+};
 
-  const addSimpleSpinner = (element: any, prepend = true) => {
-    const spinner = document.createElement('div');
-    spinner.classList.add('loadingspinner');
-    if (prepend) element.prepend(spinner);
-    else element.appendChild(spinner);
-    return spinner;
-  };
+afterNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-  const searchAddSpinner = (e: any) => {
-    addSimpleSpinner(e.target, false);
-  };
-
-  const closeSearchModal = () => {
-    if (searchModalOpen) {
-      const searchModal = document.getElementById('full-search-modal');
-      if (searchModal) {
-        (document?.getElementById('search-close-btn') as any).removeEventListener('click', closeSearchModal);
-        (document?.getElementById('menu-search-form') as any).removeEventListener('menu-search-form', searchAddSpinner);
-        document?.removeEventListener('keydown', (e) => {
-          if (e.key === 'Escape') closeSearchModal();
-        });
-        searchModalOpen = false;
-        searchModal.style.animation = 'search-modal-close 0.4s linear forwards';
-        searchModal.addEventListener('animationend', () => {
-          searchModal.parentElement?.removeChild(searchModal);
-        });
-      }
-    }
-  };
-
-  afterNavigate(({ shallow, type }) => {
-    if (shallow && type === 'goto') return;
-
-    closeSearchModal();
-  });
+  closeSearchModal();
+});
 </script>
 
 <MenuMobile {closeMenu} bind:sideMenu />

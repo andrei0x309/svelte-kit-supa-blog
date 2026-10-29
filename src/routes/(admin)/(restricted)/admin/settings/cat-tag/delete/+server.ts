@@ -1,17 +1,16 @@
-import { supabase } from '#/lib/node/supaClientFS';
-import { checkAuth } from '#/lib/utils/server/auth';
-import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
-import { loadCatOrTag } from '#lib/utils/db/catOrTag.js';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
+import { loadCatOrTag } from '#lib/utils/db/catOrTag.ts';
+import { rem_tag_from_posts } from '#lib/utils/db/posts.ts';
 import type { RequestHandler } from './$types';
-import { rem_tag_from_posts } from '#lib/utils/db/posts.js';
 
 export const DELETE: RequestHandler = (async ({ request, cookies }) => {
   try {
     const req = { cookies } as ICookies;
     const currentUser = await checkAuth(req);
     if (currentUser.role === 'demo') {
-      return json(
+      return Response.json(
         {
           error: "Demo User can't take this action"
         },
@@ -20,7 +19,7 @@ export const DELETE: RequestHandler = (async ({ request, cookies }) => {
     }
     const { id, type } = await request.json();
     if (!id || !type) {
-      return json(
+      return Response.json(
         {
           error: 'No id and type provided'
         },
@@ -28,7 +27,7 @@ export const DELETE: RequestHandler = (async ({ request, cookies }) => {
       );
     }
     if (currentUser.role !== 'admin') {
-      return json(
+      return Response.json(
         {
           error: 'Only admin can delete categories'
         },
@@ -38,7 +37,7 @@ export const DELETE: RequestHandler = (async ({ request, cookies }) => {
 
     const exists = await loadCatOrTag(id, type);
     if (exists?.notFound) {
-      return json(
+      return Response.json(
         {
           error: 'Resource does not exist'
         },
@@ -55,7 +54,7 @@ export const DELETE: RequestHandler = (async ({ request, cookies }) => {
     const deleteRes = await supabase.from(table).delete().eq('id', id);
 
     if (deleteRes?.error) {
-      return json(
+      return Response.json(
         {
           error: deleteRes?.error?.message || 'Internal Server Error'
         },
@@ -63,7 +62,7 @@ export const DELETE: RequestHandler = (async ({ request, cookies }) => {
       );
     }
 
-    return json(
+    return Response.json(
       {
         success: true
       },
@@ -71,14 +70,14 @@ export const DELETE: RequestHandler = (async ({ request, cookies }) => {
     );
   } catch (e) {
     if (e === 'denied') {
-      return json(
+      return Response.json(
         {
           error: 'Access denied'
         },
         { status: 403 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'Internal Server Error'
       },

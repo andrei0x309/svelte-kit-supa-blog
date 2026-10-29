@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
-  interface Props {
-    content?: import('svelte').Snippet;
-  }
+import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
+interface Props {
+  content?: import('svelte').Snippet;
+}
 
-  let { content }: Props = $props();
+let { content }: Props = $props();
 </script>
 
 <div class="antialiased bg-[#0000009c] w-full min-h-screen text-slate-300 relative py-4">

@@ -13,10 +13,7 @@ const settingsName = [STORE.YUP_SHARE, STORE.YUP_PLATFORMS];
 const allowedStoreNames = Object.values(STORE);
 
 export const getYupSettings = async () => {
-  const { data } = await supabase
-    .from('fsk_blog_store')
-    .select('*')
-    .in('name', [STORE.YUP_SHARE, STORE.YUP_PLATFORMS, STORE.YUP_ACCESS_TOKEN]);
+  const { data } = await supabase.from('fsk_blog_store').select('*').in('name', [STORE.YUP_SHARE, STORE.YUP_PLATFORMS, STORE.YUP_ACCESS_TOKEN]);
   return data;
 };
 

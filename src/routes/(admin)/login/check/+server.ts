@@ -1,10 +1,9 @@
+import { json } from '@sveltejs/kit';
 import { supabase } from '#/lib/node/supaClientFS';
 import { getSha256 } from '#/lib/utils/server/crypto';
-
 import type { RequestHandler } from './$types';
-import { json } from '@sveltejs/kit';
 
-export const POST: RequestHandler = (async ({ request }) => {
+export const POST: RequestHandler = (async ({ request, cookies }) => {
   try {
     const { username, password } = await request.json();
 
@@ -21,6 +20,21 @@ export const POST: RequestHandler = (async ({ request }) => {
     if (hash !== user.password_hash) {
       return json({ error: 'Wrong password' }, { status: 401 });
     }
+
+    cookies.set('hash', hash, {
+      path: '/',
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: import.meta.env.PROD,
+      maxAge: 60 * 60 * 24 * 90
+    });
+    cookies.set('username', username, {
+      path: '/',
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: import.meta.env.PROD,
+      maxAge: 60 * 60 * 24 * 90
+    });
 
     return json({ data: 'ok', hash, role: user.role }, { status: 200 });
   } catch (e) {

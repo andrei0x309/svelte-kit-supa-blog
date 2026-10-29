@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { IPost } from '#/lib/types/post';
-  interface Props {
-    relatedArticle: IPost['related'][number];
-  }
+import type { IPost } from '#/lib/types/post';
+interface Props {
+  relatedArticle: IPost['related'][number];
+}
 
-  let { relatedArticle }: Props = $props();
+let { relatedArticle }: Props = $props();
 </script>
 
 <div class="max-w-[18rem] border border-gray-200 rounded-lg shadow-sm">

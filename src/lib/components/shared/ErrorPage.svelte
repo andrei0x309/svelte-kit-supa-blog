@@ -1,30 +1,30 @@
 <script lang="ts">
-  import SideBar from '#/lib/theme/SideBar.svelte';
-  import { page as SveltePage } from '$app/state';
-  import { isLoading } from '#/stores/main';
-  import { config } from '#lib/config/index.js';
+import SideBar from '#/lib/theme/SideBar.svelte';
+import { isLoading } from '#/stores/main.ts';
+import { config } from '#lib/config/index.ts';
+import { page as SveltePage } from '$app/state';
 
-  interface Props {
-    data: any;
-  }
+interface Props {
+  data: any;
+}
 
-  let { data = $bindable() }: Props = $props();
-  const sidebarData = data?.sidebarData;
-  let dataLoading = $state(false);
-  isLoading.subscribe((val) => {
-    dataLoading = val;
-  });
+let { data = $bindable() }: Props = $props();
+const sidebarData = data?.sidebarData;
+let dataLoading = $state(false);
+isLoading.subscribe((val) => {
+  dataLoading = val;
+});
 
-  let featureImage = $state('');
-  try {
-    featureImage = new URL(data?.res?.feature_image).href;
-  } catch {
-    featureImage = '';
-  }
+let featureImage = $state('');
+try {
+  featureImage = new URL(data?.res?.feature_image).href;
+} catch {
+  featureImage = '';
+}
 
-  const errorMsg = SveltePage?.error?.message || 'Unknown reason';
-  const errorStatus = SveltePage?.status || '500';
-  data.pageTitle = 'Error ' + errorStatus + ' - ' + errorMsg;
+const errorMsg = SveltePage?.error?.message || 'Unknown reason';
+const errorStatus = SveltePage?.status || '500';
+data.pageTitle = 'Error ' + errorStatus + ' - ' + errorMsg;
 </script>
 
 <svelte:head>

@@ -1,18 +1,18 @@
 <script lang="ts">
-  interface Props {
-    tabs?: any;
-    activeTab?: string;
-    content?: import('svelte').Snippet;
-  }
+interface Props {
+  tabs?: any;
+  activeTab?: string;
+  content?: import('svelte').Snippet;
+}
 
-  let {
-    tabs = [] as {
-      name: string;
-      path: string;
-    }[],
-    activeTab = '',
-    content
-  }: Props = $props();
+let {
+  tabs = [] as {
+    name: string;
+    path: string;
+  }[],
+  activeTab = '',
+  content
+}: Props = $props();
 </script>
 
 {#if tabs.length}

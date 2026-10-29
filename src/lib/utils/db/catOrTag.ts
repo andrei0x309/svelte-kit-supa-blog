@@ -1,16 +1,14 @@
-import { supabase } from '#/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import type { ICatTag } from '#/lib/types/catTag.ts';
 
 export const loadCategories = async () => {
-  const { data: categories, error } = await supabase
-    .from('fsk_blog_cat')
-    .select('*, posts:fsk_blog_posts(count)')
-    .order('updated_at', { ascending: false });
+  const { data: categories, error } = await supabase.from('fsk_blog_cat').select('*, posts:fsk_blog_posts(count)').order('updated_at', { ascending: false });
 
   if (error) {
     return null;
   }
 
-  return categories;
+  return categories as ICatTag[];
 };
 
 export const loadTags = async () => {
@@ -19,7 +17,7 @@ export const loadTags = async () => {
     return null;
   }
 
-  return tags;
+  return tags as ICatTag[];
 };
 
 export const loadCatOrTag = async (id: string, type: 'cat' | 'tag') => {

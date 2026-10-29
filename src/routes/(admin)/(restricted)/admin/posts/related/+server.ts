@@ -1,7 +1,6 @@
-import { checkAuth } from '#/lib/utils/server/auth';
-import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
-import { loadRelatedPosts } from '#lib/utils/db/posts.js';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
+import { loadRelatedPosts } from '#lib/utils/db/posts.ts';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
@@ -11,7 +10,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     const { tags_id, slug } = await request.json();
 
     if (currentUser.role === 'demo') {
-      return json(
+      return Response.json(
         {
           error: "Demo User can't take this action"
         },
@@ -20,7 +19,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
 
     if (!tags_id) {
-      return json(
+      return Response.json(
         {
           error: 'No tags_ids provided'
         },
@@ -29,7 +28,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
 
     if (!Array.isArray(tags_id)) {
-      return json(
+      return Response.json(
         {
           error: 'tags_ids is not an array'
         },
@@ -38,7 +37,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
 
     if (tags_id.length === 0) {
-      return json(
+      return Response.json(
         {
           error: 'tags_ids is empty'
         },
@@ -49,7 +48,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       tags_id,
       slug
     } as any);
-    return json(
+    return Response.json(
       {
         relatedPosts
       },
@@ -57,14 +56,14 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     );
   } catch (e) {
     if (e === 'denied') {
-      return json(
+      return Response.json(
         {
           error: 'Access denied'
         },
         { status: 403 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'Internal Server Error'
       },

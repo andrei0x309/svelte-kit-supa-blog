@@ -1,52 +1,52 @@
 <script lang="ts">
-  import type { IPost } from '#lib/types/post.js';
-  import { config } from '#lib/config/index.js';
-  import Signature from '#lib/theme/Article/Signature.svelte';
-  import RelatedArticle from '#lib/theme/Article/RelatedArticle.svelte';
-  import FeatureImage from '#lib/theme/FeatureImage.svelte';
-  import ShareArticle from '#lib/theme/Article/ShareArticle.svelte';
-  import type { Component } from 'svelte';
-  import { onMount } from 'svelte';
+import type { Component } from 'svelte';
+import { onMount } from 'svelte';
+import { config } from '#lib/config/index.ts';
+import RelatedArticle from '#lib/theme/Article/RelatedArticle.svelte';
+import ShareArticle from '#lib/theme/Article/ShareArticle.svelte';
+import Signature from '#lib/theme/Article/Signature.svelte';
+import FeatureImage from '#lib/theme/FeatureImage.svelte';
+import type { IPost } from '#lib/types/post.ts';
 
-  interface Props {
-    data: IPost;
-    draft?: boolean;
-    index?: number;
-    renderH1?: boolean;
-  }
+interface Props {
+  data: IPost;
+  draft?: boolean;
+  index?: number;
+  renderH1?: boolean;
+}
 
-  let { data, draft = false, index = 0, renderH1 = false }: Props = $props();
-  let Comments: null | Component<{}> = $state(null);
+let { data, draft = false, index = 0, renderH1 = false }: Props = $props();
+let Comments: null | Component<{}> = $state(null);
 
-  let related: IPost['related'] | undefined = $state();
-
-  let renderEditLink = $state(false);
-  let WrenchIconComponent: null | Component<{}> = $state(null);
-
-  const loadComments = async () => {
-    if (data.isFull && config.giscusCommentsEnabled) {
-      const { default: comm } = await import('#lib/theme/Article/Comments.svelte');
-      Comments = comm;
-    }
-  };
-
+let related: IPost['related'] | undefined = $derived.by(() => {
   try {
-    related = JSON.parse(data.related as any);
+    return JSON.parse(data.related as any);
   } catch {
-    related = [];
+    return [];
   }
+});
 
-  onMount(async () => {
-    const { getCookie } = await import('#/lib/utils/common');
-    console.log('getCookie', getCookie('role'));
+let renderEditLink = $state(false);
+let WrenchIconComponent: null | Component<{}> = $state(null);
 
-    const presumedRole = getCookie('role');
-    if (presumedRole === 'admin' || presumedRole === 'contribuitor') {
-      renderEditLink = true;
-      const { default: WrenchAdmin } = await import('#/lib/theme/icons/WrenchAdmin.svelte');
-      WrenchIconComponent = WrenchAdmin;
-    }
-  });
+const loadComments = async () => {
+  if (data.isFull && config.giscusCommentsEnabled) {
+    const { default: comm } = await import('#lib/theme/Article/Comments.svelte');
+    Comments = comm;
+  }
+};
+
+onMount(async () => {
+  const { getCookie } = await import('#/lib/utils/common.ts');
+  console.log('getCookie', getCookie('role'));
+
+  const presumedRole = getCookie('role');
+  if (presumedRole === 'admin' || presumedRole === 'contribuitor') {
+    renderEditLink = true;
+    const { default: WrenchAdmin } = await import('#/lib/theme/icons/WrenchAdmin.svelte');
+    WrenchIconComponent = WrenchAdmin;
+  }
+});
 </script>
 
 <article

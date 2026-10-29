@@ -1,10 +1,10 @@
-import type { ICurrentUser } from '#lib/types/user.js';
-import { supabase } from '#/lib/node/supaClientFS';
-import { checkAuth } from '#/lib/utils/server/auth';
-import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
-import { getSha256 } from '#/lib/utils/server/crypto';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import { getSha256 } from '#/lib/utils/server/crypto.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
+import type { ICurrentUser } from '#lib/types/user.ts';
+import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
   try {

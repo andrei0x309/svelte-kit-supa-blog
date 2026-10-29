@@ -1,31 +1,31 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
-  import { fade } from 'svelte/transition';
-  interface Props {
-    children?: import('svelte').Snippet;
-  }
+import { onDestroy, onMount } from 'svelte';
+import { fade } from 'svelte/transition';
+interface Props {
+  children?: import('svelte').Snippet;
+}
 
-  let { children }: Props = $props();
+let { children }: Props = $props();
 
-  let loaded = $state(false);
-  let root: HTMLElement = $state();
+let loaded = $state(false);
+let root: HTMLElement = $state();
 
-  let observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        loaded = true;
-        observer.disconnect();
-      }
-    });
+let observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      loaded = true;
+      observer.disconnect();
+    }
   });
+});
 
-  onMount(() => {
-    observer.observe(root);
-  });
+onMount(() => {
+  observer.observe(root);
+});
 
-  onDestroy(() => {
-    observer.disconnect();
-  });
+onDestroy(() => {
+  observer.disconnect();
+});
 </script>
 
 <div bind:this={root}>

@@ -1,5 +1,9 @@
 <script lang="ts">
-  const { class: className } = $props<{ class?: string | undefined }>();
+interface Props {
+  class?: string | undefined;
+}
+
+const { class: className }: Props = $props();
 </script>
 
 <svg viewBox="0 0 24 24" class={className || 'h-4 w-4 inline-block mr-[0.1rem] text-gray-100 top-[0.2rem] relative'}>

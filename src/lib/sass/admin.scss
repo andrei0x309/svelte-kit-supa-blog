@@ -1,4 +1,4 @@
-@use './global';
+@use "./global";
 
 html {
   color: aliceblue;
@@ -64,7 +64,7 @@ html {
 }
 
 .active-icon {
-  content: '';
+  content: "";
   display: inline-block;
   height: 1em;
   width: 1em;
@@ -75,30 +75,30 @@ html {
   transition: 200ms ease-out;
 }
 
-[type='radio'] {
+[type="radio"] {
   @extend .hidden;
 }
 
-[type='radio'] + span {
+[type="radio"] + span {
   display: inline-block;
   color: #aaa;
 }
 
-[type='radio'] + span:before {
+[type="radio"] + span:before {
   @extend .active-icon;
   border-radius: 50%;
 }
 
-[type='radio']:checked + span {
+[type="radio"]:checked + span {
   color: #f1f1f1;
 }
 
-[type='radio']:checked + span:before {
+[type="radio"]:checked + span:before {
   background-color: #f1f1f1;
   box-shadow: 0 0 0 0.15em #f1f1f1;
 }
 
-[type='radio']:focus + span:before {
+[type="radio"]:focus + span:before {
   transform: scale(1.2);
 }
 

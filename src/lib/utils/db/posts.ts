@@ -2,19 +2,7 @@ import { supabase } from '#/lib/node/supaClientFS';
 import truncate from 'truncate-html';
 import { config } from '#/lib/config';
 
-export const preparePostResponse = ({
-  tags,
-  res,
-  page = 1,
-  perPege = 4,
-  single = false
-}: {
-  tags: any;
-  res: any;
-  page?: number;
-  perPege?: number;
-  single?: boolean;
-}) => {
+export const preparePostResponse = ({ tags, res, page = 1, perPege = 4, single = false }: { tags: any; res: any; page?: number; perPege?: number; single?: boolean }) => {
   const tagsMap = tags.data?.reduce((acc: { [key: number]: Record<string, unknown> }, tag: { id: number }) => {
     acc[tag.id] = tag;
     return acc;
@@ -158,13 +146,7 @@ export const loadRelatedPosts = async ({ tag_ids = [] as number[] | string[], sl
     const res = await resDb;
 
     if ((res.data ?? []).length < 3 && !slugs) {
-      const resDb2 = supabase
-        .from('fsk_blog_posts')
-        .select(`*`)
-        .order('created_at', { ascending: false })
-        .neq('slug', slug)
-        .eq('draft', false)
-        .limit(3);
+      const resDb2 = supabase.from('fsk_blog_posts').select(`*`).order('created_at', { ascending: false }).neq('slug', slug).eq('draft', false).limit(3);
       const res2 = await resDb2;
       res.data = [...(res.data ?? []), ...(res2.data ?? [])].slice(0, 3);
     }

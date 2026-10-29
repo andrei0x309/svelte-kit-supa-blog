@@ -1,4 +1,4 @@
-import { loadTags } from '#/lib/utils/db/catOrTag';
+import { loadTags } from '#/lib/utils/db/catOrTag.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = (async (req) => {

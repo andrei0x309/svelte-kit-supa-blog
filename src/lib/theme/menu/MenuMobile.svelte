@@ -1,12 +1,17 @@
 <script lang="ts">
-  import FrontIcon from './icons/FrontIcon.svelte';
-  import ProjectsIcon from './icons/ProjectsIcon.svelte';
-  import CoursesIcon from './icons/CoursesIcon.svelte';
-  import ContactIcon from './icons/ContactIcon.svelte';
-  import TipIcon from './icons/TipIcon.svelte';
+import FrontIcon from './icons/FrontIcon.svelte';
+import ProjectsIcon from './icons/ProjectsIcon.svelte';
+import CoursesIcon from './icons/CoursesIcon.svelte';
+import ContactIcon from './icons/ContactIcon.svelte';
+import TipIcon from './icons/TipIcon.svelte';
 
-  let { sideMenu = $bindable(), closeMenu } = $props<{ sideMenu: HTMLElement | undefined; closeMenu: () => void }>();
-  let close: HTMLElement | undefined; // document.getElementById('menu-close');
+interface Props {
+  sideMenu?: HTMLElement | undefined;
+  closeMenu: () => void;
+}
+
+let { sideMenu = $bindable(), closeMenu }: Props = $props();
+let close: HTMLElement | undefined; // document.getElementById('menu-close');
 </script>
 
 <nav bind:this={sideMenu} id="side-menu" class="fixed w-11/12 h-full top-0 left-0 overflow-auto bg-white text-amber-50">

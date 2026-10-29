@@ -1,37 +1,38 @@
 <script lang="ts">
-  import SideBar from '#/lib/theme/SideBar.svelte';
-  import { page as SveltePage } from '$app/state';
-  import { isLoading } from '#/stores/main';
-  import { config } from '#lib/config/index.js';
-  import type { ICurrentUser } from '#lib/types/user.js';
-  import { generateURLFCFrameEmbed } from '#lib/utils/client/fc-frame-v2.js';
+import SideBar from '#/lib/theme/SideBar.svelte';
+import { isLoading } from '#/stores/main.ts';
+import { config } from '#lib/config/index.ts';
+import type { ICurrentUser } from '#lib/types/user.ts';
+import { generateURLFCFrameEmbed } from '#lib/utils/client/fc-frame-v2.ts';
+import { page as SveltePage } from '$app/state';
 
-  interface Props {
-    data: {
-      res: ICurrentUser;
-      pageTitle: string;
-      pageDescription: string;
-      schemaContent: string;
-      sidebarData: any;
-    };
-  }
+interface Props {
+  data: {
+    res: ICurrentUser;
+    pageTitle: string;
+    pageDescription: string;
+    schemaContent: string;
+    sidebarData: any;
+  };
+}
 
-  let { data }: Props = $props();
-  const sidebarData = data?.sidebarData;
+let { data }: Props = $props();
+const sidebarData = $derived(data?.sidebarData);
 
-  let dataLoading = $state(false);
-  isLoading.subscribe((val) => {
-    dataLoading = val;
-  });
+let dataLoading = $state(false);
+isLoading.subscribe((val) => {
+  dataLoading = val;
+});
 
-  let featureImage = $state('');
+let featureImage = $derived.by(() => {
   try {
-    featureImage = new URL(data?.res?.avatar).href;
+    return new URL(data?.res?.avatar).href;
   } catch {
-    featureImage = '';
+    return '';
   }
+});
 
-  const pageUrl = SveltePage.url.href.replace('http:', 'https:');
+const pageUrl = SveltePage.url.href.replace('http:', 'https:');
 </script>
 
 <svelte:head>

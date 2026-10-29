@@ -1,4 +1,4 @@
-import { FCConfig } from '#lib/config/farcaster.js';
+import { FCConfig } from '#lib/config/farcaster.ts';
 
 export const generateURLFCFrameEmbed = (featureImage = '', url: string) => {
   const FrameEmbed = {

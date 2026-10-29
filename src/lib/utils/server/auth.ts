@@ -1,5 +1,5 @@
-import type { ICookies } from '#lib/types/cookies.js';
-import { supabase } from '#/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
 
 export const checkAuth = async (req: ICookies) => {
   const username = req.cookies.get('username');

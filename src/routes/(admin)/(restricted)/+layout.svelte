@@ -1,39 +1,42 @@
 <script lang="ts">
-  import '#lib/sass/tailwind.css';
-  import '#lib/sass/admin.scss';
-  import { afterNavigate, beforeNavigate } from '$app/navigation';
-  import { isLoading, currentUser } from '#/stores/main';
-  import { onMount } from 'svelte';
-  import { config } from '#lib/config/index.js';
+import '#lib/sass/tailwind.css';
+import '#lib/sass/admin.scss';
+import { onMount } from 'svelte';
+import { currentUser, isLoading } from '#/stores/main.ts';
+import { config } from '#lib/config/index.ts';
+import { afterNavigate, beforeNavigate } from '$app/navigation';
 
-  beforeNavigate(({ shallow, type }) => {
-    if (shallow && type === 'goto') return;
+beforeNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-    isLoading.set(true);
-  });
+  isLoading.set(true);
+});
 
-  afterNavigate(({ shallow, type }) => {
-    if (shallow && type === 'goto') return;
+afterNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-    isLoading.set(false);
-  });
+  isLoading.set(false);
+});
 
-  const handlePopstate = () => {
-    isLoading.set(false);
-  };
+const handlePopstate = () => {
+  isLoading.set(false);
+};
 
-  /** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
-  let { data, children } = $props();
+/** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
+let { data, children } = $props();
+
+$effect(() => {
   currentUser.set(data.currentUser ?? null);
+});
 
-  onMount(() => {
-    window.addEventListener('popstate', handlePopstate);
-    isLoading.set(false);
+onMount(() => {
+  window.addEventListener('popstate', handlePopstate);
+  isLoading.set(false);
 
-    return () => {
-      window.removeEventListener('popstate', handlePopstate);
-    };
-  });
+  return () => {
+    window.removeEventListener('popstate', handlePopstate);
+  };
+});
 </script>
 
 <svelte:head>

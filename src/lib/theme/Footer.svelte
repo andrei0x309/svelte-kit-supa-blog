@@ -1,6 +1,6 @@
 <script>
-  import FooterIcons from '#lib/theme/footer/icons.svelte';
-  import WrenchAdmin from '#lib/theme/icons/WrenchAdmin.svelte';
+import FooterIcons from '#lib/theme/footer/icons.svelte';
+import WrenchAdmin from '#lib/theme/icons/WrenchAdmin.svelte';
 </script>
 
 <footer class="footer pt-4 flex w-full items-center flex-col text-center text-sm text-white content-center justify-center">

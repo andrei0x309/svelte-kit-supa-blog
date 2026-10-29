@@ -1,18 +1,16 @@
+import { appendToData, checkData, error } from '#/lib/utils/page.ts';
+import { loadPostsBySearch } from '#lib/utils/db/posts.ts';
 import type { PageServerLoad } from './$types';
-import { checkData, appendToData } from '#/lib/utils/page';
-import { error } from '#/lib/utils/page';
-import { loadPostsBySearch } from '#lib/utils/db/posts.js';
 
 const defaultError = {
-  message: 'No Query Provided',
-  pageType: 'search'
+  message: 'No Query Provided'
 } as App.Error;
 
 export const load: PageServerLoad = async (req) => {
   let q = String(req.url.searchParams.get('q') ?? '');
 
   if (!q) {
-    throw error(401, defaultError);
+    throw error(401, defaultError.message);
   }
   const query = decodeURIComponent(q).split(' ');
   const page = Number(req.url.searchParams.get('page') || '1') || 1;

@@ -1,5 +1,18 @@
 {
   "deno.lint": true,
-  "deno.unstable": true,
-  "deno.enablePaths": ["/src/deno-db", "/src/lib/deno", "/src/routes/api/index/email/+server.ts", "/edge-functions"]
+  "deno.enablePaths": ["/src/deno-db", "/src/lib/deno", "/src/routes/api/index/email/+server.ts", "/edge-functions"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "always"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["bun.lock"],
+      "schema": {
+        "allowTrailingCommas": true
+      }
+    }
+  ]
 }

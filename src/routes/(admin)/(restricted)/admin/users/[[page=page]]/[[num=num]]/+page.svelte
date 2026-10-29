@@ -1,52 +1,52 @@
 <script lang="ts">
-  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
-  import type { ICurrentUser } from '#lib/types/user.js';
-  import ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
-  import { slide } from 'svelte/transition';
-  import { modalOpen } from '#/stores/main';
-  import Alert from '#/lib/components/shared/Alert.svelte';
+import { slide } from 'svelte/transition';
+import Alert from '#/lib/components/shared/Alert.svelte';
+import ConfirmModal from '#/lib/components/shared/ConfirmModal.svelte';
+import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
+import { modalOpen } from '#/stores/main.ts';
+import type { ICurrentUser } from '#lib/types/user.ts';
 
-  let confirm: ConfirmModal;
-  let alert: Alert;
+let confirm: ConfirmModal;
+let alert: Alert;
 
-  export let data: {
-    page: number;
-    hasNext: boolean;
-    users: ICurrentUser[] | null;
-  };
+export let data: {
+  page: number;
+  hasNext: boolean;
+  users: ICurrentUser[] | null;
+};
 
-  async function deleteUser(id: number) {
-    try {
-      if (!data.users?.length) return;
-      const res = await fetch(`/admin/users/delete`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id })
-      });
-      const reqData = await res.json();
-      if (res.ok) {
-        if (!reqData?.error) {
-          alert.showSuccess('User deleted successfully');
-          if (data.users?.length === 1 && data.page > 1) {
-            location.href = `/admin/users/page/${data.page - 1}`;
-          } else {
-            data = {
-              ...data,
-              users: data.users.filter((user: ICurrentUser) => user.id !== id)
-            };
-          }
+async function deleteUser(id: number) {
+  try {
+    if (!data.users?.length) return;
+    const res = await fetch(`/admin/users/delete`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id })
+    });
+    const reqData = await res.json();
+    if (res.ok) {
+      if (!reqData?.error) {
+        alert.showSuccess('User deleted successfully');
+        if (data.users?.length === 1 && data.page > 1) {
+          location.href = `/admin/users/page/${data.page - 1}`;
         } else {
-          alert.showError(reqData?.error || 'Something went wrong');
+          data = {
+            ...data,
+            users: data.users.filter((user: ICurrentUser) => user.id !== id)
+          };
         }
       } else {
         alert.showError(reqData?.error || 'Something went wrong');
       }
-    } catch (err) {
-      alert.showError('API network error');
+    } else {
+      alert.showError(reqData?.error || 'Something went wrong');
     }
+  } catch (err) {
+    alert.showError('API network error');
   }
+}
 </script>
 
 <div class="antialiased bg-[#0000009c] w-full min-h-screen text-slate-300 relative py-4">

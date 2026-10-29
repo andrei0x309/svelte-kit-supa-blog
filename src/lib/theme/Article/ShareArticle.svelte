@@ -1,131 +1,128 @@
 <script lang="ts">
-  import BlueSkyIcon from '#lib/theme/icons/platfroms/BlueSkyIcon.svelte';
-  import LinkCopyIcon from '#lib/theme/icons/platfroms/LinkCopyIcon.svelte';
-  import WhatsAppIcon from '#lib/theme/icons/platfroms/WhatsAppIcon.svelte';
-  import XIcon from '#lib/theme/icons/platfroms/XIcon.svelte';
-  import TelegramIcon from '#lib/theme/icons/platfroms/TelegramIcon.svelte';
-  import FaceBookIcon from '#lib/theme/icons/platfroms/FaceBookIcon.svelte';
-  import FarcasterIcon from '#lib/theme/icons/platfroms/FarcasterIcon.svelte';
-  import PinterestIcon from '#lib/theme/icons/platfroms/PinterestIcon.svelte';
-  import RedditIcon from '#lib/theme/icons/platfroms/RedditIcon.svelte';
-  import { articleSettings } from '#lib/config/index.js';
-  import type { Component } from 'svelte';
-  import { beforeNavigate } from '$app/navigation';
-  import { clickOutside } from '#lib/utils/client/misc.js';
-  import { fade } from 'svelte/transition';
+import type { Component } from 'svelte';
+import { fade } from 'svelte/transition';
+import { articleSettings } from '#lib/config/index.ts';
+import BlueSkyIcon from '#lib/theme/icons/platfroms/BlueSkyIcon.svelte';
+import FaceBookIcon from '#lib/theme/icons/platfroms/FaceBookIcon.svelte';
+import FarcasterIcon from '#lib/theme/icons/platfroms/FarcasterIcon.svelte';
+import LinkCopyIcon from '#lib/theme/icons/platfroms/LinkCopyIcon.svelte';
+import PinterestIcon from '#lib/theme/icons/platfroms/PinterestIcon.svelte';
+import RedditIcon from '#lib/theme/icons/platfroms/RedditIcon.svelte';
+import TelegramIcon from '#lib/theme/icons/platfroms/TelegramIcon.svelte';
+import WhatsAppIcon from '#lib/theme/icons/platfroms/WhatsAppIcon.svelte';
+import XIcon from '#lib/theme/icons/platfroms/XIcon.svelte';
+import { clickOutside } from '#lib/utils/client/misc.ts';
+import { beforeNavigate } from '$app/navigation';
 
-  interface Props {
-    articleLink: string;
-    articleTitle: string;
-    featureImage?: string;
-  }
+interface Props {
+  articleLink: string;
+  articleTitle: string;
+  featureImage?: string;
+}
 
-  let { articleLink, articleTitle, featureImage }: Props = $props();
-  let isCopied = $state(false);
-  let showPopup = $state(false);
+let { articleLink, articleTitle, featureImage }: Props = $props();
+let isCopied = $state(false);
+let showPopup = $state(false);
 
-  const slug = articleLink.split('/').pop();
+const slug = $derived(articleLink.split('/').pop());
 
-  const platforms = {
-    x: XIcon,
-    whatsapp: WhatsAppIcon,
-    telegram: TelegramIcon,
-    facebook: FaceBookIcon,
-    farcasterXYZ: FarcasterIcon,
-    fosscaster: FarcasterIcon,
-    bluesky: BlueSkyIcon,
-    copyLink: LinkCopyIcon,
-    pinterest: PinterestIcon,
-    reddit: RedditIcon
-  };
+const platforms = {
+  x: XIcon,
+  whatsapp: WhatsAppIcon,
+  telegram: TelegramIcon,
+  facebook: FaceBookIcon,
+  farcasterXYZ: FarcasterIcon,
+  fosscaster: FarcasterIcon,
+  bluesky: BlueSkyIcon,
+  copyLink: LinkCopyIcon,
+  pinterest: PinterestIcon,
+  reddit: RedditIcon
+};
 
-  const enabledPlatforms = Object.keys(articleSettings.enableSharePlatforms)
-    .filter((platform) => {
-      if (platform === 'pinterest') {
-        return articleSettings.enableSharePlatforms[platform as keyof typeof articleSettings.enableSharePlatforms].enabled && featureImage;
-      }
-      return articleSettings.enableSharePlatforms[platform as keyof typeof articleSettings.enableSharePlatforms].enabled;
-    })
-    .sort((a, b) => {
-      const aIndex = articleSettings.enableSharePlatforms[a as keyof typeof articleSettings.enableSharePlatforms].order;
-      const bIndex = articleSettings.enableSharePlatforms[b as keyof typeof articleSettings.enableSharePlatforms].order;
-      return aIndex - bIndex;
-    });
+const enabledPlatforms = Object.keys(articleSettings.enableSharePlatforms)
+  .filter((platform) => {
+    if (platform === 'pinterest') {
+      return articleSettings.enableSharePlatforms[platform as keyof typeof articleSettings.enableSharePlatforms].enabled && featureImage;
+    }
+    return articleSettings.enableSharePlatforms[platform as keyof typeof articleSettings.enableSharePlatforms].enabled;
+  })
+  .sort((a, b) => {
+    const aIndex = articleSettings.enableSharePlatforms[a as keyof typeof articleSettings.enableSharePlatforms].order;
+    const bIndex = articleSettings.enableSharePlatforms[b as keyof typeof articleSettings.enableSharePlatforms].order;
+    return aIndex - bIndex;
+  });
 
-  const copyLink = async () => {
+const copyLink = async () => {
+  try {
+    // Use the modern Clipboard API
+    await navigator.clipboard.writeText(articleLink);
+    isCopied = true;
+    setTimeout(() => (isCopied = false), 2000);
+  } catch (err) {
+    // Fallback for browsers where navigator.clipboard is not available
+    const textArea = document.createElement('textarea');
+    textArea.value = articleLink;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
     try {
-      // Use the modern Clipboard API
-      await navigator.clipboard.writeText(articleLink);
+      document.execCommand('copy');
       isCopied = true;
       setTimeout(() => (isCopied = false), 2000);
     } catch (err) {
-      // Fallback for browsers where navigator.clipboard is not available
-      const textArea = document.createElement('textarea');
-      textArea.value = articleLink;
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        isCopied = true;
-        setTimeout(() => (isCopied = false), 2000);
-      } catch (err) {
-        console.error('Failed to copy text using execCommand', err);
-      }
-      document.body.removeChild(textArea);
+      console.error('Failed to copy text using execCommand', err);
     }
-  };
+    document.body.removeChild(textArea);
+  }
+};
 
-  const shareTo = (platform: string) => {
-    const encodedLink = encodeURIComponent(articleLink);
-    const encodedTitle = encodeURIComponent(articleTitle);
-    showPopup = false;
-    switch (platform) {
-      case 'x':
-        window.open(
-          `
+const shareTo = (platform: string) => {
+  const encodedLink = encodeURIComponent(articleLink);
+  const encodedTitle = encodeURIComponent(articleTitle);
+  showPopup = false;
+  switch (platform) {
+    case 'x':
+      window.open(
+        `
           https://twitter.com/intent/tweet?url=${encodedLink}&text=${encodedTitle}`,
-          '_blank'
-        );
-        break;
-      case 'whatsapp':
-        window.open(`https://api.whatsapp.com/send?text=${encodedTitle}%A0${encodedLink}`, '_blank');
-        break;
-      case 'pinterest':
-        window.open(
-          `https://pinterest.com/pin/create/bookmarklet/?url=${encodedLink}&description=${encodedTitle}&media=${featureImage}`,
-          '_blank'
-        );
-        break;
-      case 'reddit':
-        window.open(`https://reddit.com/submit?url=${encodedLink}&title=${encodedTitle}`, '_blank');
-        break;
-      case 'facebook':
-        window.open(`https://www.facebook.com/sharer.php?u=${encodedLink}`, '_blank');
-        break;
-      case 'bluesky':
-        window.open(`https://bsky.app/intent/compose?text=${encodedTitle}%0A${encodedLink}%0A`, '_blank');
-        break;
-      case 'telegram':
-        window.open(`https://t.me/share/url?url=${encodedLink}&text=${encodedTitle}`, '_blank');
-        break;
-      case 'farcaster':
-        window.open(`https://farcaster.xyz/~/compose?text=${encodedLink}%0A`, '_blank');
-        break;
-      case 'fosscaster':
-        window.open(`https://fosscaster.xyz/~/compose?text=${encodedLink}%0A`, '_blank');
-        break;
-      case 'copyLink':
-        copyLink();
-        break;
-    }
-  };
+        '_blank'
+      );
+      break;
+    case 'whatsapp':
+      window.open(`https://api.whatsapp.com/send?text=${encodedTitle}%A0${encodedLink}`, '_blank');
+      break;
+    case 'pinterest':
+      window.open(`https://pinterest.com/pin/create/bookmarklet/?url=${encodedLink}&description=${encodedTitle}&media=${featureImage}`, '_blank');
+      break;
+    case 'reddit':
+      window.open(`https://reddit.com/submit?url=${encodedLink}&title=${encodedTitle}`, '_blank');
+      break;
+    case 'facebook':
+      window.open(`https://www.facebook.com/sharer.php?u=${encodedLink}`, '_blank');
+      break;
+    case 'bluesky':
+      window.open(`https://bsky.app/intent/compose?text=${encodedTitle}%0A${encodedLink}%0A`, '_blank');
+      break;
+    case 'telegram':
+      window.open(`https://t.me/share/url?url=${encodedLink}&text=${encodedTitle}`, '_blank');
+      break;
+    case 'farcaster':
+      window.open(`https://farcaster.xyz/~/compose?text=${encodedLink}%0A`, '_blank');
+      break;
+    case 'fosscaster':
+      window.open(`https://fosscaster.xyz/~/compose?text=${encodedLink}%0A`, '_blank');
+      break;
+    case 'copyLink':
+      copyLink();
+      break;
+  }
+};
 
-  beforeNavigate(({ shallow, type }) => {
-    if (shallow && type === 'goto') return;
+beforeNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-    showPopup = false;
-  });
+  showPopup = false;
+});
 </script>
 
 <div use:clickOutside={() => (showPopup = false)}>

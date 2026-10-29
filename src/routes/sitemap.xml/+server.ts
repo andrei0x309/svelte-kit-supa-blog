@@ -1,6 +1,6 @@
+import { config } from '#lib/config/index.ts';
+import { generatePaths } from '#lib/utils/server/sitemap.ts';
 import type { RequestHandler } from './$types';
-import { generatePaths } from '#lib/utils/server/sitemap.js';
-import { config } from '#lib/config/index.js';
 
 const website = config.baseSiteUrl;
 

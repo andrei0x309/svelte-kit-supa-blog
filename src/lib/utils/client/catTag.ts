@@ -1,5 +1,5 @@
-import type { ICatTag } from '#lib/types/catTag.js';
-import type { IAlert } from '#lib/types/alert.js';
+import type { ICatTag } from '#lib/types/catTag.ts';
+import type { IAlert } from '#lib/types/alert.ts';
 
 export const makeEmptyCatTag = (): ICatTag => {
   return {
@@ -12,7 +12,7 @@ export const makeEmptyCatTag = (): ICatTag => {
 
 export async function deleteCatOrTag(id: number, type: 'cat' | 'tag', alert: IAlert, data: { catOrTags: ICatTag[] }) {
   try {
-    if (!data?.catOrTags.length) return;
+    if (!data?.catOrTags.length) return data;
     const res = await fetch(`/admin/settings/cat-tag/delete`, {
       method: 'DELETE',
       headers: {
@@ -34,9 +34,13 @@ export async function deleteCatOrTag(id: number, type: 'cat' | 'tag', alert: IAl
     } else {
       alert.showError(reqData?.error || 'Something went wrong');
     }
-    return [];
+    return {
+      ...data
+    };
   } catch (err) {
     alert.showError('API network error');
-    return [];
+    return {
+      ...data
+    };
   }
 }

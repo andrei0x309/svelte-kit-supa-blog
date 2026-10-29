@@ -1,18 +1,19 @@
 <script lang="ts">
-  import Post from '#/routes/(admin)/(restricted)/admin/posts/Post.svelte';
-  import type { ICat, ITag, IPost } from '#lib/types/post.js';
-  interface Props {
-    data?: any;
-  }
+import Post from '#/routes/(admin)/(restricted)/admin/posts/Post.svelte';
+import type { ICat, IPost, ITag } from '#lib/types/post.ts';
 
-  let {
-    data = { post: null, tags: [] as ITag[], cats: [] as ICat[], notfound: false } as {
-      post: IPost | null;
-      tags: ITag[];
-      cats: ICat[];
-      notfound: boolean;
-    }
-  }: Props = $props();
+interface Props {
+  data?: any;
+}
+
+let {
+  data = { post: null, tags: [] as ITag[], cats: [] as ICat[], notfound: false } as {
+    post: IPost | null;
+    tags: ITag[];
+    cats: ICat[];
+    notfound: boolean;
+  }
+}: Props = $props();
 </script>
 
 <Post {data}>

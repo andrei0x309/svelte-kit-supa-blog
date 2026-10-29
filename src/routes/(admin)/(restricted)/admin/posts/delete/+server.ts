@@ -1,10 +1,9 @@
-import { supabase } from '#/lib/node/supaClientFS';
-import { checkAuth } from '#/lib/utils/server/auth';
 import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
-import { loadPost } from '#lib/utils/db/posts.js';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
+import { dec_tags_count, loadPost } from '#lib/utils/db/posts.ts';
 import type { RequestHandler } from './$types';
-import { dec_tags_count } from '#lib/utils/db/posts.js';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
   try {

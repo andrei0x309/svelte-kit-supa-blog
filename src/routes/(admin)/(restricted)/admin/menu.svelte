@@ -1,14 +1,14 @@
 <script lang="ts">
-  import PreviewEyeIcon from './icons/PreviewEyeIcon.svelte';
-  import { goto } from '$app/navigation';
-  import { eraseCookie } from '#lib/utils/common.js';
-  import { currentUser } from '#/stores/main';
+import { currentUser } from '#/stores/main.ts';
+import { goto } from '$app/navigation';
+import PreviewEyeIcon from './icons/PreviewEyeIcon.svelte';
 
-  const logout = () => {
-    eraseCookie('hash');
-    eraseCookie('username');
-    goto('/login');
-  };
+const logout = async () => {
+  await fetch('/logout', {
+    method: 'POST'
+  });
+  goto('/login');
+};
 </script>
 
 <div id="menu" class="bg-white/4 col-span-3 rounded-lg p-4">

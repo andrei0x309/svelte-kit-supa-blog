@@ -1,11 +1,15 @@
 <script lang="ts">
-  import FrontIcon from './icons/FrontIcon.svelte';
-  import ProjectsIcon from './icons/ProjectsIcon.svelte';
-  import CoursesIcon from './icons/CoursesIcon.svelte';
-  import ContactIcon from './icons/ContactIcon.svelte';
-  import TipIcon from './icons/TipIcon.svelte';
+import FrontIcon from './icons/FrontIcon.svelte';
+import ProjectsIcon from './icons/ProjectsIcon.svelte';
+import CoursesIcon from './icons/CoursesIcon.svelte';
+import ContactIcon from './icons/ContactIcon.svelte';
+import TipIcon from './icons/TipIcon.svelte';
 
-  const { class: className } = $props<{ class?: string | undefined }>();
+interface Props {
+  class?: string | undefined;
+}
+
+const { class: className }: Props = $props();
 </script>
 
 <div class={`input hidden md:flex ${className}`}>

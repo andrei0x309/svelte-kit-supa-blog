@@ -1,20 +1,20 @@
 <script lang="ts">
-  import { page as SveltePage } from '$app/state';
-  import Article from '#lib/theme/Article.svelte';
-  import SideBar from '#/lib/theme/SideBar.svelte';
-  import { isLoading } from '#/stores/main';
+import SideBar from '#/lib/theme/SideBar.svelte';
+import { isLoading } from '#/stores/main.ts';
+import Article from '#lib/theme/Article.svelte';
+import { page as SveltePage } from '$app/state';
 
-  interface Props {
-    data: any;
-  }
+interface Props {
+  data: any;
+}
 
-  let { data }: Props = $props();
-  const sidebarData = data?.sidebarData;
+let { data }: Props = $props();
+const sidebarData = $derived(data?.sidebarData);
 
-  let dataLoading = $state(false);
-  isLoading.subscribe((val) => {
-    dataLoading = val;
-  });
+let dataLoading = $state(false);
+isLoading.subscribe((val) => {
+  dataLoading = val;
+});
 </script>
 
 <svelte:head>

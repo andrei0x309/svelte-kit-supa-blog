@@ -1,9 +1,9 @@
 <script lang="ts">
-  interface Props {
-    tagCloud: string;
-  }
+interface Props {
+  tagCloud: string;
+}
 
-  let { tagCloud }: Props = $props();
+let { tagCloud }: Props = $props();
 </script>
 
 <div id="tag_cloud-3" class="widget widget_tag_cloud">

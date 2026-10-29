@@ -1,21 +1,21 @@
 <script lang="ts">
-  import User from '#/routes/(admin)/(restricted)/admin/users/User.svelte';
-  import type { ICurrentUser } from '#lib/types/user.js';
+import User from '#/routes/(admin)/(restricted)/admin/users/User.svelte';
+import type { ICurrentUser } from '#lib/types/user.ts';
 
-  interface ICurrentUserEx {
-    notfound: boolean;
-    user: ICurrentUser & { error: boolean };
-  }
-  interface Props {
-    data: ICurrentUserEx;
-  }
+interface ICurrentUserEx {
+  notfound: boolean;
+  user: ICurrentUser & { error: boolean };
+}
+interface Props {
+  data: ICurrentUserEx;
+}
 
-  let { data = $bindable() }: Props = $props();
-  if (data.notfound) {
-    data.user.error = true;
-  } else {
-    data.user.error = false;
-  }
+let { data = $bindable() }: Props = $props();
+if (data.notfound) {
+  data.user.error = true;
+} else {
+  data.user.error = false;
+}
 </script>
 
 <User {...data.user}>

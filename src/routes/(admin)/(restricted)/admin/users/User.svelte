@@ -1,86 +1,86 @@
 <script lang="ts">
-  import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
-  import { onMount } from 'svelte';
-  import { currentUser } from '#/stores/main';
-  import Alert from '#/lib/components/shared/Alert.svelte';
+import { onMount } from 'svelte';
+import Alert from '#/lib/components/shared/Alert.svelte';
+import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
+import { currentUser } from '#/stores/main.ts';
 
-  interface Props {
-    id?: number | null;
-    avatar?: string | null;
-    email?: string | null;
-    username?: string | null;
-    error?: boolean;
-    role?: string;
-    description?: string | null;
-    header?: import('svelte').Snippet;
+interface Props {
+  id?: number | null;
+  avatar?: string | null;
+  email?: string | null;
+  username?: string | null;
+  error?: boolean;
+  role?: string;
+  description?: string | null;
+  header?: import('svelte').Snippet;
+}
+
+let {
+  id = null,
+  avatar = $bindable(null),
+  email = $bindable(null),
+  username = $bindable(null),
+  description = $bindable(null),
+  error = false,
+  role = $bindable('contribuitor'),
+  header
+}: Props = $props();
+
+let password: string | null = $state(null);
+let cpassword: string | null = $state(null);
+
+let isEdit = $derived(!!id);
+
+let alert:
+  | (Alert & {
+      showError: (m: string) => void;
+      showSuccess: (m: string) => void;
+    })
+  | null = $state(null);
+
+const save = async (e: Event) => {
+  e.preventDefault();
+
+  if (!username || !email || !avatar) {
+    alert?.showError('Please fill all fields');
+    return;
   }
 
-  let {
-    id = null,
-    avatar = $bindable(null),
-    email = $bindable(null),
-    username = $bindable(null),
-    description = $bindable(null),
-    error = false,
-    role = $bindable('contribuitor'),
-    header
-  }: Props = $props();
+  if (password && password !== cpassword) {
+    alert?.showError('Passwords do not match');
+    return;
+  }
 
-  let password: string | null = $state(null);
-  let cpassword: string | null = $state(null);
-
-  let isEdit = !!id;
-
-  let alert:
-    | (Alert & {
-        showError: (m: string) => void;
-        showSuccess: (m: string) => void;
-      })
-    | null = $state(null);
-
-  const save = async (e: Event) => {
-    e.preventDefault();
-
-    if (!username || !email || !avatar) {
-      alert?.showError('Please fill all fields');
-      return;
-    }
-
-    if (password && password !== cpassword) {
-      alert?.showError('Passwords do not match');
-      return;
-    }
-
-    const update = {
-      ...(id && { id }),
-      ...(username && { username }),
-      ...(email && { email }),
-      ...(avatar && { avatar }),
-      ...(password && { password }),
-      ...(role && { role }),
-      ...(description && { description })
-    };
-
-    const res = await fetch('/admin/users/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(update)
-    });
-    if (res.ok) {
-      location.href = '/admin/users';
-    } else {
-      const req = await res.json();
-      alert?.showError(req?.error || 'Something went wrong');
-    }
+  const update = {
+    ...(id && { id }),
+    ...(username && { username }),
+    ...(email && { email }),
+    ...(avatar && { avatar }),
+    ...(password && { password }),
+    ...(role && { role }),
+    ...(description && { description })
   };
 
-  onMount(async () => {
-    if (error) {
-      alert?.showError('User not found');
-    }
+  const res = await fetch('/admin/users/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(update)
   });
+  if (res.ok) {
+    location.href = '/admin/users';
+  } else {
+    const req = await res.json();
+    alert?.showError(req?.error || 'Something went wrong');
+  }
+};
+
+onMount(async () => {
+  if (error) {
+    alert?.showError('User not found');
+  }
+});
 </script>
 
 <div class="antialiased bg-[#0000009c] w-full min-h-screen text-slate-300 relative py-4">

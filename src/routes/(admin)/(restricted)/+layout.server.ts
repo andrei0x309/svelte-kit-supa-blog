@@ -1,8 +1,8 @@
-import { supabase } from '#/lib/node/supaClientFS';
 import { error } from '@sveltejs/kit';
-import { checkAuth } from '#/lib/utils/server/auth';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
 import type { LayoutServerLoad } from './$types';
-import type { ICookies } from '#lib/types/cookies.js';
 
 export const load = (async (req) => {
   try {
@@ -13,10 +13,7 @@ export const load = (async (req) => {
     };
   } catch (e) {
     if (e === 'denied') {
-      error(403, {
-        message: 'Forbidden',
-        pageType: 'error'
-      } as App.Error);
+      error(403, 'Forbidden');
     }
   }
 }) satisfies LayoutServerLoad;

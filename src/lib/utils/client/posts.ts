@@ -1,5 +1,5 @@
-import type { IPost } from '#lib/types/post.js';
-import { schemas } from '#lib/types/post.js';
+import type { IPost } from '#lib/types/post.ts';
+import { schemas } from '#lib/types/post.ts';
 
 export const makeEmptyPost = (
   { author_id, cat_id } = {

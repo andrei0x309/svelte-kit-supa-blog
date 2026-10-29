@@ -1,7 +1,6 @@
-import { checkAuth } from '#/lib/utils/server/auth';
-import { json } from '@sveltejs/kit';
-import type { ICookies } from '#lib/types/cookies.js';
-import { loadRelatedPosts } from '#lib/utils/db/posts.js';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
+import { loadRelatedPosts } from '#lib/utils/db/posts.ts';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {
@@ -11,7 +10,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     const { slugs, slug } = await request.json();
 
     if (!slugs) {
-      return json(
+      return Response.json(
         {
           error: 'No slugs provided'
         },
@@ -20,7 +19,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
 
     if (!Array.isArray(slugs)) {
-      return json(
+      return Response.json(
         {
           error: 'Slugs is not an array'
         },
@@ -29,7 +28,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
 
     if (slugs.length === 0) {
-      return json(
+      return Response.json(
         {
           error: 'Slugs is empty'
         },
@@ -41,7 +40,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       slugs: true,
       slug
     } as any);
-    return json(
+    return Response.json(
       {
         relatedPosts
       },
@@ -49,14 +48,14 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     );
   } catch (e) {
     if (e === 'denied') {
-      return json(
+      return Response.json(
         {
           error: 'Access denied'
         },
         { status: 403 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'Internal Server Error'
       },

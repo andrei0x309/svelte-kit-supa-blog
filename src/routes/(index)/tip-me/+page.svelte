@@ -1,37 +1,34 @@
 <script lang="ts">
-  import SideBar from '#/lib/theme/SideBar.svelte';
-  import { page as SveltePage } from '$app/state';
-  import { isLoading } from '#/stores/main';
-  import { config } from '#lib/config/index.js';
-  // import type { ICurrentUser } from '#lib/types/user.js';
+import SideBar from '#/lib/theme/SideBar.svelte';
+import { isLoading } from '#/stores/main.ts';
+import { config } from '#lib/config/index.ts';
+import { page as SveltePage } from '$app/state';
 
-  interface Props {
-    data: {
-      // res: ICurrentUser
-      pageTitle: string;
-      pageDescription: string;
-      schemaContent: string;
-      sidebarData: any;
-    };
-  }
+// import type { ICurrentUser } from '#lib/types/user.ts';
 
-  let { data }: Props = $props();
-  const sidebarData = data?.sidebarData;
+interface Props {
+  data: {
+    // res: ICurrentUser
+    pageTitle: string;
+    pageDescription: string;
+    schemaContent: string;
+    sidebarData: any;
+  };
+}
 
-  let dataLoading = $state(false);
-  isLoading.subscribe((val) => {
-    dataLoading = val;
-  });
+let { data }: Props = $props();
+const sidebarData = $derived(data?.sidebarData);
 
-  let featureImage = $state('');
-  // try{
-  //     featureImage = (new URL(featureImage)).href
-  // } catch {
-  //     featureImage = ''
-  // }
+let dataLoading = $state(false);
+isLoading.subscribe((val) => {
+  dataLoading = val;
+});
 
-  let pageTitle = `Tip Me - ${config.siteName}`;
-  let pageDescription = `Show support and send a tip to - ${config.tipMeName} - ${config.siteName} `;
+// Add feature image later
+const featureImage = $derived('');
+
+const pageTitle = `Tip Me - ${config.siteName}`;
+const pageDescription = `Show support and send a tip to - ${config.tipMeName} - ${config.siteName} `;
 </script>
 
 <svelte:head>

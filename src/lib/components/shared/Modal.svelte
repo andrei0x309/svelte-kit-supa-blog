@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { modalOpen } from '#/stores/main';
-  import { fade } from 'svelte/transition';
-  interface Props {
-    type?: import('svelte').Snippet;
-  }
+import { modalOpen } from '#/stores/main';
+import { fade } from 'svelte/transition';
+interface Props {
+  type?: import('svelte').Snippet;
+}
 
-  let { type }: Props = $props();
-  const close = () => {
-    modalOpen.set(false);
-  };
+let { type }: Props = $props();
+const close = () => {
+  modalOpen.set(false);
+};
 </script>
 
 {#if $modalOpen}

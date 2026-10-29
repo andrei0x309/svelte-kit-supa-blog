@@ -1,4 +1,4 @@
-import { FCConfig } from '#lib/config/farcaster.js';
+import { FCConfig } from '#lib/config/farcaster.ts';
 
 export const generateFcWellKnown = async () => {
   const json = {} as { [key: string]: any };

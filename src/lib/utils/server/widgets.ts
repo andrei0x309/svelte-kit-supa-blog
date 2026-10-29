@@ -1,7 +1,7 @@
-import { loadTags } from '#/lib/utils/db/catOrTag';
-import { shuffleFY } from '#/lib/utils/common/misc';
-import { supabase } from '#/lib/node/supaClientFS';
-import { getDiffFromNow } from '#/lib/utils/common/misc';
+import { loadTags } from '#/lib/utils/db/catOrTag.ts';
+import { shuffleFY } from '#/lib/utils/common/misc.ts';
+import { supabase } from '#/lib/node/supaClientFS.ts';
+import { getDiffFromNow } from '#/lib/utils/common/misc.ts';
 
 const generateTagCloud = async () => {
   const config = {
@@ -16,8 +16,15 @@ const generateTagCloud = async () => {
     return null;
   }
 
-  const counts = tags.map((tag) => tag.count);
+  const counts = tags.map((tag) => {
+    if (tag.count) {
+      return tag.count;
+    }
+    return 0;
+  });
+
   const min_count = Math.min(...counts);
+
   let spread = Math.max(...counts) - min_count;
   if (spread <= 0) {
     spread = 1;
@@ -29,7 +36,7 @@ const generateTagCloud = async () => {
   const font_step = font_spread / spread;
 
   const tag_cloud = tags.map((tag) => {
-    return `<a href="/tag/${tag.slug}" style="font-size: ${config.smallest + (tag.count - min_count) * font_step}${config.unit}"
+    return `<a href="/tag/${tag.slug}" style="font-size: ${config.smallest + ((tag?.count ?? 0) - min_count) * font_step}${config.unit}"
         title = "${tag.count} post${tag.count === 1 ? '' : 's'}"
         aria-label = "${tag.count} post${tag.count === 1 ? '' : 's'}"
         >
