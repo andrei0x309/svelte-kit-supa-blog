@@ -1,21 +1,12 @@
-import { supabase } from '#/lib/node/supaClientFS';
 import { redirect } from '@sveltejs/kit';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (req) => {
   try {
-    const username = req.cookies.get('username');
-    const hash = req.cookies.get('hash');
-
-    if (username && hash) {
-      const user = (await supabase.from('fsk_blog_author').select('username, password_hash').eq('username', username).single()).data;
-      if (user) {
-        if (hash === user.password_hash) {
-          throw 'redirect';
-        }
-      }
-    }
-    return {};
+    await checkAuth(req as ICookies);
+    throw 'redirect';
   } catch (e) {
     if (e === 'redirect') {
       redirect(302, '/admin');

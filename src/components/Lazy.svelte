@@ -1,6 +1,7 @@
 <script lang="ts">
 import { onDestroy, onMount } from 'svelte';
 import { fade } from 'svelte/transition';
+
 interface Props {
   children?: import('svelte').Snippet;
 }
@@ -8,7 +9,7 @@ interface Props {
 let { children }: Props = $props();
 
 let loaded = $state(false);
-let root: HTMLElement = $state();
+let root: HTMLElement = $state() as HTMLElement;
 
 let observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
