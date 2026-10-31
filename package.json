@@ -38,7 +38,6 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "@farcaster/frame-sdk": "^0.1.10",
     "@giscus/svelte": "^3.1.0",
     "@supabase/supabase-js": "^2.57.2",
     "highlight.js": "^11.11.1",

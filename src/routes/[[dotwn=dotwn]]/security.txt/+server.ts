@@ -1,4 +1,12 @@
-import { generateFcWellKnown } from '#/lib/utils/server/fc-mini-app.ts';
+import { config } from '#/lib/config/index.ts'
+
+const content = 
+`
+Contact: ${config?.contactFormLink ?? config.baseSiteUrl }
+Expires: 2034-02-28T12:22:00.000Z
+Preferred-Languages: en
+`
+
 import type { EntryGenerator, RequestHandler } from './$types';
 
 export const entries: EntryGenerator = () => {
@@ -8,9 +16,8 @@ export const entries: EntryGenerator = () => {
 export const prerender = true;
 
 export const GET: RequestHandler = async () => {
-  const contnet = await generateFcWellKnown();
 
-  return new Response(contnet, {
+  return new Response(content, {
     headers: {
       'Cache-Control': 'max-age=0, s-maxage=3600',
       'Content-Type': 'application/json'

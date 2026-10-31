@@ -15,6 +15,7 @@ export const config = {
   baseSiteUrl: IS_DEV_ENABLED ? devBaseUrl : baseSiteUrl,
   tipMeName: 'andrei0x309',
   tipKoFiLink: 'https://ko-fi.com/andrei0x309',
+  contactFormLink: 'https://flashsoft.eu/#section-contact',
   tipNowPaymentsLink: 'https://nowpayments.io/donation/andrei0x309',
   // Post Settings
   excerptSizeInChars: 450,
@@ -44,19 +45,7 @@ export const config = {
   // -1 to disable the feature, 0 to show all links, any other number to show that number of links
   numLinksForAuthor: 0,
   // IS_DEV_ENABLED mainly used to expose a public dev URL for testing
-  IS_DEV_ENABLED,
-  farcaster: {
-    miniAppEnabled: true,
-    followButtonEnabled: true,
-    followFid: 1791,
-    extendedMetadata: {
-      description: siteIndexDescription,
-      tags: ['blog', 'developer', 'personal', 'flashsoft', 'sveltekit'],
-      primaryCategory: 'social',
-      subtitle: siteIndexTitle,
-      screenshotUrls: [baseSiteUrl + '/hotlink-ok/screenshots/screenshot-1.png', baseSiteUrl + '/hotlink-ok/screenshots/screenshot-2.png']
-    }
-  }
+  IS_DEV_ENABLED
 };
 
 export const articleSettings = {

@@ -3,7 +3,6 @@ import SideBar from '#/lib/theme/SideBar.svelte';
 import { isLoading } from '#/stores/main.ts';
 import { config } from '#lib/config/index.ts';
 import Article from '#lib/theme/Article.svelte';
-import { generateURLFCFrameEmbed } from '#lib/utils/client/fc-frame-v2.ts';
 import { page as SveltePage } from '$app/state';
 
 interface Props {
@@ -35,23 +34,17 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
   <meta property="og:title" content={data.pageTitle} />
   <meta property="og:description" content={data.pageDescription} />
   <meta property="og:type" content="website" />
+  {#if SveltePage.status === 200}
   <meta property="og:url" content={`${pageUrl}`} />
+  {/if}
   <meta property="og:site_name" content={config.siteName} />
   <link rel="canonical" href={`${pageUrl}`} />
   <link rel="alternate" type="application/rss+xml" title={`${config.siteName} » Feed`} href={`${config.baseSiteUrl}/feed`} />
 
-  {#if featureImage}
+  {#if featureImage && SveltePage.status === 200}
     <meta property="og:image" content={featureImage} />
-
-    {#if config.farcaster.miniAppEnabled}
-      <meta name="fc:frame" content={generateURLFCFrameEmbed(featureImage, pageUrl)} />
-    {/if}
   {:else}
     <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
-
-    {#if config.farcaster.miniAppEnabled}
-      <meta name="fc:frame" content={generateURLFCFrameEmbed('', pageUrl)} />
-    {/if}
   {/if}
   {#if data?.schemaContent}
     {@html data.schemaContent}
