@@ -1,58 +1,89 @@
 <script lang="ts">
-  import { preventDefault } from 'svelte/legacy';
+import { onMount } from 'svelte';
+import Alert from '#lib/components/shared/Alert.svelte';
+import type { ICatTag } from '#lib/types/catTag.ts';
+import { makeEmptyCatTag } from '#lib/utils/client/catTag.ts';
+import { getParams } from '#lib/utils/client/misc.ts';
 
-  import type { ICatTag } from '$lib/types/catTag';
-  import { makeEmptyCatTag } from '$lib/utils/client/catTag';
-  import Alert from '$lib/components/shared/Alert.svelte';
-  import { onMount } from 'svelte';
-  import { getParams } from '$lib/utils/client/misc';
+let { data = { catOrTag: makeEmptyCatTag() as ICatTag, notFound: false }, type = 'cat' }: Props = $props();
 
-  let { data = { catOrTag: makeEmptyCatTag() as ICatTag, notFound: false }, type = 'cat' }: Props = $props();
+let catOrTag: ICatTag = $state(makeEmptyCatTag());
+$effect(() => {
+  catOrTag = data.catOrTag as ICatTag;
+});
+let alert: Alert | undefined = $state();
+interface Props {
+  data?: any;
+  type?: string;
+}
 
-  const catOrTag: ICatTag = $state(data.catOrTag as ICatTag);
-  let alert: Alert | undefined = $state();
-  interface Props {
-    data?: any;
-    type?: string;
+const save = async () => {
+  if (!catOrTag.name || !catOrTag.slug) {
+    alert?.showError('Please fill required fields (name, slug)');
+    return;
   }
 
-  const save = async () => {
-    if (!catOrTag.name || !catOrTag.slug) {
-      alert?.showError('Please fill required fields (name, slug)');
-      return;
-    }
+  if (catOrTag.slug.match(/[^a-z0-9-/]/g)) {
+    alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
+    return;
+  }
 
-    if (catOrTag.slug.match(/[^a-z0-9-\/]/g)) {
-      alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
-      return;
-    }
+  catOrTag.type = type as 'cat';
 
-    catOrTag.type = type as 'cat';
-
-    const res = await fetch('/admin/settings/cat-tag/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(catOrTag)
-    });
-    const data = await res.json();
-    if (res.ok) {
-      const updateId = data.updateId;
-      window.location.href = `/admin/settings/${type === 'cat' ? 'categories' : 'tags'}/edit/${updateId}?saved=true`;
-    } else {
-      alert?.showError(data?.error || 'Something went wrong');
-    }
-  };
-
-  onMount(() => {
-    if (getParams('saved')) {
-      const resource = type === 'cat' ? 'Category' : 'Tag';
-      alert?.showSuccess(resource + ' saved successfully');
-    }
+  const res = await fetch('/admin/settings/cat-tag/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(catOrTag)
   });
+  const responseData = await res.json();
+  if (res.ok) {
+    const updateId = responseData.updateId;
+    window.location.href = `/admin/settings/${type === 'cat' ? 'categories' : 'tags'}/edit/${updateId}?saved=true`;
+  } else {
+    alert?.showError(responseData?.error || 'Something went wrong');
+  }
+};
+
+onMount(() => {
+  if (getParams('saved')) {
+    const resource = type === 'cat' ? 'Category' : 'Tag';
+    alert?.showSuccess(`${resource} ${catOrTag.name} saved successfully`);
+  }
+});
 </script>
 
+<svelte:head>
+  <title>{type === 'cat' ? 'Edit Category' : 'Edit Tag'} | Admin</title>
+</svelte:head>
+
+<!-- check not found-->
+
+{#if data?.notFound}
+  <div class="p-8 rounded-sm border border-gray-200">
+    {#if type === 'cat'}
+      <h1 class="font-medium text-3xl mb-4">Category Not Found</h1>
+      <p class="text-gray-600 mb-4">Category with id {data.catOrTag.id} not found</p>
+
+      <a href="/admin/settings/categories">
+        <button class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 mb-4 text-[0.8rem]"
+          >Back</button
+        >
+      </a>
+    {:else if type === 'tag'}
+      <h1 class="font-medium text-3xl">Tag Not Found</h1>
+      <p class="text-gray-600">Tag with id {data.catOrTag.id} not found</p>
+      <!-- add a back button-->
+      <a href="/admin/settings/tags">
+        <button class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+          >Back</button
+        >
+      </a>
+    {/if}
+
+  </div>
+{:else}
 <div class="p-8 rounded-sm border border-gray-200">
   {#if type === 'cat'}
     {#if data.catOrTag.id}
@@ -76,7 +107,7 @@
           type="text"
           id="slug"
           class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-          placeholder="{`${type === 'cat'? 'cat slug' : 'tag slug'}`}"
+          placeholder={`${type === 'cat' ? 'cat slug' : 'tag slug'}`}
           bind:value={catOrTag.slug}
         />
       </div>
@@ -86,43 +117,47 @@
           type="text"
           id="name"
           class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-          placeholder="{`${type === 'cat'? 'cat name' : 'tag name'}`}"
+          placeholder={`${type === 'cat' ? 'cat name' : 'tag name'}`}
           bind:value={catOrTag.name}
         />
       </div>
       <div>
-        <label for="description" class="text-sm text-gray-200 block mb-1 font-medium">{`${type === 'cat'? 'Cat Description' : 'Tag Description'}`}</label>
+        <label for="description" class="text-sm text-gray-200 block mb-1 font-medium"
+          >{`${type === 'cat' ? 'Cat Description' : 'Tag Description'}`}</label
+        >
         <textarea
           id="description"
           class="bg-gray-100 border border-gray-200 rounded-sm py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
           placeholder="my description"
           bind:value={catOrTag.description}
-></textarea>
+        ></textarea>
       </div>
       <div class="space-x-4 mt-8">
         <button
           type="submit"
           class="py-2 px-4 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
-          onclick={preventDefault(() => {
+          onclick={(event) => {
+            event.preventDefault();
             save();
-          })}>Save</button
+          }}>Save</button
         >
         {#if type === 'cat'}
-        <a href="/admin/settings/categories">
-          <button
-            class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
-            >Cancel</button
-          >
-        </a>
+          <a href="/admin/settings/categories">
+            <button
+              class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+              >Cancel</button
+            >
+          </a>
         {:else}
-        <a href="/admin/settings/tags">
-          <button
-            class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
-            >Cancel</button
-          >
-        </a>
+          <a href="/admin/settings/tags">
+            <button
+              class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+              >Cancel</button
+            >
+          </a>
         {/if}
       </div>
     </div>
   </form>
 </div>
+{/if}

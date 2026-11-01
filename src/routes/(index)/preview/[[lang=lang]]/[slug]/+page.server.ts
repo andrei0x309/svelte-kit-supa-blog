@@ -1,43 +1,35 @@
-
+import truncate from 'truncate-html';
+import { loadPost } from '#/lib/utils/db/posts.ts';
+import { appendToData, checkData, error } from '#/lib/utils/page.ts';
+import { checkAuth } from '#/lib/utils/server/auth.ts';
+import type { ICookies } from '#lib/types/cookies.ts';
 import type { PageServerLoad } from './$types';
-import { checkData, appendToData } from '@/lib/utils/page'
-import truncate from "truncate-html";
-import { loadPost } from '@/lib/utils/db/posts'
-import { supabase } from '@/lib/node/supaClientFS'
-import { error } from '@/lib/utils/page'
 
 const defaultError = {
-  message: 'Unauthorized',
-  pageType: 'author'
-  } as App.Error
+  message: 'Unauthorized'
+} as App.Error;
 
 export const load: PageServerLoad = async (req) => {
-    const username = req.cookies.get('username')
-    const hash = req.cookies.get('hash')
-
-    if(username && hash){
-        const user = (await supabase.from('fsk_blog_author')
-        .select('username, password_hash')
-        .eq('username', username).single()).data
-        if(user) {
-            if(hash !== user.password_hash) {
-                throw error(401, defaultError)
-            }
-        }
-    }
-    let slug
-    if(req.params?.lang) {
-      slug = req.params.lang + '/' + req.params.slug
-    } else {
-      slug = req.params.slug
-    } 
-    const post = await loadPost(slug, true) as {res: Record<string, any>}
-    const fallBackDescription = post?.res?.seo_description || truncate(post?.res?.content, 160, {
-      stripTags: true
-    }) || 'Desciption is missing | blog.flashsoft.eu'
-    return appendToData(
-      checkData(post), 
-      {pageTitle: post?.res?.title ?? 'Blog | flashsoft.eu', 
-      pageDescription: post?.res?.seo_description || fallBackDescription
-    })
+  try {
+    await checkAuth(req as ICookies);
+  } catch {
+    throw error(401, defaultError.message);
   }
+  let slug;
+  if (req.params?.lang) {
+    slug = req.params.lang + '/' + req.params.slug;
+  } else {
+    slug = req.params.slug;
+  }
+  const post = (await loadPost(slug, true)) as { res: Record<string, any> };
+  const fallBackDescription =
+    post?.res?.seo_description ||
+    truncate(post?.res?.content, 160, {
+      stripTags: true
+    }) ||
+    'Desciption is missing | blog.flashsoft.eu';
+  return appendToData(checkData(post), {
+    pageTitle: post?.res?.title ?? 'Blog | flashsoft.eu',
+    pageDescription: post?.res?.seo_description || fallBackDescription
+  });
+};

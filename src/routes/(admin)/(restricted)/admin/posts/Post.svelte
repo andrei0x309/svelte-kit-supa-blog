@@ -1,312 +1,315 @@
 <script lang="ts">
-  import Menu from '@/routes/(admin)/(restricted)/admin/menu.svelte';
-  import { onMount } from 'svelte';
-  import { makeEmptyPost } from '$lib/utils/client/posts';
-  import Alert from '@/lib/components/shared/Alert.svelte';
-  import type { IPost, ICat, ITag, IRelatedPost } from '$lib/types/post';
-  import { currentUser } from '@/stores/main';
-  import { schemas } from '$lib/types/post';
-  import truncate from 'truncate-html';
-  import { getParams } from '$lib/utils/client/misc';
-  import type { Jodit } from 'jodit';
+import type { Jodit } from 'jodit';
+import { onMount } from 'svelte';
+import truncate from 'truncate-html';
+import Alert from '#/lib/components/shared/Alert.svelte';
+import Menu from '#/routes/(admin)/(restricted)/admin/menu.svelte';
+import { currentUser } from '#/stores/main.ts';
+import type { ICat, IPost, IRelatedPost, ITag } from '#lib/types/post.ts';
+import { schemas } from '#lib/types/post.ts';
+import { getParams } from '#lib/utils/client/misc.ts';
+import { makeEmptyPost } from '#lib/utils/client/posts.ts';
 
-  interface Props {
-    data?: any;
-    header?: import('svelte').Snippet;
-  }
-
-  let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props = $props();
-
-  let postData: IPost = $state(data.post as IPost);
- 
-  if (!data.post) {
-    postData = makeEmptyPost();
-  } else {
-    let related
-    try {
-      related = JSON.parse((data.post?.related as unknown as string) || '[]') as IRelatedPost[];
-    } catch {
-      // do nothing
-    }
-    if (related) {
-      postData = { ...data.post, related };
-    }
-  }
-
-  let cats = data.cats ?? ([] as ICat[]);
-  let tags = data.tags ?? ([] as ITag[]);
-  let manualSlugs = $state('');
-  let relatedMechanism = $state('tags');
-
-  let alert:
-    | (Alert & {
-        showError: (m: string) => void;
-        showSuccess: (m: string) => void;
-      })
-    | null = $state(null);
-
-  let alertRelated:
-    | (Alert & {
-        showError: (m: string) => void;
-        showSuccess: (m: string) => void;
-      })
-    | null = $state(null);
-
-  let editor: HTMLElement | undefined = $state();
-  let Jodit: Jodit;
-  let JoditModule: typeof import('jodit').Jodit;
-
-  const goToAnchor = (anchor: string) => {
-    const loc = document.location.toString().split('#')[0];
-    document.location = `${loc}#${anchor}`;
+interface Props {
+  data?: {
+    post: IPost | null;
+    cats: ICat[];
+    tags: ITag[];
+    notfound: boolean;
   };
+  header?: import('svelte').Snippet;
+}
 
-  onMount(async () => {
-    if (data.notfound) {
-      postData = makeEmptyPost();
-    }
-    JoditModule = (await import('jodit')).Jodit;
+let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props = $props();
 
-    const plugins = await Promise.all([
-      import('jodit/esm/plugins/all'),
-    ])
+// Helper to parse related posts safely
+function parseRelated(raw: unknown): IRelatedPost[] {
+  try {
+    return JSON.parse((raw as string) || '[]') as IRelatedPost[];
+  } catch {
+    return [];
+  }
+}
 
-    JoditModule.plugins.add('all', plugins[0].default);
+// Keep postData mutable while syncing it from the incoming post prop.
+let postData: IPost = $state(makeEmptyPost());
 
-    const buttons = [
-      {
-        name: 'source',
-        icon: '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><polygon points="28 19 28 11 26 11 26 21 32 21 32 19 28 19"/><polygon points="24 11 22 11 20.5 15 19 11 17 11 17 21 19 21 19 14 20.5 18 22 14 22 21 24 21 24 11"/><polygon points="9 13 11 13 11 21 13 21 13 13 15 13 15 11 9 11 9 13"/><polygon points="5 11 5 15 2 15 2 11 0 11 0 21 2 21 2 17 5 17 5 21 7 21 7 11 5 11"/></svg>'
-      },
-      {
-        name: 'empty',
-        icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.002 12H4z"/><path d="M9.293 9.293 5.586 13l3.707 3.707 1.414-1.414L8.414 13l2.293-2.293zm5.414 0-1.414 1.414L15.586 13l-2.293 2.293 1.414 1.414L18.414 13z"/></svg>',
-        exec: function (e: any) {
-          const dialog = new JoditModule.modules.Dialog({
-            theme: 'dark',
-            resizable: false,
-            draggable: false
-          });
-          const content = document.createElement('div');
+// Keep state in sync if parent data.post updates
+$effect(() => {
+  postData = data.post
+    ? { ...data.post, related: parseRelated(data.post.related) }
+    : makeEmptyPost();
+});
 
-          const innerContent = `<div class="mt-8 space-y-6">
-						<div style="
-                            display: flex;
-                            flex-direction: column;
-                            margin: 1rem; 
-                        ">
-							<label for="code-block-lang" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem"
+let cats = $derived(data.cats ?? ([] as ICat[]));
+let tags = $derived(data.tags ?? ([] as ITag[]));
+let manualSlugs = $state('');
+let relatedMechanism = $state('tags');
+
+let alert:
+  | (Alert & {
+      showError: (m: string) => void;
+      showSuccess: (m: string) => void;
+    })
+  | null = $state(null);
+
+let alertRelated:
+  | (Alert & {
+      showError: (m: string) => void;
+      showSuccess: (m: string) => void;
+    })
+  | null = $state(null);
+
+let editor: HTMLElement | undefined = $state();
+let jodit: Jodit;
+let JoditModule: typeof import('jodit').Jodit;
+
+const goToAnchor = (anchor: string) => {
+  const loc = document.location.toString().split('#')[0];
+  document.location = `${loc}#${anchor}`;
+};
+
+onMount(async () => {
+  if (data.notfound) {
+    postData = makeEmptyPost();
+  }
+  JoditModule = (await import('jodit')).Jodit;
+
+  const plugins = await Promise.all([import('jodit/esm/plugins/all')]);
+
+  JoditModule.plugins.add('all', plugins[0].default);
+
+  const buttons = [
+    {
+      name: 'source',
+      icon: '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><polygon points="28 19 28 11 26 11 26 21 32 21 32 19 28 19"/><polygon points="24 11 22 11 20.5 15 19 11 17 11 17 21 19 21 19 14 20.5 18 22 14 22 21 24 21 24 11"/><polygon points="9 13 11 13 11 21 13 21 13 13 15 13 15 11 9 11 9 13"/><polygon points="5 11 5 15 2 15 2 11 0 11 0 21 2 21 2 17 5 17 5 21 7 21 7 11 5 11"/></svg>'
+    },
+    {
+      name: 'empty',
+      icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 19V7h16l.002 12H4z"/><path d="M9.293 9.293 5.586 13l3.707 3.707 1.414-1.414L8.414 13l2.293-2.293zm5.414 0-1.414 1.414L15.586 13l-2.293 2.293 1.414 1.414L18.414 13z"/></svg>',
+      exec: function (e: any) {
+        const dialog = new JoditModule.modules.Dialog({
+          theme: 'dark',
+          resizable: false,
+          draggable: false
+        });
+        const content = document.createElement('div');
+
+        const innerContent = `<div class="mt-8 space-y-6">
+            <div style="
+                        display: flex;
+                        flex-direction: column;
+                        margin: 1rem; 
+                    ">
+              <label for="code-block-lang" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem"
                             >Language</label>
-							<input
-								type="text"
-								id="code-block-lang"
-								placeholder="language"
+              <input
+                type="text"
+                id="code-block-lang"
+                placeholder="language"
                                 style="
                                 width: 20rem;
                                 background-color: #00000073;
                                 padding: 0.5rem;
                                 "
-							/>
-			</div>
-		                    <div   style="
+              />
+      </div>
+                        <div  style="
                             display: flex;
                             flex-direction: column;
                             margin: 1rem;"
                             >
-							<label for="code-block-code" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem">Code</label>
-							<textarea id="code-block-code" placeholder="code"
+              <label for="code-block-code" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem">Code</label>
+              <textarea id="code-block-code" placeholder="code"
                             style="width: 100%;height: 60vh;
                             background-color: #00000073;
                             padding: 0.5rem;
                             "
                             ></textarea>
-			</div>
+      </div>
             `;
-          content.innerHTML = innerContent;
-          dialog.setHeader('Insert Code Block');
-          dialog.setContent(content);
-          dialog.setSize('100%', '100%');
-          dialog.setModal(true);
+        content.innerHTML = innerContent;
+        dialog.setHeader('Insert Code Block');
+        dialog.setContent(content);
+        dialog.setSize('100%', '100%');
+        dialog.setModal(true);
 
-          JoditModule.modules.Helpers.css(editor as HTMLElement, {
-            width: '100%',
-            height: '100%'
-          });
+        JoditModule.modules.Helpers.css(editor as HTMLElement, {
+          width: '100%',
+          height: '100%'
+        });
 
-          const but = document.createElement('button');
-          but.style.fontSize = '1.3rem';
-          but.style.border = '1px solid #ccc';
-          but.style.padding = '0.3rem 3rem';
-          but.style.margin = 'auto';
-          but.style.marginBottom = '3rem';
-          but.innerText = 'Insert Code Block';
+        const but = document.createElement('button');
+        but.style.fontSize = '1.3rem';
+        but.style.border = '1px solid #ccc';
+        but.style.padding = '0.3rem 3rem';
+        but.style.margin = 'auto';
+        but.style.marginBottom = '3rem';
+        but.innerText = 'Insert Code Block';
 
-          but.addEventListener('click', async () => {
-            const lang = (document.getElementById('code-block-lang') as any).value;
-            const code = (document.getElementById('code-block-code') as any).value;
-            const highlightedCode = await highLightCodeBlocks(code, lang);
-            if (!highlightedCode) {
-              alert?.showError('Unsuported language');
-              dialog.close();
-              return;
-            }
-            const codeBlock = `<pre><code class="language-${lang}">${highlightedCode}</code></pre>`;
-            e.selection.insertHTML(codeBlock);
+        but.addEventListener('click', async () => {
+          const lang = (document.getElementById('code-block-lang') as any).value;
+          const code = (document.getElementById('code-block-code') as any).value;
+          const highlightedCode = await highLightCodeBlocks(code, lang);
+          if (!highlightedCode) {
+            alert?.showError('Unsupported language');
             dialog.close();
-          });
+            return;
+          }
+          const codeBlock = `<pre><code class="language-${lang}">${highlightedCode}</code></pre>`;
+          e.selection.insertHTML(codeBlock);
+          dialog.close();
+        });
 
-          dialog.setFooter([but]);
-          dialog.open();
-        }
-      },
-      { name: 'fullsize' },
-      { name: 'image' },
-      { name: 'link' },
-      { name: 'video' },
-      { name: 'bold' },
-      { name: 'strikethrough' },
-      { name: 'underline' },
-      { name: 'italic' },
-      { name: 'superscript' },
-      { name: 'subscript' },
-      { name: 'selectall' },
-      { name: 'paste' },
-      { name: 'copy' },
-      { name: 'cut' },
-      { name: 'undo' },
-      { name: 'redo' },
-      { name: 'hr' },
-      { name: 'ul' },
-      { name: 'ol' },
-      { name: 'outdent' },
-      { name: 'indent' },
-      { name: 'font' },
-      { name: 'fontsize' },
-      { name: 'brush' },
-      { name: 'paragraph' },
-      { name: 'print' },
-      { name: 'table' },
-      { name: 'left' },
-      { name: 'center' },
-      { name: 'right' },
-      { name: 'justify' }
-    ];
+        dialog.setFooter([but]);
+        dialog.open();
+      }
+    },
+    { name: 'fullsize' },
+    { name: 'image' },
+    { name: 'link' },
+    { name: 'video' },
+    { name: 'bold' },
+    { name: 'strikethrough' },
+    { name: 'underline' },
+    { name: 'italic' },
+    { name: 'superscript' },
+    { name: 'subscript' },
+    { name: 'selectall' },
+    { name: 'paste' },
+    { name: 'copy' },
+    { name: 'cut' },
+    { name: 'undo' },
+    { name: 'redo' },
+    { name: 'hr' },
+    { name: 'ul' },
+    { name: 'ol' },
+    { name: 'outdent' },
+    { name: 'indent' },
+    { name: 'font' },
+    { name: 'fontsize' },
+    { name: 'brush' },
+    { name: 'paragraph' },
+    { name: 'print' },
+    { name: 'table' },
+    { name: 'left' },
+    { name: 'center' },
+    { name: 'right' },
+    { name: 'justify' }
+  ];
 
-    Jodit = JoditModule.make(editor as HTMLElement, {
-      theme: 'a309',
-      defaultLineHeight: 1.6,
-      sourceEditorNativeOptions: {
-         theme: 'ace/theme/tomorrow_night'
-      },
-      toolbarButtonSize: 'large',
-
-      buttons: buttons,
-      buttonsMD: buttons,
-      buttonsSM: buttons,
-      buttonsXS: buttons,
-      disablePlugins: ['table', 'iframe']
-    });
-    if (getParams('saved')) {
-      alert?.showSuccess('Post saved successfully');
-    }
-    if (!postData.draft) {
-      const el = document.getElementById('draft-no') as HTMLInputElement;
-      el && (el.checked = true);
-    } else {
-      const el = document.getElementById('draft-yes') as HTMLInputElement;
-      el && (el.checked = true);
-    }
+  jodit = JoditModule.make(editor as HTMLElement, {
+    theme: 'a309',
+    defaultLineHeight: 1.6,
+    sourceEditorNativeOptions: {
+      theme: 'ace/theme/tomorrow_night'
+    },
+    toolbarButtonSize: 'large',
+    buttons: buttons,
+    buttonsMD: buttons,
+    buttonsSM: buttons,
+    buttonsXS: buttons,
+    disablePlugins: ['table', 'iframe']
   });
 
-  const highLightCodeBlocks = async (code: string, lang: string) => {
-    // const hljsUrl = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/highlight.min.js"
-    const hljs = (await import(/* @vite-ignore */ 'highlight.js/lib/core' /* @vite-ignore */)).default;
-    if (!hljs.getLanguage(lang)) {
-      const langUrl = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/languages/${lang}.min.js`;
-      try {
-        // const langPath = `highlight.js/es/languages/${lang}.js.js`.toString()
-        const langModule = (await import(/* @vite-ignore */ langUrl /* @vite-ignore */)).default;
-        hljs.registerLanguage(lang, langModule);
-      } catch (e) {
-        return null;
-      }
+  if (getParams('saved')) {
+    alert?.showSuccess('Post saved successfully');
+  }
+  if (!postData.draft) {
+    const el = document.getElementById('draft-no') as HTMLInputElement;
+    el && (el.checked = true);
+  } else {
+    const el = document.getElementById('draft-yes') as HTMLInputElement;
+    el && (el.checked = true);
+  }
+});
+
+const highLightCodeBlocks = async (code: string, lang: string) => {
+  const hljs = (await import(/* @vite-ignore */ 'highlight.js/lib/core' /* @vite-ignore */)).default;
+  if (!hljs.getLanguage(lang)) {
+    const langUrl = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/languages/${lang}.min.js`;
+    try {
+      const langModule = (await import(/* @vite-ignore */ langUrl /* @vite-ignore */)).default;
+      hljs.registerLanguage(lang, langModule);
+    } catch (e) {
+      return null;
     }
-    return hljs.highlight(code, { language: lang }).value;
-  };
+  }
+  return hljs.highlight(code, { language: lang }).value;
+};
 
-  const save = async () => {
-    postData.content = Jodit.value;
-    if (!postData.title || !postData.slug || !postData.content) {
-      alert?.showError('Please fill required fields (title, slug, content)');
-      return;
-    }
+const save = async () => {
+  postData.content = jodit.value;
+  if (!postData.title || !postData.slug || !postData.content) {
+    alert?.showError('Please fill required fields (title, slug, content)');
+    return;
+  }
 
-    if (postData.slug.match(/[^a-z0-9-\/]/g)) {
-      alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
-      return;
-    }
+  if (postData.slug.match(/[^a-z0-9-\/]/g)) {
+    alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
+    return;
+  }
 
-    postData.slug = postData.slug.replace(/^\//, '').replace(/\/$/, '');
+  postData.slug = postData.slug.replace(/^\//, '').replace(/\/$/, '');
+  postData.author_id = $currentUser?.id as number;
 
-    postData.author_id = $currentUser?.id as number;
+  const res = await fetch('/admin/posts/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(postData)
+  });
+  if (res.ok) {
+    location.href = `/admin/posts/edit/${postData.slug}?saved=ok`;
+  } else {
+    const req = await res.json();
+    alert?.showError(req?.error || 'Something went wrong');
+  }
+};
 
-    const res = await fetch('/admin/posts/save', {
+const getRelated = async (slugs = false) => {
+  let res;
+  if (!slugs) {
+    res = await fetch(`/admin/posts/related`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(postData)
+      body: JSON.stringify({ tags_id: postData.tags_id, slug: postData.slug })
     });
-    if (res.ok) {
-      location.href = `/admin/posts/edit/${postData.slug}?saved=ok`;
-    } else {
-      const req = await res.json();
-      alert?.showError(req?.error || 'Something went wrong');
-    }
-  };
+  } else {
+    const inSlugs = manualSlugs
+      .split(',')
+      .map((s: string) => s.trim())
+      .filter((s: string) => s.length > 0);
+    res = await fetch(`/admin/posts/related/manual`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ slugs: inSlugs, slug: postData.slug })
+    });
+  }
 
-  const getRelated = async (slugs = false) => {
-    let res;
-    if (!slugs) {
-      res = await fetch(`/admin/posts/related`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ tags_id: postData.tags_id, slug: postData.slug })
-      });
-    } else {
-      const inSlugs = manualSlugs
-        .split(',')
-        .map((s: string) => s.trim())
-        .filter((s: string) => s.length > 0);
-      res = await fetch(`/admin/posts/related/manual`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ slugs: inSlugs, slug: postData.slug })
-      });
-    }
-
-    if (res.ok) {
-      const req = await res.json();
-      postData.related = (req?.relatedPosts?.res ?? []).map((r: any) => {
-        return {
-          title: r.title,
-          slug: r.slug,
-          excerpt: truncate(r.content, 260, { stripTags: true }),
-          created_at: r.created_at,
-          feature_image: r.feature_image,
-          feature_image_alt: r.feature_image_alt
-        } as IRelatedPost;
-      });
-      alertRelated?.showSuccess('Related posts linked');
-    } else {
-      const req = await res.json();
-      alertRelated?.showError(req?.error || 'Something went wrong');
-    }
-  };
+  if (res.ok) {
+    const req = await res.json();
+    postData.related = (req?.relatedPosts?.res ?? []).map((r: any) => {
+      return {
+        title: r.title,
+        slug: r.slug,
+        excerpt: truncate(r.content, 260, { stripTags: true }),
+        created_at: r.created_at,
+        feature_image: r.feature_image,
+        feature_image_alt: r.feature_image_alt
+      } as IRelatedPost;
+    });
+    alertRelated?.showSuccess('Related posts linked');
+  } else {
+    const req = await res.json();
+    alertRelated?.showError(req?.error || 'Something went wrong');
+  }
+};
 </script>
 
 <div id="top" class="antialiased bg-[#0000009c] w-full min-h-screen text-slate-300 relative py-4">
@@ -346,7 +349,11 @@
                 <div id="cats" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                   {#each cats as cat}
                     <button
-                      onclickcapture={((e) => { e.preventDefault(); postData.cat_id = cat.id })}
+                      type="button"
+                      onclick={(e) => {
+                        e.preventDefault();
+                        postData.cat_id = cat.id;
+                      }}
                       class={`px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center ${
                         postData.cat_id === cat.id ? 'bg-gray-700/60 text-gray-100' : ''
                       }`}
@@ -354,12 +361,15 @@
                       {cat.name}
 
                       {#if postData.cat_id === cat.id}
+                        <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <div
-                          onclick={((e) => { e.stopPropagation(); postData.cat_id = undefined})}
+                          onclick={(e) => {
+                            e.stopPropagation();
+                            postData.cat_id = undefined;
+                          }}
                           class="bg-transparent hover focus:outline-hidden hover:text-red-500"
                           aria-label="Remove Category"
                           role="button"
-                          onkeydown={() => {}}
                           tabindex="0"
                         >
                           <svg
@@ -431,7 +441,11 @@
               <div id="tags" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                 {#each tags as tag}
                   <button
-                    onclickcapture={(e) => {e.preventDefault();postData.tags_id = [...new Set([...(postData?.tags_id ?? []), tag.id])]}}
+                    type="button"
+                    onclick={(e) => {
+                      e.preventDefault();
+                      postData.tags_id = [...new Set([...(postData?.tags_id ?? []), tag.id])];
+                    }}
                     class={`px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-40 items-center justify-center ${
                       postData.tags_id?.includes(tag.id) ? 'bg-gray-700/60 text-gray-100' : ''
                     }`}
@@ -439,13 +453,16 @@
                     {tag.name}
 
                     {#if postData.tags_id?.includes(tag.id)}
+                      <!-- svelte-ignore a11y_click_events_have_key_events -->
                       <div
-                        onclick={(e) => {e.stopPropagation();postData.tags_id = postData.tags_id?.filter((t) => t !== tag.id)}}
+                        onclick={(e) => {
+                          e.stopPropagation();
+                          postData.tags_id = postData.tags_id?.filter((t) => t !== tag.id);
+                        }}
                         class="bg-transparent hover focus:outline-hidden hover:text-red-500"
                         aria-label="Remove Tag"
                         role="button"
                         tabindex="0"
-                        onkeydown={() => {}}
                       >
                         <svg
                           aria-hidden="true"
@@ -539,11 +556,9 @@
             {#if relatedMechanism === 'tags'}
               <button
                 type="button"
-                onclickcapture={(e) =>{
+                onclickcapture={(e) => {
                   e.stopPropagation();
-                  getRelated().then(() => {
-                    console.log('related', postData.related);
-                  })
+                  getRelated().catch((err) => console.error(err));
                 }}
                 class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                 >Find & Link Related Posts
@@ -563,9 +578,7 @@
                   type="button"
                   onclickcapture={(e) => {
                     e.stopPropagation();
-                    getRelated(true).then(() => {
-                      console.log('related', postData.related);
-                    });
+                    getRelated(true).catch((err) => console.error(err));
                   }}
                   class="py-2 px-4 mt-2 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                   >Link Related Posts
@@ -628,8 +641,8 @@
     border-radius: 3px;
     text-indent: 0.01px;
     text-overflow: '';
-    -webkit-appearance: none; /* hide default arrow in chrome OSX */
-    -moz-appearance: none; /* hide default arrow in firefox */
+    -webkit-appearance: none;
+    -moz-appearance: none;
     appearance: none;
     cursor: pointer;
   }
@@ -642,7 +655,6 @@
   }
 
   .custom-dropdown::after {
-    /*  Custom dropdown arrow */
     content: '\25BC';
     height: 1em;
     font-size: 0.625em;
@@ -653,7 +665,6 @@
   }
 
   .custom-dropdown::before {
-    /*  Custom dropdown arrow cover */
     width: 2em;
     right: 0;
     top: 0;

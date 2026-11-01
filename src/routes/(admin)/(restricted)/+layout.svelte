@@ -1,35 +1,42 @@
 <script lang="ts">
-  import '$lib/sass/tailwind.css';
-  import '$lib/sass/admin.scss';
-  import { afterNavigate, beforeNavigate } from '$app/navigation';
-  import { isLoading, currentUser } from '@/stores/main';
-  import { onMount } from 'svelte';
-  import { config } from '$lib/config/index';
+import '#lib/sass/tailwind.css';
+import '#lib/sass/admin.scss';
+import { onMount } from 'svelte';
+import { currentUser, isLoading } from '#/stores/main.ts';
+import { config } from '#lib/config/index.ts';
+import { afterNavigate, beforeNavigate } from '$app/navigation';
 
-  beforeNavigate(() => {
-    isLoading.set(true);
-  });
+beforeNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-  afterNavigate(() => {
-    isLoading.set(false);
-  });
+  isLoading.set(true);
+});
 
-  const handlePopstate = () => {
-    isLoading.set(false);
-  };
+afterNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
 
-  /** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
-  let { data, children } = $props();
+  isLoading.set(false);
+});
+
+const handlePopstate = () => {
+  isLoading.set(false);
+};
+
+/** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
+let { data, children } = $props();
+
+$effect(() => {
   currentUser.set(data.currentUser ?? null);
+});
 
-  onMount(() => {
-    window.addEventListener('popstate', handlePopstate);
-    isLoading.set(false);
+onMount(() => {
+  window.addEventListener('popstate', handlePopstate);
+  isLoading.set(false);
 
-    return () => {
-      window.removeEventListener('popstate', handlePopstate);
-    };
-  });
+  return () => {
+    window.removeEventListener('popstate', handlePopstate);
+  };
+});
 </script>
 
 <svelte:head>
@@ -43,7 +50,7 @@
   <!-- FavIcon  -->
   <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/icon/favicon.svg" />
-  <link rel="shortcut icon" href="/icon/favicon.ico" />
+  <link rel="icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png" />
   <link rel="manifest" href="/icon/site.webmanifest" />
   <!-- /FavIcon  -->

@@ -1,67 +1,63 @@
 <script lang="ts">
-  import '$lib/sass/tailwind.css';
-  import '$lib/sass/app.scss';
-  import type { Component } from 'svelte';
+import '#lib/sass/tailwind.css';
+import '#lib/sass/app.scss';
+import { onMount } from 'svelte';
+import { isLoading, theme as themeStore } from '#/stores/main.ts';
+import { config } from '#lib/config/index.ts';
+import Footer from '#lib/theme/Footer.svelte';
+import Header from '#lib/theme/Header.svelte';
+import { getGoogleAnalyticsCode } from '#lib/utils/client/analytics.ts';
+import { afterNavigate, beforeNavigate } from '$app/navigation';
 
-  import Header from '$lib/theme/Header.svelte';
-  import Footer from '$lib/theme/Footer.svelte';
-  import { afterNavigate, beforeNavigate } from '$app/navigation';
-  import { isLoading } from '@/stores/main';
-  import { onMount } from 'svelte';
-  import { theme as themeStore } from '@/stores/main';
-  import { config } from '$lib/config';
-  import { getGoogleAnalyticsCode } from '$lib/utils/client/analytics';
-  // import { partytownSnippet } from '@builder.io/partytown/integration'
+// import { partytownSnippet } from '@builder.io/partytown/integration'
 
-  interface Props {
-    data?: any;
-    children?: import('svelte').Snippet<[any]>;
+interface Props {
+  data?: any;
+  children?: import('svelte').Snippet<[any]>;
+}
+
+let { data = {}, children }: Props = $props();
+let theme = $derived(data?.theme || 'dark');
+
+beforeNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
+
+  isLoading.set(true);
+});
+
+afterNavigate(({ shallow, type }) => {
+  if (shallow && type === 'goto') return;
+
+  isLoading.set(false);
+});
+
+const handlePopstate = () => {
+  isLoading.set(false);
+};
+
+let scriptEl: HTMLScriptElement | undefined = $state();
+
+
+onMount(() => {
+  themeStore.set(theme);
+  // if (scriptEl) {
+  // 	  scriptEl.textContent = partytownSnippet()
+  // 	}
+
+  window.addEventListener('popstate', handlePopstate);
+  isLoading.set(false);
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then((reg) => console.log('Service Worker registered successfully scope:', reg.scope))
+      .catch((err) => console.error('Service Worker registration failed:', err));
   }
 
-  let { data = {}, children }: Props = $props();
-  let theme = $state(data?.theme || 'dark');
-  let DynFarcasterFollowButton: Component | null = $state(null);
-
-  beforeNavigate(() => {
-    isLoading.set(true);
-  });
-
-  afterNavigate(() => {
-    isLoading.set(false);
-  });
-
-  const handlePopstate = () => {
-    isLoading.set(false);
+  return () => {
+    window.removeEventListener('popstate', handlePopstate);
   };
-
-  let scriptEl: HTMLScriptElement | undefined = $state();
-
-  const loadFCButton = async () => {
-    if (config.farcaster.miniAppEnabled && config.farcaster.followButtonEnabled) {
-      const { default: comp } = await import('@/routes/(index)/FarcasterFollowButton.svelte');
-      DynFarcasterFollowButton = comp;
-    }
-  };
-
-  onMount(() => {
-    themeStore.set(theme);
-    // if (scriptEl) {
-    // 	  scriptEl.textContent = partytownSnippet()
-    // 	}
-
-    window.addEventListener('popstate', handlePopstate);
-    isLoading.set(false);
-
-    if (config.farcaster.miniAppEnabled) {
-      import('@farcaster/frame-sdk').then((lib) => {
-        lib.sdk.actions.ready();
-      });
-    }
-
-    return () => {
-      window.removeEventListener('popstate', handlePopstate);
-    };
-  });
+});
 </script>
 
 <svelte:head>
@@ -72,7 +68,7 @@
   <!-- FavIcon  -->
   <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/icon/favicon.svg" />
-  <link rel="shortcut icon" href="/icon/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png" />
   <link rel="manifest" href="/icon/site.webmanifest" />
   <!-- /FavIcon  -->
@@ -119,11 +115,3 @@
 {#if config.enableGoogleAnalytics}
   {@html getGoogleAnalyticsCode(config.googleAnalyticsId)}
 {/if}
-
-{#await loadFCButton()}
-  <span></span>
-{:then}
-  {#if DynFarcasterFollowButton}
-    <DynFarcasterFollowButton />
-  {/if}
-{/await}

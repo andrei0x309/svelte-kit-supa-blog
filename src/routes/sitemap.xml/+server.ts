@@ -1,21 +1,22 @@
-import type { RequestHandler } from  './$types';
-import { generatePaths } from '$lib/utils/server/sitemap'
-import { config } from '$lib/config'
- 
-const website =  config.baseSiteUrl
+import { config } from '#lib/config/index.ts';
+import { generatePaths } from '#lib/utils/server/sitemap.ts';
+import type { RequestHandler } from './$types';
+
+const website = config.baseSiteUrl;
 
 export const GET: RequestHandler = async () => {
   const pages = await generatePaths();
   const contnet = pages
-  .map(
-    (page) => `<url>
+    .map(
+      (page) => `<url>
   <loc>${website}/${page.url}</loc>
   <changefreq>${page.changefreq}</changefreq>
   <priority>${page.priority ?? '0.5'}</priority>
   </url>`
-  )
-  .join('')
-  return new Response(`<?xml version="1.0" encoding="UTF-8" ?>
+    )
+    .join('');
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8" ?>
 	<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   ${contnet}
 	</urlset>`,
@@ -26,5 +27,6 @@ export const GET: RequestHandler = async () => {
         'Content-Type': 'application/xml'
       },
       status: 200
-    });
-}
+    }
+  );
+};

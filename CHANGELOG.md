@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.3.0 - 2026-10-29
+
+- migrated to SvelteKit 3
+- updated and removed some dependencies
+- added Biome in place of Eslint and Prettier
+- removed some dependencies
+- added manual SW and PWA configuration
+- edited .env.example with new variables and unused variables
+
 ## v0.2.6 - 2025-09-07
 
 - updated depencencies
@@ -76,7 +85,7 @@ The focus of modifications is to update dependencies, add error handling, and im
 - Updated .env.example with new API keys
 - Added new types in fc-frame-post.ts
 - Updated transitions in various components
-- Updated redirects in static/_redirects
+- Updated redirects in static/\_redirects
 - Added default error handling in server files
 - Improved server responses in various server files
 - Updated content source in Modal.svelte
@@ -86,7 +95,7 @@ The focus of modifications is to update dependencies, add error handling, and im
 - Improved server redirect logic in hooks.server.ts
 - Added new server functions for posts handling
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.9---2024-07-25
 -->
 
@@ -94,7 +103,7 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 
 The focus of modifications is to update configurations, add new files, and fix existing files.
 
-*Detailed summary:*
+_Detailed summary:_
 
 - Updated Tailwind CSS configuration
 - Updated Supabase session persistence
@@ -103,7 +112,7 @@ The focus of modifications is to update configurations, add new files, and fix e
 - Modified social links in the config
 - Fixed layout and styling issues in various files
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.8---2024-07-19
 -->
 
@@ -111,7 +120,7 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 
 The focus of modifications is to enhance server-side functionality, add private secrets examples, update Svelte components, and integrates Partytown for optimized performance.
 
-*Detailed summary:*
+_Detailed summary:_
 
 - Deleted unused files and directories
 - Added private secrets examples
@@ -120,7 +129,7 @@ The focus of modifications is to enhance server-side functionality, add private 
 - Updated Vite config for Partytown integration
 - Improved server-side functionality for cron jobs and sitemap generation
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.7---2024-07-18
 -->
 
@@ -128,16 +137,16 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 
 The focus of modifications is to update colors in the global Sass file, add loader sizes, refactor server-side logic, optimize image loading, and fetching and caching Goodreads data.
 
-*Detailed summary:*
+_Detailed summary:_
 
-- Updated colors and added loader sizes in _global.scss
+- Updated colors and added loader sizes in \_global.scss
 - Refactored server-side logic in various files
 - Optimized image loading in FeatureImage.svelte
 - Added Goodreads data fetching and caching in widgets.ts
 - Modified Article.svelte for better readability and performance
 - Added Widget for displaying Goodreads data in the sidebar
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.6---2024-07-18
 -->
 
@@ -145,14 +154,14 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 
 The focus of modifications is to add Analytics integration, draft posts functionality, and author description display.
 
-*Detailed summary:*
+_Detailed summary:_
 
 - Added Analytics integration
 - Implemented draft posts loading and display
 - Included author description in posts
 - Updated post preview functionality
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.5---2024-07-17
 -->
 
@@ -160,14 +169,14 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 
 The focus of modifications is to update dependencies, add a new theme store, implement new features, and improve security measures across the codebase.
 
-*Detailed summary:*
+_Detailed summary:_
 
 - Updated dependencies and added new ones for compatibility
 - Added a new theme store to manage theme settings
 - Implemented new features like comments and iframe for articles
 - Enhanced security measures in the crypto module
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.4---2024-07-16
 -->
 
@@ -175,7 +184,7 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 
 Update focuses on adding user authentication features, updating database functions, and improving page logic in the admin settings section.
 
-*Detailed summary:*
+_Detailed summary:_
 
 - Added password hashing for users
 - Implemented alerts for error and success messages
@@ -183,7 +192,7 @@ Update focuses on adding user authentication features, updating database functio
 - Modified server-side logic for loading categories and tags
 - Improved post-related functionalities and data structures
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.3---2024-07-13
 -->
 
@@ -197,7 +206,7 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 - added: components: `FeatureImage`, `Menu`, `Footer`, `Auth`, `Post`, `User`,
 - changes to routes and page logic
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.2---2024-07-11
 -->
 
@@ -207,6 +216,6 @@ URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#
 - added intial README.md, BACKDROP_BUILD_ROADMAP.md, LICENSE, dependencies and minimal features, plans, roadmap and prototyping.
 - added initial CHANGELOG.md
 
-<!-- 
+<!--
 URL: https://github.com/andrei0x309/svelte-kit-supa-blog/blob/main/CHANGELOG.md#changelog---v0.0.1---2024-07-09
 -->

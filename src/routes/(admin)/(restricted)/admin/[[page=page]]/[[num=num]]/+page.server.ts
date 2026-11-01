@@ -1,26 +1,26 @@
-import { loadPosts } from '@/lib/utils/db/posts' 
+import { loadPosts } from '#/lib/utils/db/posts.ts';
 import type { PageServerLoad } from './$types';
 
-
 export const load: PageServerLoad = async (req) => {
-    try {
-    const { num } = req.params 
-    let page: number
-    if(!num) {
-        page = 1
+  try {
+    const { num } = req.params;
+    let page: number;
+    if (!num) {
+      page = 1;
     } else {
-        page = parseInt(num)
+      page = parseInt(num);
     }
-    const postsData = await loadPosts(page, 11, 'title, signature, feature_image, slug, draft, cat_id, author_id, tags_id', true) as unknown as {res: {data: unknown, page: number, hasNext: boolean}}
+    const postsData = (await loadPosts(page, 11, 'title, signature, feature_image, slug, draft, cat_id, author_id, tags_id', true)) as unknown as {
+      res: { data: unknown; page: number; hasNext: boolean };
+    };
     return {
-        posts: postsData?.res?.data,
-        page: postsData?.res?.page,
-        hasNext: postsData?.res?.hasNext
-    }    
-    } catch (e) {
-        return {
-            posts: null
-        }
-    }
-}
-
+      posts: postsData?.res?.data,
+      page: postsData?.res?.page,
+      hasNext: postsData?.res?.hasNext
+    };
+  } catch (e) {
+    return {
+      posts: null
+    };
+  }
+};

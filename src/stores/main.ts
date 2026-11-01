@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { ICurrentUser } from '$lib/types/user';
+import type { ICurrentUser } from '#lib/types/user.ts';
 
 export const isLoading = writable(false);
 export const currentUser = writable(null as ICurrentUser | null);

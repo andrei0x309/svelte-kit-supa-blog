@@ -1,17 +1,13 @@
-
-
-
-getSha256('123').then(console.log)
+getSha256('123').then(console.log);
 
 // console.log(typeof Deno)
 
-
-// import { supabase } from '@/lib/node/supaClientFS'
+// import { supabase } from '#/lib/node/supaClientFS'
 // import crypto from 'crypto'
 
 // import type { RequestHandler } from  './$types';
 // import { json } from '@sveltejs/kit';
- 
+
 // export const POST: RequestHandler = (async ({ request }) => {
 //     try {
 //   const {
@@ -22,7 +18,7 @@ getSha256('123').then(console.log)
 //     if(!username || !password) {
 //         return json({error: 'Missing username or password'}, {status: 400})
 //     }
-    
+
 //     const user = (await supabase.from('fsk_blog_author')
 //     .select('username, password_hash')
 //     .eq('username', username).single()).data

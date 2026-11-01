@@ -1,40 +1,38 @@
 import { error } from '@sveltejs/kit';
-import { makeTitle, appendToData } from '@/lib/utils/common'
+import { appendToData, makeTitle } from '#/lib/utils/common.ts';
 
 const defaultError = {
-  message: 'Resource not found',
-  pageType: 'unknown'
-}
+  message: 'Resource not found'
+};
 
 const internalError = {
-  message: 'Internal error',
-  pageType: 'unknown'
-}
+  message: 'Internal error'
+};
 
-export const checkData = (data: unknown, errorObj = defaultError ): Record<string, unknown> => {
-    if(!data) {
-      if(data === -1) {
-        error(404, errorObj);
-      }
-      error(500, internalError);
+export const checkData = (data: unknown, errorMessage = defaultError.message): Record<string, unknown> => {
+  if (!data) {
+    if (data === -1) {
+      error(404, errorMessage);
     }
-    return data as Record<string, unknown>
+    error(500, internalError.message);
   }
-    
-  export const extractPage = (rest: string, errorObj = defaultError ) => {
-    if(rest.includes('page/')) {
-      const page = Number(rest.split('page/')[1].replace('/', ''))
-      
-      if (!Number.isInteger(page)) {
-        error(404, errorObj);
-      }
+  return data as Record<string, unknown>;
+};
 
-      if(page < 1) {
-        error(404, errorObj);
-      }
-      return page
+export const extractPage = (rest: string, errorMessage = defaultError.message) => {
+  if (rest.includes('page/')) {
+    const page = Number(rest.split('page/')[1].replace('/', ''));
+
+    if (!Number.isInteger(page)) {
+      error(404, errorMessage);
     }
-    return 1
-  }
 
-export { error, makeTitle, appendToData }
+    if (page < 1) {
+      error(404, errorMessage);
+    }
+    return page;
+  }
+  return 1;
+};
+
+export { appendToData, error, makeTitle };

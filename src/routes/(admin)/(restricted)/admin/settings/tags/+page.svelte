@@ -1,40 +1,33 @@
 <script lang="ts">
-	import Settings from '@/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
-	import Alert from '@/lib/components/shared/Alert.svelte';
-    import Tabs from '@/routes/(admin)/(restricted)/admin/settings/Tabs.svelte';
-    import { tabs } from  '@/routes/(admin)/(restricted)/admin/settings/tabs';
-    import ConfirmModal from '@/lib/components/shared/ConfirmModal.svelte';
-    import type { ICatTag } from '@/lib/types/catTag'
-    import { deleteCatOrTag } from  '$lib/utils/client/catTag'
-    import CatOrTags from '@/routes/(admin)/(restricted)/admin/settings/CatOrTags.svelte'
+import Alert from '#/lib/components/shared/Alert.svelte';
+import type { ICatTag } from '#/lib/types/catTag.ts';
+import { deleteCatOrTag } from '#/lib/utils/client/catTag.ts';
+import CatOrTags from '#/routes/(admin)/(restricted)/admin/settings/CatOrTags.svelte';
+import Settings from '#/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
+import Tabs from '#/routes/(admin)/(restricted)/admin/settings/Tabs.svelte';
+import { tabs } from '#/routes/(admin)/(restricted)/admin/settings/tabs.ts';
+import type { PageProps } from './$types';
 
-    interface Props {
-        data?: { catOrTags: ICatTag[]} & { notFound: boolean };
-    }
+let { data }: PageProps = $props();
+let catOrTags = $derived<ICatTag[]>(data.catOrTags ?? []);
+let alertRef = $state<Alert>();
 
-    let { data = $bindable({ catOrTags: [], notFound: false }) }: Props = $props();
-
-    let confirm: ConfirmModal = $state()
-    let alert: Alert = $state()
-    const deleteTag = async (id: number) => {
-        data = await deleteCatOrTag(id, 'tag', alert, data) as typeof data
-    }
-	
+const deleteTag = async (id: number) => {
+  const res = await deleteCatOrTag(id, 'tag', alertRef!, { catOrTags });
+  catOrTags = res.catOrTags;
+};
 </script>
 
 <Settings>
-    {#snippet content()}
-        <Tabs  tabs={tabs} activeTab='Tags'> 
-            {#snippet content()}
-                <CatOrTags  data={data} deleteFn={deleteTag} confirm={confirm} type="tag" >
-                    {#snippet alert()}
-                        <Alert  bind:this={alert} />
-                    {/snippet}
-                    <!-- @migration-task: migrate this slot by hand, `confirm` would shadow a prop on the parent component -->
-    <ConfirmModal slot="confirm" bind:this={confirm} />
-                </CatOrTags>
-            {/snippet}
-        </Tabs>
-    {/snippet}
-
+  {#snippet content()}
+    <Tabs {tabs} activeTab="Tags">
+      {#snippet content()}
+      <CatOrTags data={{ catOrTags, notFound: data.notFound ?? false }} deleteFn={deleteTag} type="tag">
+        {#snippet alert()}
+          <Alert bind:this={alertRef} />
+        {/snippet}
+      </CatOrTags>
+      {/snippet}
+    </Tabs>
+  {/snippet}
 </Settings>

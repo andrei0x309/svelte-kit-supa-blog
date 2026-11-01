@@ -1,13 +1,12 @@
-
-import { config } from '@/lib/config'
+import { config } from '#/lib/config/index.ts';
 
 const baseData = `User-agent: *
 Disallow: 
 Disallow: /admin/
 Disallow: /login/
-Disallow: /preview/`
+Disallow: /preview/`;
 
 export const renderRobots = () => {
-    const sitemap = `Sitemap: ${config.baseSiteUrl}/sitemap.xml`
-    return baseData + '\n\n' + sitemap
-}
+  const sitemap = `Sitemap: ${config.baseSiteUrl}/sitemap.xml`;
+  return baseData + '\n\n' + sitemap;
+};

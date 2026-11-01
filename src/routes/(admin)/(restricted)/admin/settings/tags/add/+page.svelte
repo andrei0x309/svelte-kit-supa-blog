@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Settings from '@/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
-    import CatOrTag from '@/routes/(admin)/(restricted)/admin/settings/CatOrTag.svelte';
+import CatOrTag from '#/routes/(admin)/(restricted)/admin/settings/CatOrTag.svelte';
+import Settings from '#/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
 </script>
 
 <Settings>
-    {#snippet content()}
-        <CatOrTag  type="tag" />
-    {/snippet}
+  {#snippet content()}
+    <CatOrTag type="tag" />
+  {/snippet}
 </Settings>
