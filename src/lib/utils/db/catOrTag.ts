@@ -23,16 +23,24 @@ export const loadTags = async () => {
 export const loadCatOrTag = async (id: string, type: 'cat' | 'tag') => {
   try {
     if (id) {
-      let catOrTag;
+      let catOrTag = { id } as unknown as ICatTag
+      let data: ICatTag | null = null
       if (type === 'cat') {
-        catOrTag = (await supabase.from('fsk_blog_cat').select('*').eq('id', id).single()).data;
+        data = (await supabase.from('fsk_blog_cat').select('*').eq('id', id).single())?.data
+        catOrTag = { ...catOrTag, ...(data ?? {} ) } as ICatTag;
       } else if (type === 'tag') {
-        catOrTag = (await supabase.from('fsk_blog_tag').select('*').eq('id', id).single()).data;
+        data = (await supabase.from('fsk_blog_tag').select('*').eq('id', id).single())?.data
+        catOrTag = { ...catOrTag, ...(data ?? {} ) } as ICatTag;
       }
-      if (catOrTag) {
+      if (data) {
         return {
-          catOrTag
+          catOrTag,
+          notFound: false
         };
+      }
+      return {
+        catOrTag,
+        notFound: true
       }
     }
     return {

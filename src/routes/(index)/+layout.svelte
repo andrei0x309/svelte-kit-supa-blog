@@ -1,7 +1,6 @@
 <script lang="ts">
 import '#lib/sass/tailwind.css';
 import '#lib/sass/app.scss';
-import type { Component } from 'svelte';
 import { onMount } from 'svelte';
 import { isLoading, theme as themeStore } from '#/stores/main.ts';
 import { config } from '#lib/config/index.ts';
@@ -19,7 +18,6 @@ interface Props {
 
 let { data = {}, children }: Props = $props();
 let theme = $derived(data?.theme || 'dark');
-let DynFarcasterFollowButton: Component | null = $state(null);
 
 beforeNavigate(({ shallow, type }) => {
   if (shallow && type === 'goto') return;
@@ -39,12 +37,6 @@ const handlePopstate = () => {
 
 let scriptEl: HTMLScriptElement | undefined = $state();
 
-const loadFCButton = async () => {
-  if (config.farcaster.miniAppEnabled && config.farcaster.followButtonEnabled) {
-    const { default: comp } = await import('#/routes/(index)/FarcasterFollowButton.svelte');
-    DynFarcasterFollowButton = comp;
-  }
-};
 
 onMount(() => {
   themeStore.set(theme);
@@ -54,12 +46,6 @@ onMount(() => {
 
   window.addEventListener('popstate', handlePopstate);
   isLoading.set(false);
-
-  if (config.farcaster.miniAppEnabled) {
-    import('@farcaster/frame-sdk').then((lib) => {
-      lib.sdk.actions.ready();
-    });
-  }
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
@@ -82,7 +68,7 @@ onMount(() => {
   <!-- FavIcon  -->
   <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/icon/favicon.svg" />
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png" />
   <link rel="manifest" href="/icon/site.webmanifest" />
   <!-- /FavIcon  -->
@@ -129,11 +115,3 @@ onMount(() => {
 {#if config.enableGoogleAnalytics}
   {@html getGoogleAnalyticsCode(config.googleAnalyticsId)}
 {/if}
-
-{#await loadFCButton()}
-  <span></span>
-{:then}
-  {#if DynFarcasterFollowButton}
-    <DynFarcasterFollowButton />
-  {/if}
-{/await}

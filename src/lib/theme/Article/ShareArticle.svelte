@@ -4,7 +4,6 @@ import { fade } from 'svelte/transition';
 import { articleSettings } from '#lib/config/index.ts';
 import BlueSkyIcon from '#lib/theme/icons/platfroms/BlueSkyIcon.svelte';
 import FaceBookIcon from '#lib/theme/icons/platfroms/FaceBookIcon.svelte';
-import FarcasterIcon from '#lib/theme/icons/platfroms/FarcasterIcon.svelte';
 import LinkCopyIcon from '#lib/theme/icons/platfroms/LinkCopyIcon.svelte';
 import PinterestIcon from '#lib/theme/icons/platfroms/PinterestIcon.svelte';
 import RedditIcon from '#lib/theme/icons/platfroms/RedditIcon.svelte';
@@ -31,8 +30,6 @@ const platforms = {
   whatsapp: WhatsAppIcon,
   telegram: TelegramIcon,
   facebook: FaceBookIcon,
-  farcasterXYZ: FarcasterIcon,
-  fosscaster: FarcasterIcon,
   bluesky: BlueSkyIcon,
   copyLink: LinkCopyIcon,
   pinterest: PinterestIcon,
@@ -105,12 +102,6 @@ const shareTo = (platform: string) => {
       break;
     case 'telegram':
       window.open(`https://t.me/share/url?url=${encodedLink}&text=${encodedTitle}`, '_blank');
-      break;
-    case 'farcaster':
-      window.open(`https://farcaster.xyz/~/compose?text=${encodedLink}%0A`, '_blank');
-      break;
-    case 'fosscaster':
-      window.open(`https://fosscaster.xyz/~/compose?text=${encodedLink}%0A`, '_blank');
       break;
     case 'copyLink':
       copyLink();

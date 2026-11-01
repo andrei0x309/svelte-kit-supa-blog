@@ -8,7 +8,7 @@ export const load: PageServerLoad = (async (req) => {
     if (!num) {
       page = 1;
     } else {
-      page = parseInt(num);
+      page = Number.parseInt(num, 10);
     }
     const usersData = (await loadUsers(page, 4)) as unknown as { res: { data: unknown; page: number; hasNext: boolean } };
     return {

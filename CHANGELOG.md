@@ -5,6 +5,9 @@
 - migrated to SvelteKit 3
 - updated and removed some dependencies
 - added Biome in place of Eslint and Prettier
+- removed some dependencies
+- added manual SW and PWA configuration
+- edited .env.example with new variables and unused variables
 
 ## v0.2.6 - 2025-09-07
 

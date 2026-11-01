@@ -1,6 +1,5 @@
 <script lang="ts">
 import { onMount } from 'svelte';
-import { preventDefault } from 'svelte/legacy';
 import Alert from '#lib/components/shared/Alert.svelte';
 import type { ICatTag } from '#lib/types/catTag.ts';
 import { makeEmptyCatTag } from '#lib/utils/client/catTag.ts';
@@ -24,7 +23,7 @@ const save = async () => {
     return;
   }
 
-  if (catOrTag.slug.match(/[^a-z0-9-\/]/g)) {
+  if (catOrTag.slug.match(/[^a-z0-9-/]/g)) {
     alert?.showError('Slug can only contain lowercase letters, numbers, dashes and a slash optionally to set language eg: de/my-post');
     return;
   }
@@ -38,23 +37,53 @@ const save = async () => {
     },
     body: JSON.stringify(catOrTag)
   });
-  const data = await res.json();
+  const responseData = await res.json();
   if (res.ok) {
-    const updateId = data.updateId;
+    const updateId = responseData.updateId;
     window.location.href = `/admin/settings/${type === 'cat' ? 'categories' : 'tags'}/edit/${updateId}?saved=true`;
   } else {
-    alert?.showError(data?.error || 'Something went wrong');
+    alert?.showError(responseData?.error || 'Something went wrong');
   }
 };
 
 onMount(() => {
   if (getParams('saved')) {
     const resource = type === 'cat' ? 'Category' : 'Tag';
-    alert?.showSuccess(resource + ' saved successfully');
+    alert?.showSuccess(`${resource} ${catOrTag.name} saved successfully`);
   }
 });
 </script>
 
+<svelte:head>
+  <title>{type === 'cat' ? 'Edit Category' : 'Edit Tag'} | Admin</title>
+</svelte:head>
+
+<!-- check not found-->
+
+{#if data?.notFound}
+  <div class="p-8 rounded-sm border border-gray-200">
+    {#if type === 'cat'}
+      <h1 class="font-medium text-3xl mb-4">Category Not Found</h1>
+      <p class="text-gray-600 mb-4">Category with id {data.catOrTag.id} not found</p>
+
+      <a href="/admin/settings/categories">
+        <button class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 mb-4 text-[0.8rem]"
+          >Back</button
+        >
+      </a>
+    {:else if type === 'tag'}
+      <h1 class="font-medium text-3xl">Tag Not Found</h1>
+      <p class="text-gray-600">Tag with id {data.catOrTag.id} not found</p>
+      <!-- add a back button-->
+      <a href="/admin/settings/tags">
+        <button class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+          >Back</button
+        >
+      </a>
+    {/if}
+
+  </div>
+{:else}
 <div class="p-8 rounded-sm border border-gray-200">
   {#if type === 'cat'}
     {#if data.catOrTag.id}
@@ -107,9 +136,10 @@ onMount(() => {
         <button
           type="submit"
           class="py-2 px-4 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
-          onclick={preventDefault(() => {
+          onclick={(event) => {
+            event.preventDefault();
             save();
-          })}>Save</button
+          }}>Save</button
         >
         {#if type === 'cat'}
           <a href="/admin/settings/categories">
@@ -130,3 +160,4 @@ onMount(() => {
     </div>
   </form>
 </div>
+{/if}

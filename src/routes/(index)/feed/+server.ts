@@ -27,7 +27,6 @@ export const GET: RequestHandler = (async ({ url }) => {
       }
     });
   } catch (e) {
-    console.log(e);
     return new Response(generateRssNotFound(new Date(await lastPostDateP), paged), {
       headers: {
         'Content-Type': 'application/xml'

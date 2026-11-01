@@ -55,12 +55,12 @@ const pageDescription = `Show support and send a tip to - ${config.tipMeName} - 
     <h1 class="blog-post-title mx-auto mb-6">Tip Me</h1>
 
     <div
-      class="mx-auto w-[21rem] h-[28.5rem] bg-[#171717] [transition:1s_ease-in-out] [clip-path:polygon(_30px_0%,_100%_0,_100%_calc(100%_-_30px),_calc(100%_-_30px)_100%,_0_100%,_0%_30px_)] rounded-tr-[20px] rounded-bl-[20px] flex flex-col"
+      class="mx-auto w-84 h-114 bg-[#171717] [transition:1s_ease-in-out] [clip-path:polygon(30px_0%,100%_0,100%_calc(100%-30px),calc(100%-30px)_100%,0_100%,0%_30px)] rounded-tr-[20px] rounded-bl-[20px] flex flex-col"
     >
-      <div class="w-[6.8em] h-[6.8em] bg-[rgb(41,_41,_41)] rounded-[15px] ml-auto mr-auto mt-8 mb-4 flex">
+      <div class="w-[6.8em] h-[6.8em] bg-[rgb(41,41,41)] rounded-[15px] ml-auto mr-auto mt-8 mb-4 flex">
         <svg
           fill="none"
-          class="m-auto text-[rgb(145,_206,_46)]"
+          class="m-auto text-[rgb(145,206,46)]"
           width="80"
           height="80"
           stroke-width="1.5"
@@ -105,32 +105,32 @@ const pageDescription = `Show support and send a tip to - ${config.tipMeName} - 
       </p>
 
       <a
-        class="group/button relative inline-flex items-center justify-center overflow-hidden rounded-md bg-gray-800/30 backdrop-blur-lg px-6 py-2 text-base font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-gray-600/15 border border-white/20 w-[90%] mx-auto mb-[1rem]"
+        class="group/button relative inline-flex items-center justify-center overflow-hidden rounded-md bg-gray-800/30 backdrop-blur-lg px-6 py-2 text-base font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-gray-600/15 border border-white/20 w-[90%] mx-auto mb-4"
         href={config.tipKoFiLink}
         target="_blank"
         rel="noopener noreferrer nofollow external"
       >
-        <span class="group/link font-bold text-[white] text-center block text-[1.05rem] group-hover/button:text-[rgb(145,_206,_46)]"
+        <span class="group/link font-bold text-[white] text-center block text-[1.05rem] group-hover/button:text-[rgb(145,206,46)]"
           >Tip with card / paypal</span
         >
         <div
-          class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-13deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-13deg)_translateX(100%)] ]"
+          class="absolute inset-0 flex h-full w-full justify-center transform-[skew(-13deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:transform-[skew(-13deg)_translateX(100%)] ]"
         >
           <div class="relative h-full w-10 bg-white/20"></div>
         </div>
       </a>
 
       <a
-        class="group/button relative inline-flex items-center justify-center overflow-hidden rounded-md bg-gray-800/30 backdrop-blur-lg px-6 py-2 text-base font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-gray-600/15 border border-white/20 w-[90%] mx-auto mb-[1rem]"
+        class="group/button relative inline-flex items-center justify-center overflow-hidden rounded-md bg-gray-800/30 backdrop-blur-lg px-6 py-2 text-base font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-gray-600/15 border border-white/20 w-[90%] mx-auto mb-4"
         href={config.tipNowPaymentsLink}
         target="_blank"
         rel="noopener noreferrer nofollow external"
       >
-        <span class="font-bold text-[white] text-center block text-[1.05rem] group-hover/button:text-[rgb(145,_206,_46)]"
+        <span class="font-bold text-[white] text-center block text-[1.05rem] group-hover/button:text-[rgb(145,206,46)]"
           >Tip with crypto</span
         >
         <div
-          class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-13deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:[transform:skew(-13deg)_translateX(100%)]"
+          class="absolute inset-0 flex h-full w-full justify-center transform-[skew(-13deg)_translateX(-100%)] group-hover/button:duration-1000 group-hover/button:transform-[skew(-13deg)_translateX(100%)]"
         >
           <div class="relative h-full w-10 bg-white/20"></div>
         </div>

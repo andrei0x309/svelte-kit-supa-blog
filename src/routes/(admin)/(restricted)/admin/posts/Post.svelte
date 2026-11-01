@@ -22,19 +22,23 @@ interface Props {
 
 let { data = { post: makeEmptyPost() as IPost | null, notfound: false, cats: [] as ICat[], tags: [] as ITag[] }, header }: Props = $props();
 
-let postData: IPost = $derived.by(() => {
-  if (!data.post) {
-    return makeEmptyPost();
-  }
-
-  let related;
+// Helper to parse related posts safely
+function parseRelated(raw: unknown): IRelatedPost[] {
   try {
-    related = JSON.parse((data.post.related as unknown as string) || '[]') as IRelatedPost[];
+    return JSON.parse((raw as string) || '[]') as IRelatedPost[];
   } catch {
-    // do nothing
+    return [];
   }
+}
 
-  return related ? { ...data.post, related } : data.post;
+// Keep postData mutable while syncing it from the incoming post prop.
+let postData: IPost = $state(makeEmptyPost());
+
+// Keep state in sync if parent data.post updates
+$effect(() => {
+  postData = data.post
+    ? { ...data.post, related: parseRelated(data.post.related) }
+    : makeEmptyPost();
 });
 
 let cats = $derived(data.cats ?? ([] as ICat[]));
@@ -92,37 +96,37 @@ onMount(async () => {
         const content = document.createElement('div');
 
         const innerContent = `<div class="mt-8 space-y-6">
-						<div style="
-                            display: flex;
-                            flex-direction: column;
-                            margin: 1rem; 
-                        ">
-							<label for="code-block-lang" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem"
+            <div style="
+                        display: flex;
+                        flex-direction: column;
+                        margin: 1rem; 
+                    ">
+              <label for="code-block-lang" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem"
                             >Language</label>
-							<input
-								type="text"
-								id="code-block-lang"
-								placeholder="language"
+              <input
+                type="text"
+                id="code-block-lang"
+                placeholder="language"
                                 style="
                                 width: 20rem;
                                 background-color: #00000073;
                                 padding: 0.5rem;
                                 "
-							/>
-			</div>
-		                    <div   style="
+              />
+      </div>
+                        <div  style="
                             display: flex;
                             flex-direction: column;
                             margin: 1rem;"
                             >
-							<label for="code-block-code" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem">Code</label>
-							<textarea id="code-block-code" placeholder="code"
+              <label for="code-block-code" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size: 1.1rem">Code</label>
+              <textarea id="code-block-code" placeholder="code"
                             style="width: 100%;height: 60vh;
                             background-color: #00000073;
                             padding: 0.5rem;
                             "
                             ></textarea>
-			</div>
+      </div>
             `;
         content.innerHTML = innerContent;
         dialog.setHeader('Insert Code Block');
@@ -148,7 +152,7 @@ onMount(async () => {
           const code = (document.getElementById('code-block-code') as any).value;
           const highlightedCode = await highLightCodeBlocks(code, lang);
           if (!highlightedCode) {
-            alert?.showError('Unsuported language');
+            alert?.showError('Unsupported language');
             dialog.close();
             return;
           }
@@ -201,13 +205,13 @@ onMount(async () => {
       theme: 'ace/theme/tomorrow_night'
     },
     toolbarButtonSize: 'large',
-
     buttons: buttons,
     buttonsMD: buttons,
     buttonsSM: buttons,
     buttonsXS: buttons,
     disablePlugins: ['table', 'iframe']
   });
+
   if (getParams('saved')) {
     alert?.showSuccess('Post saved successfully');
   }
@@ -221,12 +225,10 @@ onMount(async () => {
 });
 
 const highLightCodeBlocks = async (code: string, lang: string) => {
-  // const hljsUrl = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/highlight.min.js"
   const hljs = (await import(/* @vite-ignore */ 'highlight.js/lib/core' /* @vite-ignore */)).default;
   if (!hljs.getLanguage(lang)) {
     const langUrl = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/es/languages/${lang}.min.js`;
     try {
-      // const langPath = `highlight.js/es/languages/${lang}.js.js`.toString()
       const langModule = (await import(/* @vite-ignore */ langUrl /* @vite-ignore */)).default;
       hljs.registerLanguage(lang, langModule);
     } catch (e) {
@@ -249,7 +251,6 @@ const save = async () => {
   }
 
   postData.slug = postData.slug.replace(/^\//, '').replace(/\/$/, '');
-
   postData.author_id = $currentUser?.id as number;
 
   const res = await fetch('/admin/posts/save', {
@@ -348,7 +349,8 @@ const getRelated = async (slugs = false) => {
                 <div id="cats" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                   {#each cats as cat}
                     <button
-                      onclickcapture={(e) => {
+                      type="button"
+                      onclick={(e) => {
                         e.preventDefault();
                         postData.cat_id = cat.id;
                       }}
@@ -359,6 +361,7 @@ const getRelated = async (slugs = false) => {
                       {cat.name}
 
                       {#if postData.cat_id === cat.id}
+                        <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <div
                           onclick={(e) => {
                             e.stopPropagation();
@@ -367,7 +370,6 @@ const getRelated = async (slugs = false) => {
                           class="bg-transparent hover focus:outline-hidden hover:text-red-500"
                           aria-label="Remove Category"
                           role="button"
-                          onkeydown={() => {}}
                           tabindex="0"
                         >
                           <svg
@@ -439,7 +441,8 @@ const getRelated = async (slugs = false) => {
               <div id="tags" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 text-[0.9rem]">
                 {#each tags as tag}
                   <button
-                    onclickcapture={(e) => {
+                    type="button"
+                    onclick={(e) => {
                       e.preventDefault();
                       postData.tags_id = [...new Set([...(postData?.tags_id ?? []), tag.id])];
                     }}
@@ -450,6 +453,7 @@ const getRelated = async (slugs = false) => {
                     {tag.name}
 
                     {#if postData.tags_id?.includes(tag.id)}
+                      <!-- svelte-ignore a11y_click_events_have_key_events -->
                       <div
                         onclick={(e) => {
                           e.stopPropagation();
@@ -459,7 +463,6 @@ const getRelated = async (slugs = false) => {
                         aria-label="Remove Tag"
                         role="button"
                         tabindex="0"
-                        onkeydown={() => {}}
                       >
                         <svg
                           aria-hidden="true"
@@ -555,9 +558,7 @@ const getRelated = async (slugs = false) => {
                 type="button"
                 onclickcapture={(e) => {
                   e.stopPropagation();
-                  getRelated().then(() => {
-                    console.log('related', postData.related);
-                  });
+                  getRelated().catch((err) => console.error(err));
                 }}
                 class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                 >Find & Link Related Posts
@@ -577,9 +578,7 @@ const getRelated = async (slugs = false) => {
                   type="button"
                   onclickcapture={(e) => {
                     e.stopPropagation();
-                    getRelated(true).then(() => {
-                      console.log('related', postData.related);
-                    });
+                    getRelated(true).catch((err) => console.error(err));
                   }}
                   class="py-2 px-4 mt-2 bg-white border border-gray-200 text-gray-600 rounded-sm hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
                   >Link Related Posts
@@ -642,8 +641,8 @@ const getRelated = async (slugs = false) => {
     border-radius: 3px;
     text-indent: 0.01px;
     text-overflow: '';
-    -webkit-appearance: none; /* hide default arrow in chrome OSX */
-    -moz-appearance: none; /* hide default arrow in firefox */
+    -webkit-appearance: none;
+    -moz-appearance: none;
     appearance: none;
     cursor: pointer;
   }
@@ -656,7 +655,6 @@ const getRelated = async (slugs = false) => {
   }
 
   .custom-dropdown::after {
-    /*  Custom dropdown arrow */
     content: '\25BC';
     height: 1em;
     font-size: 0.625em;
@@ -667,7 +665,6 @@ const getRelated = async (slugs = false) => {
   }
 
   .custom-dropdown::before {
-    /*  Custom dropdown arrow cover */
     width: 2em;
     right: 0;
     top: 0;

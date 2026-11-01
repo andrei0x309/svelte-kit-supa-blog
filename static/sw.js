@@ -1,4 +1,5 @@
-const CACHE_NAME = 'flashsoft-cache-v1';
+const CACHE_NAME = 'blog-flashsoft-eu-cache-v1';
+
 const ASSETS_TO_CACHE = [
   '/',
   // Add other critical static assets if needed, or let runtime caching handle it
@@ -23,6 +24,7 @@ self.addEventListener('activate', (event) => {
           if (key !== CACHE_NAME) {
             return caches.delete(key);
           }
+          return Promise.resolve();
         })
       );
     })
@@ -39,13 +41,17 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     fetch(event.request)
-      .then((response) => {
+      .then(async (response) => {
         // Clone and cache the fresh response if valid
-        if (response && response.status === 200 && response.type === 'basic') {
+        if (response?.status === 200 && response.type === 'basic') {
           const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+          
+          try {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(event.request, responseToCache);
+          } catch (err) {
+            console.warn('Caching failed:', err);
+          }
         }
         return response;
       })

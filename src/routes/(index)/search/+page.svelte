@@ -3,7 +3,6 @@ import SideBar from '#/lib/theme/SideBar.svelte';
 import { isLoading } from '#/stores/main.ts';
 import { config } from '#lib/config/index.ts';
 import Article from '#lib/theme/Article.svelte';
-import { generateURLFCFrameEmbed } from '#lib/utils/client/fc-frame-v2.ts';
 import { page as SveltePage } from '$app/state';
 
 interface Props {
@@ -27,13 +26,12 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
   <meta property="og:title" content={data.pageTitle} />
   <meta property="og:description" content={data.pageDescription} />
   <meta property="og:type" content="website" />
+  {#if SveltePage.status === 200}
   <meta property="og:url" content={pageUrl} />
   <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
+  {/if}
   <link rel="alternate" type="application/rss+xml" title={`${config.siteName} » Feed`} href={`${config.baseSiteUrl}/feed`} />
   <link rel="canonical" href={pageUrl} />
-  {#if config.farcaster.miniAppEnabled}
-    <meta name="fc:frame" content={generateURLFCFrameEmbed(`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`, pageUrl)} />
-  {/if}
 
   {#if data?.res?.hasNext ?? false}
     <link rel="next" href="/page/{(data?.res?.page ?? 1) + 1}" />

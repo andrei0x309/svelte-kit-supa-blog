@@ -1,6 +1,6 @@
-import { supabase } from '#/lib/node/supaClientFS';
 import truncate from 'truncate-html';
-import { config } from '#/lib/config';
+import { config } from '#/lib/config/index.ts';
+import { supabase } from '#/lib/node/supaClientFS.ts';
 
 export const preparePostResponse = ({ tags, res, page = 1, perPege = 4, single = false }: { tags: any; res: any; page?: number; perPege?: number; single?: boolean }) => {
   const tagsMap = tags.data?.reduce((acc: { [key: number]: Record<string, unknown> }, tag: { id: number }) => {
@@ -93,13 +93,13 @@ export const loadPost = async (slug: string, loadDraft = false) => {
       .select(
         `
     *,
-    cat:fsk_blog_cat(
+    cat:fsk_blog_cat!left(
         id,
         name,
         description,
         slug
     ),
-    author:fsk_blog_author(
+    author:fsk_blog_author!left(
       id,
       name,
       username,
@@ -121,7 +121,6 @@ export const loadPost = async (slug: string, loadDraft = false) => {
       single: true
     });
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
@@ -155,7 +154,6 @@ export const loadRelatedPosts = async ({ tag_ids = [] as number[] | string[], sl
       res: res.data
     };
   } catch (e) {
-    console.log(e);
     return null;
   }
 };

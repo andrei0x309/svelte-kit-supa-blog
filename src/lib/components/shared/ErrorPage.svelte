@@ -64,7 +64,7 @@ data.pageTitle = 'Error ' + errorStatus + ' - ' + errorMsg;
 
       <a href="/" class="text-amber-400">
         <button class="group relative h-12 w-48 overflow-hidden rounded-lg bg-white text-lg shadow-sm mt-4 cursor-pointer">
-          <div class="absolute inset-0 w-3 bg-amber-400 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
+          <div class="absolute inset-0 w-3 bg-amber-400 transition-all duration-250 ease-out group-hover:w-full"></div>
           <span class="relative text-black group-hover:text-white text-[1.4rem]"><span class="opacity-60">➲</span> Return Home</span>
         </button>
       </a>

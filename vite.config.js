@@ -4,7 +4,7 @@ import adapter from '@sveltejs/adapter-netlify';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 // import { partytownVite } from '@builder.io/partytown/utils'
-import { join } from 'path';
+// import { join } from 'path';
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('vite').UserConfig} */

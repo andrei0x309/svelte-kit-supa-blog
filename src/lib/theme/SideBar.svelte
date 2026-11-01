@@ -1,6 +1,7 @@
 <script lang="ts">
 import GoodReadsWidget from './sidebar/goodReadsWidget.svelte';
 import TagsCloudWidget from './sidebar/tagsCloudWidget.svelte';
+
 interface Props {
   sidebarData: any;
 }

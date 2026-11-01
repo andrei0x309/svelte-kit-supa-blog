@@ -1,4 +1,3 @@
-import { json } from '@sveltejs/kit';
 import { supabase } from '#/lib/node/supaClientFS.ts';
 import { checkAuth } from '#/lib/utils/server/auth.ts';
 import type { ICookies } from '#lib/types/cookies.ts';
@@ -11,7 +10,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     const currentUser = await checkAuth(req);
 
     if (currentUser.role === 'demo') {
-      return json(
+      return Response.json(
         {
           error: "Demo User can't take this action"
         },
@@ -21,16 +20,17 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
 
     const { slug } = await request.json();
     if (!slug) {
-      return json(
+      return Response.json(
         {
           error: 'No slug provided'
         },
         { status: 400 }
       );
     }
-    const exists = await loadPost(slug);
+    const exists = await loadPost(slug, true);
+
     if (!exists?.res?.slug) {
-      return json(
+      return Response.json(
         {
           error: 'Post does not exist'
         },
@@ -38,7 +38,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
       );
     }
     if (exists.res.author_id !== currentUser.id && currentUser.role !== 'admin') {
-      return json(
+      return Response.json(
         {
           error: 'Only admin delete other users posts'
         },
@@ -49,7 +49,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     if (exists.res.tags_id) {
       await dec_tags_count(exists.res.tags_id);
     }
-    return json(
+    return Response.json(
       {
         success: true
       },
@@ -57,14 +57,14 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     );
   } catch (e) {
     if (e === 'denied') {
-      return json(
+      return Response.json(
         {
           error: 'Access denied'
         },
         { status: 403 }
       );
     }
-    return json(
+    return Response.json(
       {
         error: 'Internal Server Error'
       },

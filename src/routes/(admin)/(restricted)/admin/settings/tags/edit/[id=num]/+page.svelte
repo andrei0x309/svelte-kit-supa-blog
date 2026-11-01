@@ -8,6 +8,7 @@ interface Props {
 }
 
 let { data }: Props = $props();
+
 </script>
 
 <Settings>

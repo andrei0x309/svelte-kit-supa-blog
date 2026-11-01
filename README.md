@@ -4,10 +4,11 @@
 
 This is a fast lightweight blog/blog-engine source and can be used by anyone, with small adjustments, to config and its code.
 
-It is based on Svelte Kit and SupaBase.
+Main technologies used: Svelte Kit and SupaBase.
 
-It can be used with Netlify or Vercel.
-Most of the features were made to suit my needs, but I hope they will also be useful to others.
+It can be used on Netlify or Vercel, or any other platform that supports Svelte Kit and SupaBase.
+
+Most of the features were made to suit my own needs, but I hope they will also be useful to others.
 
 Deployed on [https://blog.flashsoft.eu](https://blog.flashsoft.eu)
 
@@ -21,9 +22,10 @@ Lightweight blog with SupaBase database with the following features:
 
 - Admin panel for managing posts/users & other settings
 - Multi-user system with roles (admin, contributor, demo)
-- Simple auth system with no third-party services
+- Auth system with no third-party services (session cookies)
 - Deno Script for importing posts from WordPress
 - SSR on edge functions
+- PWA support
 - Support for categories
 - Support for tags
 - Support for inserting highlighted code

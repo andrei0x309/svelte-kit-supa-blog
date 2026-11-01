@@ -1,8 +1,8 @@
 <script lang="ts">
+import ContactIcon from './icons/ContactIcon.svelte';
+import CoursesIcon from './icons/CoursesIcon.svelte';
 import FrontIcon from './icons/FrontIcon.svelte';
 import ProjectsIcon from './icons/ProjectsIcon.svelte';
-import CoursesIcon from './icons/CoursesIcon.svelte';
-import ContactIcon from './icons/ContactIcon.svelte';
 import TipIcon from './icons/TipIcon.svelte';
 
 interface Props {

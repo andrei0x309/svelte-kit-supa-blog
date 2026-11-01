@@ -56,8 +56,6 @@ export const articleSettings = {
     copyLink: { enabled: true, order: 0 },
     email: { enabled: true, order: 1 },
     x: { enabled: true, order: 2 },
-    farcasterXYZ: { enabled: false, order: 3 },
-    fosscaster: { enabled: true, order: 4 },
     whatsapp: { enabled: true, order: 5 },
     pinterest: { enabled: true, order: 6 },
     bluesky: { enabled: true, order: 7 },

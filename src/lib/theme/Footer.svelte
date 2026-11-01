@@ -17,7 +17,7 @@ import WrenchAdmin from '#lib/theme/icons/WrenchAdmin.svelte';
   </p>
   <a rel="nofollow external" href="https://status.flashsoft.eu" class="mb-3 hover:scale-105 transition-transform">
     <img
-      class="mx-auto mt-4 w-[6rem] h-[1.4rem]"
+      class="mx-auto mt-4 w-24 h-[1.4rem]"
       src="https://uptime.betterstack.com/status-badges/v1/monitor/1u13o.svg"
       alt="FlashSoft.eu Status"
     />

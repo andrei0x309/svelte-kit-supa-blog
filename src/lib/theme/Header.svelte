@@ -1,5 +1,5 @@
 <script lang="ts">
-import { theme as themeStore } from '#/stores/main';
+import { theme as themeStore } from '#/stores/main.ts';
 import { setCookie } from '#lib/utils/common.ts';
 import { afterNavigate } from '$app/navigation';
 import MenuDesktop from './menu/MenuDesktop.svelte';
@@ -100,8 +100,8 @@ const closeSearchModal = () => {
   if (searchModalOpen) {
     const searchModal = document.getElementById('full-search-modal');
     if (searchModal) {
-      (document?.getElementById('search-close-btn') as any).removeEventListener('click', closeSearchModal);
-      (document?.getElementById('menu-search-form') as any).removeEventListener('menu-search-form', searchAddSpinner);
+      (document?.getElementById('search-close-btn') as any)?.removeEventListener('click', closeSearchModal);
+      (document?.getElementById('menu-search-form') as any)?.removeEventListener('menu-search-form', searchAddSpinner);
       document?.removeEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeSearchModal();
       });

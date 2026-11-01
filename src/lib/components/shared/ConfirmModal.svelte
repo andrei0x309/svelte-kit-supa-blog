@@ -1,32 +1,30 @@
 <script lang="ts">
-import { run } from 'svelte/legacy';
-
-import { modalOpen } from '#/stores/main';
+import { modalOpen } from '#/stores/main.ts';
 import Modal from './Modal.svelte';
 
-const initalState = {
+const initialState = {
   title: 'Confirm',
   message: 'Are you sure?'
 };
 
-let title: string = $state(initalState.title);
-let message: string = $state(initalState.message);
-let newTitle: string = $state(initalState.title);
-let newMessage: string = $state(initalState.message);
+let title: string = $state(initialState.title);
+let message: string = $state(initialState.message);
+let newTitle: string = $state(initialState.title);
+let newMessage: string = $state(initialState.message);
 
 interface Props {
-  onCancel?: any;
-  onOkay?: any;
+  onCancel?: () => void;
+  onOkay?: () => void;
 }
 
-let { onCancel = () => {}, onOkay = $bindable(() => {}) }: Props = $props();
+let { onCancel = () => { return }, onOkay = $bindable(() => { return }) }: Props = $props();
 
 export const setOkay = (fn: () => void) => {
   onOkay = fn;
 };
 
 export const setCancel = (fn: () => void) => {
-  onOkay = fn;
+  onCancel = fn;
 };
 
 export const show = (t = '', m = '') => {
@@ -45,7 +43,7 @@ function _onOkay() {
   modalOpen.set(false);
 }
 
-run(() => {
+$effect(() => {
   if ($modalOpen) {
     title = newTitle;
     message = newMessage;
@@ -91,5 +89,10 @@ run(() => {
     margin: 0 5px;
     border-radius: 5px;
     text-decoration: none;
+    cursor: pointer;
+  }
+
+  .btn-pag:hover {
+        filter: brightness(1.5) drop-shadow(2px 4px 6px black);
   }
 </style>

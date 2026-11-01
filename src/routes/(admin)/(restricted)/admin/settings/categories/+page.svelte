@@ -1,12 +1,12 @@
 <script lang="ts">
-import type { PageProps } from './$types';
+import Alert from '#/lib/components/shared/Alert.svelte';
+import type { ICatTag } from '#/lib/types/catTag.ts';
+import { deleteCatOrTag } from '#/lib/utils/client/catTag.ts';
+import CatOrTags from '#/routes/(admin)/(restricted)/admin/settings/CatOrTags.svelte';
 import Settings from '#/routes/(admin)/(restricted)/admin/settings/Settings.svelte';
 import Tabs from '#/routes/(admin)/(restricted)/admin/settings/Tabs.svelte';
-import CatOrTags from '#/routes/(admin)/(restricted)/admin/settings/CatOrTags.svelte';
 import { tabs } from '#/routes/(admin)/(restricted)/admin/settings/tabs.ts';
-import Alert from '#/lib/components/shared/Alert.svelte';
-import { deleteCatOrTag } from '#/lib/utils/client/catTag.ts';
-import type { ICatTag } from '#/lib/types/catTag.ts';
+import type { PageProps } from './$types';
 
 let { data }: PageProps = $props();
 let catOrTags = $derived<ICatTag[]>(data.catOrTags ?? []);

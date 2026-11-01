@@ -31,7 +31,6 @@ export const POST: RequestHandler = async ({ url }) => {
         'User-Agent': 'Desktop'
       }
     });
-    console.log(response);
     return respond(response.body);
   }
   return new Response('Not found', { status: 404 });
