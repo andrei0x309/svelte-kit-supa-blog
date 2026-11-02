@@ -49,6 +49,12 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
 
   {#if featureImage && SveltePage.status === 200}
     <meta property="og:image" content={featureImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{data.pageTitle}">
+    <meta property="twitter:description" content="{data.pageDescription}">
+    <meta property="twitter:image" content="{featureImage}">
   {/if}
   {#if data?.schemaContent}
     {@html data.schemaContent}

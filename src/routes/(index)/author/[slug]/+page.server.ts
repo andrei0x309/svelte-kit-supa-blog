@@ -1,9 +1,9 @@
-import truncate from 'truncate-html';
 // import { getSchemaContent } from '#/lib/utils/server/schema'
 // import type { ICurrentUser } from '#lib/types/user.ts'
 import { supabase } from '#/lib/node/supaClientFS.ts';
 import { appendToData, error } from '#/lib/utils/page.ts';
 import { config } from '#lib/config/index.ts';
+import { sanitizeMetaDescription } from '#lib/utils/common/misc.ts';
 import type { PageServerLoad } from './$types';
 
 const defaultError = {
@@ -21,10 +21,7 @@ export const load: PageServerLoad = async (req) => {
     throw error(404, defaultError.message);
   }
 
-  const fallBackDescription =
-    truncate(user.description, 160, {
-      stripTags: true
-    }) || 'Desciption is missing | ' + config.siteName;
+  const fallBackDescription = sanitizeMetaDescription(user.description) || 'Desciption is missing | ' + config.siteName;
 
   return appendToData({ res: user }, { pageTitle: user?.username ? 'Author | ' + user.username : 'Author | ' + config.siteName, pageDescription: fallBackDescription });
 };

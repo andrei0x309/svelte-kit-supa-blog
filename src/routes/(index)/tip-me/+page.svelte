@@ -44,6 +44,12 @@ const pageDescription = `Show support and send a tip to - ${config.tipMeName} - 
 
   {#if featureImage}
     <meta property="og:image" content={featureImage} />
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{data.pageTitle}">
+    <meta property="twitter:description" content="{data.pageDescription}">
+    <meta property="twitter:image" content="{featureImage}">
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
   {/if}
   <!-- {#if data?.schemaContent}
 {@html data.schemaContent}

@@ -1,7 +1,8 @@
-import truncate from 'truncate-html';
 import { config, schemaSocials } from '#lib/config/index.ts';
 import type { IPost } from '#lib/types/post.ts';
 import { schemas } from '#lib/types/post.ts';
+import { sanitizeMetaDescription } from '#lib/utils/common/misc.ts';
+
 
 export const getSchemaArticle = (post: IPost) => {
   if (!post) return '';
@@ -13,7 +14,7 @@ export const getSchemaArticle = (post: IPost) => {
     image: post.feature_image,
     datePublished: post.created_at,
     dateModified: post.updated_at,
-    description: post.seo_description ?? truncate(post.content, 160, { byWords: true, ellipsis: '...', stripTags: true })
+    description: sanitizeMetaDescription(post.seo_description ?? post.content)
   };
 
   switch (schema) {

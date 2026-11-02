@@ -27,8 +27,14 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
   <meta property="og:title" content={data.pageTitle} />
   <meta property="og:description" content={data.pageDescription} />
   <meta property="og:type" content="website" />
+  {#if SveltePage.status === 200}
   <meta property="og:url" content={`${pageUrl}`} />
   <meta property="og:image" content={indexFeatureImage} />
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="{data.pageTitle}">
+  <meta property="twitter:description" content="{data.pageDescription}">
+  <meta property="twitter:image" content="{indexFeatureImage}">
+  {/if}
 
   <link rel="alternate" type="application/rss+xml" title={`${config.siteName} » Feed`} href={`${config.baseSiteUrl}/feed`} />
   <link rel="canonical" href={`${pageUrl}`} />

@@ -1,6 +1,6 @@
-import truncate from 'truncate-html';
 import { config } from '#lib/config/index.ts';
 import type { IPost } from '#lib/types/post.ts';
+import { sanitizeMetaDescription } from '#lib/utils/common/misc.ts';
 
 function cleanInvalidXmlChars(input: string) {
   const enc = new TextEncoder().encode(input);
@@ -56,7 +56,7 @@ export const generateRssFeed = (posts: IPost[], buildDate: Date, page: number) =
                 <pubDate>${new Date(post.created_at).toUTCString()}</pubDate>
                 <category><![CDATA[${post.cat?.name ?? 'No Category'}]]></category>
                 <guid>${config.baseSiteUrl}/${post.slug}</guid>
-                <description><![CDATA[${post?.seo_description || truncate(post?.content, 160, { stripTags: true }) || post.title}]]></description>
+                <description><![CDATA[${sanitizeMetaDescription(post?.seo_description  || post?.content|| post.title)}]]></description>
                 <content:encoded><![CDATA[\n\n${post?.content}\n]]></content:encoded>
                 <comments>${config.baseSiteUrl}/${post.slug}/#respond</comments>
             </item>
