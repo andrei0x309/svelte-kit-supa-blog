@@ -312,3 +312,17 @@ export const rem_tag_from_posts = async (tag_id: number) => {
     // ignore
   }
 };
+
+export const getTotalPostsCount = async (draft = false) => {
+  try {
+    let query = supabase.from('fsk_blog_posts').select('*', { count: 'exact', head: true });
+    if (!draft) {
+      query = query.eq('draft', false);
+    }
+    const { count, error } = await query;
+    if (error) return 0;
+    return count ?? 0;
+  } catch (e) {
+    return 0;
+  }
+};

@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { Component } from 'svelte';
-import { fade } from 'svelte/transition';
+// import { fade } from 'svelte/transition';
 import { articleSettings } from '#lib/config/index.ts';
 import BlueSkyIcon from '#lib/theme/icons/platfroms/BlueSkyIcon.svelte';
 import FaceBookIcon from '#lib/theme/icons/platfroms/FaceBookIcon.svelte';

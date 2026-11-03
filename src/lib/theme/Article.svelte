@@ -49,10 +49,11 @@ onMount(async () => {
 });
 </script>
 
+
+<div class={`${data.isFull ? '' : 'content-va-on '}break-word post-body mb-2`}>
 <article
   itemscope={!data.isFull ? true : null}
-  itemtype={!data.isFull ? 'http://schema.org/BlogPosting' : null}
-  class={`${data.isFull ? '' : 'content-va-on '}break-word post-body mb-2`}
+  itemtype={data?.schema ? `https://schema.org/${data.schema}` : 'https://schema.org/Article'}
   id={`post-${data.slug}`}
   data-id={data.slug}
   data-slug={data.slug}
@@ -130,7 +131,7 @@ onMount(async () => {
     //    <?php } ?> -->
     </div>
   </header>
-  <div itemprop={!data.isFull ? 'articleBody' : ''} class="article-body">
+  <div itemprop="articleBody" class="article-body">
     {#if !data.isFull}
       <a
         href="/{data.slug}"
@@ -154,12 +155,14 @@ onMount(async () => {
       {@html data.content}
     {:else}
       {@html data.content}
+    
 
       <a href={`/${draft ? 'preview/' : ''}${data.slug}`} title={data.title} class="read-more"
         ><i class="icon-read_more"></i> View full article
       </a>
     {/if}
-
+    </div>
+   </article>
     <div class="clearfix">
       {#if data.isFull && data.tags && (data.tags.length ?? 0) > 0}
         {@const tags = data.tags.slice(0, 6)}
@@ -205,14 +208,12 @@ onMount(async () => {
           </div>
         {:then}
           {#if Comments}
-            <h3 class="text-xl font-bold mt-8 mb-4">Comments</h3>
             <Comments />
           {/if}
         {/await}
       {/if}
     </div>
-  </div>
-</article>
+</div>
 
 <style lang="scss" scoped>
   .clearfix {

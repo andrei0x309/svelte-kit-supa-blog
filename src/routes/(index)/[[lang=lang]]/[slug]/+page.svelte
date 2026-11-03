@@ -33,7 +33,7 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
   <meta name="description" content={data.pageDescription} />
   <meta property="og:title" content={data.pageTitle} />
   <meta property="og:description" content={data.pageDescription} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="article" />
   {#if SveltePage.status === 200}
   <meta property="og:url" content={`${pageUrl}`} />
   {/if}
@@ -43,7 +43,14 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
 
   {#if featureImage && SveltePage.status === 200}
     <meta property="og:image" content={featureImage} />
-  {:else}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{data.pageTitle}">
+    <meta property="twitter:description" content="{data.pageDescription}">
+    <meta property="twitter:image" content="{featureImage}">
+
+  {:else if SveltePage.status === 200}
     <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
   {/if}
   {#if data?.schemaContent}

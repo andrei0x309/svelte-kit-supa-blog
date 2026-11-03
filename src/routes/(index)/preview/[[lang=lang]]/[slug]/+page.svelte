@@ -27,7 +27,7 @@ const pageUrl = SveltePage.url.href.replace('http://', 'https://');
   <meta name="description" content={data.pageDescription} />
   <meta property="og:title" content={data.pageTitle} />
   <meta property="og:description" content={data.pageDescription} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="article" />
   <meta property="og:url" content={pageUrl} />
   <meta property="og:site_name" content={config.siteName} />
   <link rel="canonical" href={pageUrl} />
@@ -35,6 +35,12 @@ const pageUrl = SveltePage.url.href.replace('http://', 'https://');
 
   {#if featureImage}
     <meta property="og:image" content={featureImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{data.pageTitle}">
+    <meta property="twitter:description" content="{data.pageDescription}">
+    <meta property="twitter:image" content="{featureImage}">
   {/if}
 </svelte:head>
 

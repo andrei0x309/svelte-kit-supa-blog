@@ -1,10 +1,10 @@
-import truncate from 'truncate-html';
 import { loadPost, loadPosts } from '#/lib/utils/db/posts.ts';
 import { appendToData, checkData, error, extractPage } from '#/lib/utils/page.ts';
 import { isSupportedLang } from '#/lib/utils/server/lang.ts';
 import { getIndexSchema, getPostSchema } from '#/lib/utils/server/schema.ts';
 import { config } from '#lib/config/index.ts';
 import type { IPost } from '#lib/types/post.ts';
+import { sanitizeMetaDescription } from '#lib/utils/common/misc.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (data) => {
@@ -36,15 +36,10 @@ export const load: PageServerLoad = async (data) => {
     throw error(404, 'Resource not found');
   }
 
-  const fallBackDescription =
-    post?.res?.seo_description ||
-    truncate(post?.res?.content, 160, {
-      stripTags: true
-    }) ||
-    'Desciption is missing | blog.flashsoft.eu';
+  const fallBackDescription =  post?.res?.seo_description || post?.res?.content || 'Desciption is missing | blog.flashsoft.eu';
   return appendToData(checkData(post), {
     pageTitle: post?.res?.title ?? 'Blog | flashsoft.eu',
-    pageDescription: post?.res?.seo_description || fallBackDescription,
+    pageDescription: sanitizeMetaDescription(post?.res?.seo_description || fallBackDescription),
     schemaContent: getPostSchema((post.res ?? null) as unknown as IPost)
   });
 };

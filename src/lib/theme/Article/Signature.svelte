@@ -1,7 +1,8 @@
 <script lang="ts">
-import type { IPost } from '#lib/types/post.ts';
-import { slide } from 'svelte/transition';
 import { onMount } from 'svelte';
+import { slide } from 'svelte/transition';
+import type { IPost } from '#lib/types/post.ts';
+
 interface Props {
   data: IPost['signature'] | string;
 }

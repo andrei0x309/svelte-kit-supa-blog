@@ -18,6 +18,7 @@ isLoading.subscribe((val) => {
 });
 
 const pageUrl = SveltePage.url.href.replace('http:', 'https:');
+const featureImage = `${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`
 </script>
 
 <svelte:head>
@@ -28,7 +29,13 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
   <meta property="og:type" content="website" />
   {#if SveltePage.status === 200}
   <meta property="og:url" content={`${pageUrl}`} />
-  <meta property="og:image" content={`${config.baseSiteUrl}/images/og/default-og-blog-opt.webp`} />
+  <meta property="og:image" content={featureImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="{data.pageTitle}">
+  <meta property="twitter:description" content="{data.pageDescription}">
+  <meta property="twitter:image" content="{featureImage}">
   {/if}
 
   <link rel="alternate" type="application/rss+xml" title={`${config.siteName} » Feed`} href={`${config.baseSiteUrl}/feed`} />
