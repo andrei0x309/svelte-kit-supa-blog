@@ -1,5 +1,6 @@
 <script lang="ts">
-import type { IPost } from '#/lib/types/post';
+import type { IPost } from '#/lib/types/post.ts';
+
 interface Props {
   relatedArticle: IPost['related'][number];
 }
@@ -13,7 +14,7 @@ let { relatedArticle }: Props = $props();
   </a>
   <div class="px-5 pb-5">
     <a href={`/${relatedArticle.slug}`}>
-      <h5 class="mb-2 text-xl font-bold tracking-tight">{relatedArticle.title}</h5>
+      <h5 class="mb-4 mt-2 text-xl font-bold tracking-tight">{relatedArticle.title}</h5>
     </a>
     <p class="mb-3 font-normal text-[0.95rem]">{relatedArticle.excerpt}</p>
     <a
