@@ -4,6 +4,7 @@ import '#lib/sass/tailwind.css';
 import '#lib/sass/admin.scss';
 import { onMount } from 'svelte';
 import { isLoading } from '#/stores/main';
+import PageLoader from '#lib/theme/PageLoader.svelte';
 import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 /** @type {{children?: import('svelte').Snippet<[any]>}} */
@@ -25,12 +26,18 @@ const handlePopstate = () => {
   isLoading.set(false);
 };
 
+const handlePageShow = (event) => {
+  if (event.persisted) isLoading.set(false);
+};
+
 onMount(() => {
   window.addEventListener('popstate', handlePopstate);
+  window.addEventListener('pageshow', handlePageShow);
   isLoading.set(false);
 
   return () => {
     window.removeEventListener('popstate', handlePopstate);
+    window.removeEventListener('pageshow', handlePageShow);
   };
 });
 </script>
@@ -53,8 +60,7 @@ onMount(() => {
 </svelte:head>
 
 {#if $isLoading}
-  <div class="load-line"></div>
-  <div class="nav-spinner spinner__1"></div>
+  <PageLoader />
 {/if}
 
 {@render children?.({ isLoading })}

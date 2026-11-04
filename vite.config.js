@@ -1,5 +1,6 @@
-// import adapter from '@sveltejs/adapter-auto';
+/// <reference types="vitest/config" />
 
+// import adapter from '@sveltejs/adapter-auto';
 import adapter from '@sveltejs/adapter-netlify';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
@@ -12,7 +13,7 @@ const config = {
   plugins: [
     tailwindcss(),
     // nodePolyfills({
-    // 	protocolImports: true
+    //   protocolImports: true
     // }),
     sveltekit({
       // Consult https://github.com/sveltejs/svelte-preprocess
@@ -23,8 +24,8 @@ const config = {
     }),
 
     // partytownVite({
-    // 	// `dest` specifies where files are copied to in production
-    // 	dest: join(process.cwd(), 'build', '~partytown')
+    //   // `dest` specifies where files are copied to in production
+    //   dest: join(process.cwd(), 'build', '~partytown')
     //   }),
   ],
   test: {

@@ -4,6 +4,7 @@ import '#lib/sass/admin.scss';
 import { onMount } from 'svelte';
 import { currentUser, isLoading } from '#/stores/main.ts';
 import { config } from '#lib/config/index.ts';
+import PageLoader from '#lib/theme/PageLoader.svelte';
 import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 beforeNavigate(({ shallow, type }) => {
@@ -22,6 +23,10 @@ const handlePopstate = () => {
   isLoading.set(false);
 };
 
+const handlePageShow = (event: PageTransitionEvent) => {
+  if (event.persisted) isLoading.set(false);
+};
+
 /** @type {{data: any, children?: import('svelte').Snippet<[any]>}} */
 let { data, children } = $props();
 
@@ -31,10 +36,12 @@ $effect(() => {
 
 onMount(() => {
   window.addEventListener('popstate', handlePopstate);
+  window.addEventListener('pageshow', handlePageShow);
   isLoading.set(false);
 
   return () => {
     window.removeEventListener('popstate', handlePopstate);
+    window.removeEventListener('pageshow', handlePageShow);
   };
 });
 </script>
@@ -57,8 +64,7 @@ onMount(() => {
 </svelte:head>
 
 {#if $isLoading}
-  <div class="load-line"></div>
-  <div class="nav-spinner spinner__1"></div>
+<PageLoader />
 {/if}
 
 {@render children?.()}

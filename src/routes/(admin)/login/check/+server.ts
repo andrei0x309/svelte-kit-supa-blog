@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
-import { supabase } from '#/lib/node/supaClientFS';
+import { supabase } from '#/lib/node/supaClientFS.ts';
 import { createSessionToken } from '#/lib/utils/server/auth.ts';
-import { getSha256 } from '#/lib/utils/server/crypto';
+import { getSha256 } from '#/lib/utils/server/crypto.ts';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = (async ({ request, cookies }) => {

@@ -1,6 +1,7 @@
 <script lang="ts">
-import { modalOpen } from '#/stores/main';
 import { fade } from 'svelte/transition';
+import { modalOpen } from '#/stores/main.ts';
+
 interface Props {
   type?: import('svelte').Snippet;
 }

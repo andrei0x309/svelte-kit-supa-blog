@@ -6,6 +6,7 @@ import { isLoading, theme as themeStore } from '#/stores/main.ts';
 import { config } from '#lib/config/index.ts';
 import Footer from '#lib/theme/Footer.svelte';
 import Header from '#lib/theme/Header.svelte';
+import PageLoader from '#lib/theme/PageLoader.svelte';
 import { getGoogleAnalyticsCode } from '#lib/utils/client/analytics.ts';
 import { afterNavigate, beforeNavigate } from '$app/navigation';
 
@@ -35,8 +36,11 @@ const handlePopstate = () => {
   isLoading.set(false);
 };
 
-let scriptEl: HTMLScriptElement | undefined = $state();
+const handlePageShow = (event: PageTransitionEvent) => {
+  if (event.persisted) isLoading.set(false);
+};
 
+let scriptEl: HTMLScriptElement | undefined = $state();
 
 onMount(() => {
   themeStore.set(theme);
@@ -45,6 +49,7 @@ onMount(() => {
   // 	}
 
   window.addEventListener('popstate', handlePopstate);
+  window.addEventListener('pageshow', handlePageShow);
   isLoading.set(false);
 
   if ('serviceWorker' in navigator) {
@@ -56,6 +61,7 @@ onMount(() => {
 
   return () => {
     window.removeEventListener('popstate', handlePopstate);
+    window.removeEventListener('pageshow', handlePageShow);
   };
 });
 </script>
@@ -104,8 +110,7 @@ onMount(() => {
 
 <div class={theme} id="root-app">
   {#if $isLoading}
-    <div class="load-line"></div>
-    <div class="nav-spinner spinner__1"></div>
+    <PageLoader />
   {/if}
   <Header bind:theme />
   {@render children?.({ isLoading })}

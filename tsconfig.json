@@ -4,5 +4,6 @@
     "sourceMap": true,
     "strict": true
   },
-  "include": ["src", "vite.config.js", "playwright.config.ts", "tests"]
+  "include": ["src", "vite.config.js", "playwright.config.ts", "tests"],
+  "exclude": ["src/deno-db", "src/lib/deno"]
 }

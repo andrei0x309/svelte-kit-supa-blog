@@ -1,5 +1,5 @@
-import { TOKEN } from './.env.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+import { TOKEN } from './.env.ts';
 
 const options = {
   schema: 'public',
