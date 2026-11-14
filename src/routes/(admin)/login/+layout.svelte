@@ -1,9 +1,8 @@
-<script>
-// @ts-nocheck
+<script lang="ts">
 import '#lib/sass/tailwind.css';
 import '#lib/sass/admin.scss';
 import { onMount } from 'svelte';
-import { isLoading } from '#/stores/main';
+import { isLoading } from '#/stores/main.ts';
 import PageLoader from '#lib/theme/PageLoader.svelte';
 import { afterNavigate, beforeNavigate } from '$app/navigation';
 
@@ -26,7 +25,7 @@ const handlePopstate = () => {
   isLoading.set(false);
 };
 
-const handlePageShow = (event) => {
+const handlePageShow = (event: PageTransitionEvent) => {
   if (event.persisted) isLoading.set(false);
 };
 
@@ -63,4 +62,4 @@ onMount(() => {
   <PageLoader />
 {/if}
 
-{@render children?.({ isLoading })}
+{@render children?.()}

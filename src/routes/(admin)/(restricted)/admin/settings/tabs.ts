@@ -6,5 +6,9 @@ export const tabs = [
   {
     name: 'Tags',
     path: 'tags'
+  },
+  {
+    name: 'Force update content',
+    path: 'force-update-content'
   }
 ];

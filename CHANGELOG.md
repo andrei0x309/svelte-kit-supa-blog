@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.1 - 2026-11-14
+
+- updated some dependencies including sveltekit to 3.2.x
+- added various performance improvements
+- added admin UI to force cache invalidation for widgets
+
 ## v0.3.0 - 2026-10-29
 
 - migrated to SvelteKit 3

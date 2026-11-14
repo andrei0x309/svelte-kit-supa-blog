@@ -1,3 +1,4 @@
+<svelte:options css="injected" />
 <div class="load-line"></div>
 <div class="nav-spinner spinner__1"></div>
 

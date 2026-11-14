@@ -2,8 +2,9 @@
   "extends": "$app/tsconfig",
   "compilerOptions": {
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "types":  ["vite/client", "$app/types"]
   },
   "include": ["src", "vite.config.js", "playwright.config.ts", "tests"],
-  "exclude": ["src/deno-db", "src/lib/deno"]
+  "exclude": ["src/deno-db", "src/lib/deno"],
 }

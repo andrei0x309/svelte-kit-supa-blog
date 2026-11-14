@@ -1,9 +1,9 @@
 <script lang="ts">
 import '#lib/sass/tailwind.css';
-import '#lib/sass/app.scss';
 import { onMount } from 'svelte';
 import { isLoading, theme as themeStore } from '#/stores/main.ts';
 import { config } from '#lib/config/index.ts';
+import appStyles from '#lib/sass/app.scss?inline';
 import Footer from '#lib/theme/Footer.svelte';
 import Header from '#lib/theme/Header.svelte';
 import PageLoader from '#lib/theme/PageLoader.svelte';
@@ -11,6 +11,8 @@ import { getGoogleAnalyticsCode } from '#lib/utils/client/analytics.ts';
 import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 // import { partytownSnippet } from '@builder.io/partytown/integration'
+
+ const inlineAppStyle = '<' + 'style>' + appStyles + '</' + 'style>';
 
 interface Props {
   data?: any;
@@ -80,6 +82,10 @@ onMount(() => {
   <!-- /FavIcon  -->
 
   <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com" />
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+  <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
+
+  {@html inlineAppStyle}
 
   <!-- <script>
 

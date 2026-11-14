@@ -1,3 +1,4 @@
+<svelte:options css="injected" />
 <script lang="ts">
 import type { Component } from 'svelte';
 import { onMount } from 'svelte';
