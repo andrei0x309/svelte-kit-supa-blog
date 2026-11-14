@@ -1,34 +1,40 @@
 <script lang="ts">
+interface Tab {
+  name: string;
+  path: string;
+}
+
 interface Props {
-  tabs?: any;
+  tabs?: Tab[];
   activeTab?: string;
   content?: import('svelte').Snippet;
 }
 
 let {
-  tabs = [] as {
-    name: string;
-    path: string;
-  }[],
+  tabs = [],
   activeTab = '',
   content
 }: Props = $props();
 </script>
 
 {#if tabs.length}
-  <div class="radio-container">
-    <legend>&nbsp;&nbsp;Tabs&nbsp;&nbsp;</legend>
-    <div class="flex">
+  <nav aria-label="Settings sections" class="mb-6 border-b border-white/15">
+    <div class="-mb-px flex flex-wrap gap-1">
       {#each tabs as tab}
-        <a class="flex fex-col items-center" href="/admin/settings/{tab.path}">
-          <label for={`tab-${tab.name}`} class="input-label">
-            <input type="radio" checked={activeTab === tab.name} value="false" name="draft" id="draft-no" />
-            <span>{tab.name}</span>
-          </label>
+        <a
+          href="/admin/settings/{tab.path}"
+          aria-current={activeTab === tab.name ? 'page' : undefined}
+          class={`border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
+            activeTab === tab.name
+              ? 'border-zinc-400 text-white'
+              : 'border-transparent text-slate-400 hover:border-white/30 hover:text-white'
+          }`}
+        >
+          {tab.name}
         </a>
       {/each}
     </div>
-  </div>
+  </nav>
 
   {#if content}{@render content()}{:else}
     <div class="flex flex-col items-center">

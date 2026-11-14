@@ -22,6 +22,8 @@ export const config = {
   indexPostsPerPage: 4,
   relatedPostsEnabled: true,
   signatureDisplayEnabled: true, // Enables EVM signature display
+  // Sidebar Enabled - if false, sidebar will be hidden
+  sidebarEnabled: true,
   // Giscus commenting system
   giscusCommentsEnabled: true,
   // Publish to IPFS - requires Appelion KEY
@@ -47,6 +49,16 @@ export const config = {
   // IS_DEV_ENABLED mainly used to expose a public dev URL for testing
   IS_DEV_ENABLED
 };
+
+export const widgets = {
+  goodReads: {
+    enabled: true,
+    contentUrl: `https://www.goodreads.com/review/custom_widget/52338687.Andrei's%20bookshelf:%20read?cover_position=left&cover_size=small&num_books=4&order=d&shelf=read&show_author=1&show_cover=1&show_rating=1&show_review=1&show_tags=1&show_title=1&sort=date_added&widget_bg_color=FFFFFF&widget_bg_transparent=&widget_border_width=1&widget_id=1678062343&widget_text_color=000000&widget_title_size=medium&widget_width=medium`,
+  },
+  tagCloud: {
+    enabled: true,
+  }
+}
 
 export const articleSettings = {
   // Enable the share button
