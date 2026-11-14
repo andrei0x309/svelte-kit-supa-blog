@@ -66,7 +66,7 @@ const login = async (event: Event) => {
   </div>
 </div>
 
-<style scoped>
+<style>
   .login-title {
     font-family: 'Roboto', sans-serif;
     font-weight: 700;

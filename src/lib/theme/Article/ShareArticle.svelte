@@ -156,7 +156,7 @@ beforeNavigate(({ shallow, type }) => {
   {/if}
 </div>
 
-<style scoped>
+<style>
   .share-wrapper {
     --radius: 0.3rem;
     display: flex;

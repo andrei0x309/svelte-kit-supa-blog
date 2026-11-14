@@ -216,7 +216,7 @@ onMount(async () => {
     </div>
 </div>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .clearfix {
     clear: both;
   }

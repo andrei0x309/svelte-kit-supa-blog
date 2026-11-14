@@ -7,6 +7,7 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
+  "css.customData": [".vscode/css-custom-data.json"],
   "json.schemas": [
     {
       "fileMatch": ["bun.lock"],

@@ -63,7 +63,7 @@ let close: HTMLElement | undefined; // document.getElementById('menu-close');
   <div class="flex pl-16"></div>
 </nav>
 
-<style lang="scss" scoped>
+<style lang="scss">
   #side-menu:global(.sideMenuToggle) {
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);

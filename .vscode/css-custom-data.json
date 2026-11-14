@@ -1,0 +1,17 @@
+{
+  "version": 1.1,
+  "properties": [
+    {
+      "name": "hyphenate-limit-lines",
+      "description": "Specifies the maximum number of consecutive hyphenated lines."
+    },
+    {
+      "name": "hyphenate-limit-last",
+      "description": "Controls hyphenation behavior on the last line of a block or page."
+    },
+    {
+      "name": "hyphenate-limit-zone",
+      "description": "Specifies the maximum amount of unfilled space before hyphenation is triggered."
+    }
+  ]
+}

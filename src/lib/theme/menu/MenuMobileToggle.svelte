@@ -43,7 +43,7 @@ onMount(() => {
   <MenuIcon />
 </button>
 
-<style scoped>
+<style>
   :global(.icon-bars svg) {
     fill: var(--text-color);
     width: 2.1rem;

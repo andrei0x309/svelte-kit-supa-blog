@@ -3,7 +3,7 @@
 <div class="nav-spinner spinner__1"></div>
 
 
-<style scoped>
+<style>
 
 .nav-spinner {
   position: fixed;

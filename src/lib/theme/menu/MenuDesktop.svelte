@@ -1,3 +1,4 @@
+<svelte:options css="injected" />
 <script lang="ts">
 import ContactIcon from './icons/ContactIcon.svelte';
 import CoursesIcon from './icons/CoursesIcon.svelte';
@@ -35,7 +36,7 @@ const { class: className }: Props = $props();
   </a>
 </div>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .input {
     flex-direction: row;
     width: fit-content;
