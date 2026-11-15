@@ -117,13 +117,19 @@ export const createGoodReadsData = async () => {
   widget = widget?.replace(/\\'/g, "'");
   widget = widget?.replace(/<br[^>]*>/g, '');
   widget = widget?.replace(/<noscript>[\s\S]*?<\/noscript>/g, '');
-    widget = widget?.replace(
+  widget = widget?.replace(
     /src="(https:\/\/(?:i|s)\.gr-assets\.com\/[^"]+)"/g,
     (_match, p1) => `src="/api/proxy-image?url=${encodeURIComponent(p1)}"`
   );
   widget = widget?.replace(/(gr_custom_book_container.*?<img)/g, '$1 width="39" height="60" ');
-  widget = widget?.replace(/<span.*?staticStars.*?span>/g, (match) => match.replace(/<img/gim, '<img width="15" height="15"'));
+  widget = widget?.replace(/<span.*?staticStars.*?span>/g, (match) =>
+    match.replace(/<img/gim, '<img width="15" height="15"')
+  );
   widget = widget?.replace(/rel="nofollow"/gm, 'rel="nofollow external"');
+  widget = widget?.replace(
+    /<div class="gr_custom_author_[^"]*">[\s\S]*?<\/div>/g,
+    (authorDiv) => authorDiv.replace(/<a[^>]*>([\s\S]*?)<\/a>/g, '<b>$1</b>')
+  );
   return widget;
 };
 

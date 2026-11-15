@@ -27,21 +27,26 @@ onMount(() => {
   {#if !isLoaded}
     <div class="loader"></div>
   {/if}
-  <img
-    bind:this={img}
-    onload={() => (isLoaded = true)}
-    onerror={() => {
-      isLoaded = true;
-      isError = true;
-    }}
-    itemprop={full ? undefined : 'image'}
-    class="m-auto wp-post-image"
-    width={isError ? 170 : 500}
-    height="281"
-    loading={index < 2 ? 'eager' : 'lazy'}
-    {src}
-    {alt}
-  />
+  <picture>
+    {#if !isError}
+      <source media="(max-width: 640px)" srcset={optimizeGoogleCDNImage(imgSource, 360)} />
+    {/if}
+    <img
+      bind:this={img}
+      onload={() => (isLoaded = true)}
+      onerror={() => {
+        isLoaded = true;
+        isError = true;
+      }}
+      itemprop={full ? undefined : 'image'}
+      class="m-auto wp-post-image"
+      width={isError ? 170 : 500}
+      height="281"
+      loading={index < 2 ? 'eager' : 'lazy'}
+      {src}
+      {alt}
+    />
+  </picture>
 </div>
 
 <style lang="scss">
