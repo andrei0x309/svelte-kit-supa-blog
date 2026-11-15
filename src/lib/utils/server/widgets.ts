@@ -4,6 +4,8 @@ import { getDiffFromNow, shuffleFY } from '#/lib/utils/common/misc.ts';
 import { loadTags } from '#/lib/utils/db/catOrTag.ts';
 
 const generateTagCloud = async () => {
+  const excludedTags = widgets.tagCloud.excludedTags;
+
   const config = {
     smallest: 8,
     largest: 22,
@@ -36,8 +38,13 @@ const generateTagCloud = async () => {
   const font_step = font_spread / spread;
 
   const tag_cloud = tags.map((tag) => {
+    
+    if (excludedTags.includes(tag.slug)) {
+      return '';
+    }
+
     return `<a href="/tag/${tag.slug}" style="font-size: ${config.smallest + ((tag?.count ?? 0) - min_count) * font_step}${config.unit}"
-        title = "View ${tag.count} post${tag.count === 1 ? '' : 's'} for ${tag.name}"
+        title = "Tag: ${tag.name}"
         aria-label = "View ${tag.count} post${tag.count === 1 ? '' : 's'} for ${tag.name}"
         >
         ${tag.name}

@@ -1,6 +1,5 @@
 @use "./global";
 @use "sass:math";
-@use "mixins/blue_btn.scss" as *;
 @use "mixins/search_modal.scss" as *;
 @use "components/simpleSpinner" as *;
 @use "components/alertBox" as *;
@@ -458,7 +457,6 @@ button.link-search-icon {
 
   a.read-more {
     color: var(--link-more-color);
-    text-align: center;
     text-transform: uppercase;
     clear: left;
     border-bottom: 2px solid #00000040;
@@ -534,9 +532,25 @@ h1.blog-post-title {
 }
 
 .show-more-posts-btn {
-  @include blueBtn;
-  margin: 1rem;
-  line-height: 1.5rem;
+    padding: 0.5rem;
+    background: #e2e8f01a;
+    color: var(--link-color);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--text-color);
+    line-height: 1.5rem;
+    box-shadow: 0px -1px 8px 2px #00000026;
+}
+
+a.show-more-posts-btn,
+a.read-more {
+   min-width: 44px;    
+  min-height: 44px;      
+  display: flex;         
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
 }
 
 .sidebar {
@@ -826,7 +840,7 @@ nav.pagination {
   margin-bottom: 10px;
   overflow: auto;
   padding-bottom: 4px;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #aaaaaa7a;
 }
 .gr_custom_book_container_1678062343 {
   /* customize your book covers here */

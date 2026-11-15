@@ -62,7 +62,7 @@ const pageUrl = SveltePage.url.href.replace('http:', 'https:');
 </svelte:head>
 
 <div id="main" class={`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70' : ''}`}>
-  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
+  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 pb-0 article">
     {#if data?.res}
       <figure class="snip1336">
         <img src="/images/author_bg.webp" alt="author bg" />

@@ -39,8 +39,6 @@ const loadComments = async () => {
 
 onMount(async () => {
   const { getCookie } = await import('#/lib/utils/common.ts');
-  console.log('getCookie', getCookie('role'));
-
   const presumedRole = getCookie('role');
   if (presumedRole === 'admin' || presumedRole === 'contribuitor') {
     renderEditLink = true;
@@ -118,7 +116,7 @@ onMount(async () => {
         <span class="px-2 pt-3 pb-6"><i class="inline-block w-4 icon-folder"></i> {data?.cat?.name ?? 'No category'}</span>
       {/if}
 
-      <span class="relative ml-auto right-4"
+      <span class="relative ml-auto right-2 top-2"
         ><ShareArticle
           articleLink={`${config.baseSiteUrl}/${data.slug}`}
           articleTitle={data.title}
@@ -141,13 +139,13 @@ onMount(async () => {
         class={`post-image post-image-left p-0 ${data.isFull ? '' : 'post-image-link'}`}
       >
         <div class="pt-2 pr-4 pl-4 pb-6 featured-thumbnail w-full content-center justify-center md:w-2/5 md:float-left text-center">
-          <FeatureImage full={data.isFull} imgSource={data.feature_image} alt={data?.feature_image_alt} {index} />
+          <FeatureImage full={data.isFull} imgSource={data.feature_image} alt={data?.feature_image_alt || `Feature image for ${data?.title || 'No title'}`} {index} />
         </div>
       </a>
     {:else}
       <span class={`post-image post-image-left p-0 ${data.isFull ? '' : 'post-image-link'}`}>
         <div class="pt-2 pr-4 pl-4 pb-6 featured-thumbnail w-full content-center justify-center md:w-2/5 md:float-left text-center">
-          <FeatureImage full={data.isFull} imgSource={data.feature_image} alt={data?.feature_image_alt} {index} />
+          <FeatureImage full={data.isFull} imgSource={data.feature_image} alt={data?.feature_image_alt || `Feature image for ${data?.title || 'No title'}`} {index} />
         </div>
       </span>
     {/if}

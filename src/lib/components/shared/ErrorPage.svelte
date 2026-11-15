@@ -51,7 +51,7 @@ data.pageTitle = 'Error ' + errorStatus + ' - ' + errorMsg;
 </svelte:head>
 
 <div id="main" class={`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70' : ''}`}>
-  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
+  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 pb-0 article">
     <div class="text-center mt-4">
       <svg class="w-20 mx-auto" enable-background="new 0 0 64 64" version="1.1" viewBox="0 0 64 64"
         ><g

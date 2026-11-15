@@ -19,7 +19,8 @@ const config = {
       // Consult https://github.com/sveltejs/svelte-preprocess
       // for more information about preprocessors
       preprocess: [preprocess({ preserve: ['ld+json'] })],
-      adapter: adapter({ edge: true, split: false })
+      adapter: adapter({ edge: true, split: false }),
+      inlineStyleThreshold: 10240
       // adapter: adapter()
     }),
 

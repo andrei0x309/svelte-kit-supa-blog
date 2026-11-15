@@ -57,6 +57,7 @@ export const widgets = {
   },
   tagCloud: {
     enabled: true,
+    excludedTags: ['farcaster-warpcast']
   }
 }
 

@@ -57,7 +57,7 @@ const pageDescription = `Show support and send a tip to - ${config.tipMeName} - 
 </svelte:head>
 
 <div id="main" class={`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70' : ''}`}>
-  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
+  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 pb-0 article">
     <h1 class="blog-post-title mx-auto mb-6">Tip Me</h1>
 
     <div

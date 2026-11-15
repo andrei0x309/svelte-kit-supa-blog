@@ -45,7 +45,7 @@ const pageUrl = SveltePage.url.href.replace('http://', 'https://');
 </svelte:head>
 
 <div id="main" class={`main flex md:flex-row w-full mt-6 mb-6 justify-center ${dataLoading ? 'opacity-70' : ''}`}>
-  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 article">
+  <main class="flex flex-col content w-full sm:w-full md:w-7/12 lg:w-7/12 xl:w-7/12 p-8 pb-0 article">
     <p>This post is marked as a draft and thus is not publicly accessible.</p>
     {#if data?.res}
       <Article data={data.res} />

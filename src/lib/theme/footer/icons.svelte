@@ -1,7 +1,7 @@
 <aside id="a2a_follow_widget-2" class="widget widget_a2a_follow_widget">
   <div class="a2a_kit a2a_kit_size_26 a2a_follow addtoany_list" style="line-height: 26px;">
     <a
-      class="a2a_button_github hover:scale-105 transition-transform"
+      class="hover:scale-105 transition-transform"
       href="https://github.com/andrei0x309"
       title="GitHub"
       rel="noopener noreferrer"
@@ -44,7 +44,7 @@
       />
     </svg>
     <a
-      class="a2a_button_twitter hover:scale-105 transition-transform"
+      class="hover:scale-105 transition-transform"
       href="https://twitter.com/andrei0x309"
       title="Twitter"
       rel="noopener noreferrer"
@@ -58,7 +58,7 @@
         ></span
       ><span class="a2a_label">Twitter</span>
     </a><a
-      class="a2a_button_pinterest hover:scale-105 transition-transform"
+      class="hover:scale-105 transition-transform"
       href="https://www.pinterest.com/andrei0x309"
       title="Pinterest"
       rel="noopener noreferrer"
@@ -79,12 +79,13 @@
   .a2a_kit .a2a_svg {
     background-repeat: repeat;
     background-color: rgb(76, 76, 76);
-    width: 1.6rem;
-    line-height: 1.6rem;
-    height: 1.6rem;
-    background-size: 1.6rem;
+    width: 1.8rem;
+    line-height: 1.8rem;
+    height: 1.8rem;
+    background-size: 1.8rem;
     border-radius: 0.2rem;
     display: block;
+    margin: 0.4rem;
   }
 
   .a2a_label {
