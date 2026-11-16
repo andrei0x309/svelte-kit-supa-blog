@@ -1,142 +1,118 @@
-import { supabase } from '#/lib/node/supaClientFS.ts';
 import { config } from '#/lib/config/index.ts';
-import { getDiffFromNow } from '#/lib/utils/common/misc.ts';
+import { supabase } from '#/lib/node/supaClientFS.ts';
 
 const CAT_PATH = 'category';
 const TAG_PATH = 'tag';
 const AUTHOR_PATH = 'author';
+const CACHE_TTL_MS = 60 * 60 * 1000 * 48;
+const PAGE_SIZE = 1000;
 
 type SitemapPath = {
   url: string;
   priority: string;
   changefreq: string;
+  lastmod?: string;
 };
 
 type SitemapCache = {
-  name: string;
   value_json: SitemapPath[];
   updated_at: string;
 };
 
-const checkCache = async () => {
-  const sitemapCache = (await supabase.from('fsk_blog_store').select('*').eq('name', 'sitemap').single()) as { data: SitemapCache | null };
-  const { data } = sitemapCache;
-  const generateSitemapCondition = !data || !data.value_json || !data.updated_at || getDiffFromNow(data.updated_at, 'days') > 6;
-  // check sitemap
-  if (!generateSitemapCondition) {
-    console.info('Sitemap cache is up to date, using cached version');
-    return data.value_json;
+const getLastmod = (updatedAt?: string | null) => {
+  if (!updatedAt) return undefined;
+  const timestamp = Date.parse(updatedAt);
+  return Number.isNaN(timestamp) ? undefined : new Date(timestamp).toISOString();
+};
+
+const fetchAll = async <T>(loadPage: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>) => {
+  const rows: T[] = [];
+
+  for (let from = 0; ; from += PAGE_SIZE) {
+    const { data, error } = await loadPage(from, from + PAGE_SIZE - 1);
+    if (error) throw error;
+
+    const page = data ?? [];
+    rows.push(...page);
+    if (page.length < PAGE_SIZE) return rows;
   }
-  console.info('Sitemap cache is empty or outdated, generating new sitemap');
+};
+
+const checkCache = async (): Promise<SitemapPath[] | undefined> => {
+  const { data, error } = await supabase.from('fsk_blog_store').select('value_json, updated_at').eq('name', 'sitemap').maybeSingle();
+  if (error) throw error;
+
+  const cache = data as SitemapCache | null;
+  const cacheAge = cache?.updated_at ? Date.now() - Date.parse(cache.updated_at) : Number.POSITIVE_INFINITY;
+  if (Array.isArray(cache?.value_json) && cacheAge >= 0 && cacheAge < CACHE_TTL_MS) {
+    console.info('Sitemap cache is up to date, using cached version');
+    return cache.value_json;
+  }
 };
 
 export const generatePosts = async () => {
-  type SelectData = {
-    slug?: string;
-    username?: string;
-  };
-  const paths = [];
-  const { data } = (await supabase.from('fsk_blog_posts').select('slug').eq('draft', false).order('created_at', { ascending: false })) as {
-    data: SelectData[] | null;
-  };
+  const posts = await fetchAll((from, to) =>
+    supabase.from('fsk_blog_posts').select('slug, updated_at').eq('draft', false).order('created_at', { ascending: false }).range(from, to)
+  );
 
-  for (const post of data ?? []) {
-    paths.push({
-      url: `${post?.slug}`,
-      priority: '0.9',
-      changefreq: 'monthly'
-    });
-  }
-  return paths;
+  return posts.map((post) => ({
+    url: post.slug,
+    priority: '0.9',
+    changefreq: 'monthly',
+    lastmod: getLastmod(post.updated_at)
+  }));
 };
 
 export const generateCategories = async () => {
-  const paths = [];
-  const { data } = (await supabase.from('fsk_blog_cat').select('slug').order('created_at', { ascending: false })) as {
-    data: { slug: string }[] | null;
-  };
+  const categories = await fetchAll((from, to) => supabase.from('fsk_blog_cat').select('slug, updated_at').order('created_at', { ascending: false }).range(from, to));
 
-  for (const cat of data ?? []) {
-    paths.push({
-      url: `${CAT_PATH}/${cat?.slug}`,
-      priority: '0.7',
-      changefreq: 'monthly'
-    });
-  }
-  return paths;
+  return categories.map((cat) => ({
+    url: `${CAT_PATH}/${cat.slug}`,
+    priority: '0.7',
+    changefreq: 'monthly',
+    lastmod: getLastmod(cat.updated_at)
+  }));
 };
 
 export const generateAuthors = async () => {
-  const paths = [];
+  const authors = await fetchAll((from, to) => supabase.from('fsk_blog_author').select('username').order('created_at', { ascending: false }).range(from, to));
 
-  const { data } = (await supabase.from('fsk_blog_author').select('username').order('created_at', { ascending: false })) as {
-    data: { username: string }[] | null;
-  };
-  for (const author of data ?? []) {
-    paths.push({
-      url: `${AUTHOR_PATH}/${author?.username}`,
-      priority: '0.8',
-      changefreq: 'monthly'
-    });
-  }
-  return paths;
+  return authors.map((author) => ({
+    url: `${AUTHOR_PATH}/${author.username}`,
+    priority: '0.8',
+    changefreq: 'monthly'
+  }));
 };
 
 export const generateTags = async () => {
-  const paths = [];
-  const { data } = (await supabase.from('fsk_blog_tag').select('slug').order('created_at', { ascending: false })) as {
-    data: { slug: string }[] | null;
-  };
+  const tags = await fetchAll((from, to) => supabase.from('fsk_blog_tag').select('slug, updated_at').order('created_at', { ascending: false }).range(from, to));
 
-  for (const tag of data ?? []) {
-    paths.push({
-      url: `${TAG_PATH}/${tag.slug}`,
-      priority: '0.6',
-      changefreq: 'monthly'
-    });
-  }
-  return paths;
+  return tags.map((tag) => ({
+    url: `${TAG_PATH}/${tag.slug}`,
+    priority: '0.6',
+    changefreq: 'monthly',
+    lastmod: getLastmod(tag.updated_at)
+  }));
 };
 
-export const generatePaths = async () => {
-  const paths = [] as SitemapPath[];
-
+export const generatePaths = async (): Promise<SitemapPath[]> => {
   const sitemapCache = await checkCache();
-  if (sitemapCache) {
-    return sitemapCache;
-  }
+  if (sitemapCache) return sitemapCache;
 
-  // Front
-  paths.push({
-    url: '',
-    priority: '1.0',
-    changefreq: 'daily'
+  const [posts, authors, categories, tags] = await Promise.all([
+    generatePosts(),
+    config.authorPageEnabled ? generateAuthors() : Promise.resolve([]),
+    generateCategories(),
+    generateTags()
+  ]);
+  const paths: SitemapPath[] = [{ url: '', priority: '1.0', changefreq: 'daily' }, ...posts, ...authors, ...categories, ...tags];
+
+  const { error } = await supabase.from('fsk_blog_store').upsert({
+    name: 'sitemap',
+    value_json: paths,
+    updated_at: new Date().toISOString()
   });
+  if (error) console.error('Failed to update sitemap cache:', error);
 
-  // Posts
-  const posts = await generatePosts();
-  paths.push(...posts);
-
-  if (config.authorPageEnabled) {
-    // Authors
-    const authors = await generateAuthors();
-    paths.push(...authors);
-  }
-
-  // Categories
-  const categories = await generateCategories();
-  paths.push(...categories);
-
-  // Tags
-  const tags = await generateTags();
-  paths.push(...tags);
-  // Sitemap cache
-  setTimeout(async () => {
-    supabase.from('fsk_blog_store').upsert({
-      name: 'sitemap',
-      value_json: paths,
-      updated_at: new Date().toISOString()
-    });
-  }, 100);
   return paths;
 };
