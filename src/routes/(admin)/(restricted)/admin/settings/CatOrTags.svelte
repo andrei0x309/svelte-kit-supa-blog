@@ -38,7 +38,7 @@ const askDelete = (id: number) => {
 <div>
   <h1 class="font-bold py-4 uppercase">
     {type === 'cat' ? 'Categories' : 'Tags'}
-    <a href="/admin/settings/{section}/add" title="Add" class="btn btn-primary btn-pag">Add</a>
+    <a class="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-md border border-zinc-300 bg-zinc-950 px-5 py-3 text-sm font-semibold text-white shadow-md transition duration-150 hover:bg-zinc-700 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-200 active:translate-y-px active:bg-zinc-700" href="/admin/settings/{section}/add" title="Add">Add</a>
   </h1>
 
   {@render alert?.()}

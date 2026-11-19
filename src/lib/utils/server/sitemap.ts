@@ -50,6 +50,20 @@ const checkCache = async (): Promise<SitemapPath[] | undefined> => {
   }
 };
 
+export const invalidateSitemapCache = async (waitUntil?: (promise: Promise<unknown>) => void) => {
+  const { error } = await supabase.from('fsk_blog_store').delete().eq('name', 'sitemap');
+  if (error) throw error;
+
+  const regeneration = generatePaths().catch((cause) => {
+    console.error('Failed to regenerate sitemap cache after invalidation:', cause);
+  });
+  if (waitUntil) {
+    waitUntil(regeneration);
+  } else {
+    void regeneration;
+  }
+};
+
 export const generatePosts = async () => {
   const posts = await fetchAll((from, to) =>
     supabase.from('fsk_blog_posts').select('slug, updated_at').eq('draft', false).order('created_at', { ascending: false }).range(from, to)
@@ -105,7 +119,7 @@ export const generatePaths = async (): Promise<SitemapPath[]> => {
     generateCategories(),
     generateTags()
   ]);
-  const paths: SitemapPath[] = [{ url: '', priority: '1.0', changefreq: 'daily' }, ...posts, ...authors, ...categories, ...tags];
+  const paths: SitemapPath[] = [{ url: '', priority: '1.0', changefreq: 'daily', lastmod: posts?.[0]?.lastmod }, ...posts, ...authors, ...categories, ...tags];
 
   const { error } = await supabase.from('fsk_blog_store').upsert({
     name: 'sitemap',
