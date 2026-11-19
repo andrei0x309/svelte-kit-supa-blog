@@ -2,13 +2,14 @@ import truncate from 'truncate-html';
 import { supabase } from '#/lib/node/supaClientFS.ts';
 import { dec_tags_count, inc_tags_count, loadPost } from '#/lib/utils/db/posts.ts';
 import { checkAuth } from '#/lib/utils/server/auth.ts';
+import { invalidateSitemapCache } from '#/lib/utils/server/sitemap.ts';
 import type { ICookies } from '#lib/types/cookies.ts';
 import type { IPost, IRelatedPost } from '#lib/types/post.ts';
 import type { RequestHandler } from './$types';
 // import { getSetting, STORE } from '#lib/utils/server/settings.ts'
 // import { pinPostToPinata } from '#lib/utils/server/pinata.ts'
 
-export const POST: RequestHandler = (async ({ request, cookies }) => {
+export const POST: RequestHandler = (async ({ request, cookies, platform }) => {
   try {
     const req = { cookies } as ICookies;
     const currentUser = await checkAuth(req);
@@ -132,7 +133,23 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     //     console.log(source)
     // }
 
-    await supabase.from('fsk_blog_posts').upsert(update);
+    const { error: saveError } = await supabase.from('fsk_blog_posts').upsert(update);
+    if (saveError) throw saveError;
+
+    const isPublished = (typeof draft === 'boolean' ? draft : exists?.res?.draft) === false;
+    if (isPublished) {
+      try {
+        await invalidateSitemapCache(platform?.context?.waitUntil.bind(platform.context));
+      } catch (cause) {
+        console.error('Post saved but sitemap cache invalidation failed:', cause);
+        return Response.json(
+          {
+            error: 'Post saved, but sitemap cache invalidation failed'
+          },
+          { status: 500 }
+        );
+      }
+    }
 
     if (!exists?.res?.slug) {
       await inc_tags_count(tags_id);

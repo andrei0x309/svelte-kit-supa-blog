@@ -8,4 +8,5 @@ export type ICurrentUser = {
   description: string;
   created_at: string;
   social_links: Record<string, string>;
+  updated_at: string;
 };

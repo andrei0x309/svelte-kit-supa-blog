@@ -8,7 +8,7 @@ export const tabs = [
     path: 'tags'
   },
   {
-    name: 'Force update content',
-    path: 'force-update-content'
+    name: 'Cache bust',
+    path: 'cache-bust'
   }
 ];

@@ -49,6 +49,7 @@ export const POST: RequestHandler = (async ({ request, cookies }) => {
     }
     if (id) {
       update.id = id;
+      update.updated_at = new Date().toISOString();
       await supabase.from('fsk_blog_author').upsert(update);
     } else {
       await supabase.from('fsk_blog_author').insert(update);
