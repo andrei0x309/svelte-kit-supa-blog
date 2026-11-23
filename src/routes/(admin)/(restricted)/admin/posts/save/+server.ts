@@ -1,13 +1,19 @@
 import truncate from 'truncate-html';
+import { config } from '#/lib/config/index.ts';
 import { supabase } from '#/lib/node/supaClientFS.ts';
 import { dec_tags_count, inc_tags_count, loadPost } from '#/lib/utils/db/posts.ts';
 import { checkAuth } from '#/lib/utils/server/auth.ts';
+import { isSupportedLang } from '#/lib/utils/server/lang.ts';
 import { invalidateSitemapCache } from '#/lib/utils/server/sitemap.ts';
 import type { ICookies } from '#lib/types/cookies.ts';
 import type { IPost, IRelatedPost } from '#lib/types/post.ts';
 import type { RequestHandler } from './$types';
+
 // import { getSetting, STORE } from '#lib/utils/server/settings.ts'
 // import { pinPostToPinata } from '#lib/utils/server/pinata.ts'
+
+  const { supportedLanguages } = config;
+
 
 export const POST: RequestHandler = (async ({ request, cookies, platform }) => {
   try {
@@ -34,6 +40,19 @@ export const POST: RequestHandler = (async ({ request, cookies, platform }) => {
         { status: 400 }
       );
     }
+
+    if (slug.includes('/')) {
+      const lang = slug.split('/')[0];
+      if (!isSupportedLang(lang)) {
+        return Response.json(
+          {
+            error: 'Slug language prefix not supported, supported languages are: ' + supportedLanguages.join(', ')
+          },
+          { status: 400 }
+        );
+      }
+    }
+
     const exists = await loadPost(slug);
 
     if (exists?.res?.slug) {
