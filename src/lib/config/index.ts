@@ -36,6 +36,7 @@ export const config = {
   cloudflareAnalyticsToken: 'd9f2b',
   // Localization Settings
   supportedLanguages: ['en', 'ro'],
+  preferredLanguage: 'en',
   // Author Settings
   authorPageEnabled: true,
   footerSocialIcons: {

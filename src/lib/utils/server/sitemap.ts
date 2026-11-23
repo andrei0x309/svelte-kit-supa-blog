@@ -71,8 +71,8 @@ export const generatePosts = async () => {
 
   return posts.map((post) => ({
     url: post.slug,
-    priority: '0.9',
-    changefreq: 'monthly',
+    priority: post.slug.includes('ro/') ? '0.8' : '0.9',
+    changefreq: post.slug.includes('ro/') ? 'monthly' : 'weekly',
     lastmod: getLastmod(post.updated_at)
   }));
 };
@@ -89,12 +89,24 @@ export const generateCategories = async () => {
 };
 
 export const generateAuthors = async () => {
-  const authors = await fetchAll((from, to) => supabase.from('fsk_blog_author').select('username').order('created_at', { ascending: false }).range(from, to));
+  const authors = await fetchAll((from, to) => supabase.from('fsk_blog_author').select('id, username, updated_at').neq('role', 'demo').order('created_at', { ascending: false }).range(from, to));
+  
+  const auuthorsWithLastPostUpdate = await Promise.all(authors.map(
+    async (author) => {
+      const lastPost = await fetchAll(() => supabase.from('fsk_blog_posts').select('author_id, updated_at').eq('draft', false).eq('author_id', author.id).order('created_at', { ascending: false }).limit(1));
+      const lastPostUpdatedAt = lastPost.at(0)?.updated_at;
+      const mostRecentUpdate = lastPostUpdatedAt && author.updated_at ? (lastPostUpdatedAt > author.updated_at ? lastPostUpdatedAt : author.updated_at) : lastPostUpdatedAt || author.updated_at;
+      return {
+        ...author,
+        updated_at: mostRecentUpdate
+      }
+    }))
 
-  return authors.map((author) => ({
+  return auuthorsWithLastPostUpdate.map((author) => ({
     url: `${AUTHOR_PATH}/${author.username}`,
     priority: '0.8',
-    changefreq: 'monthly'
+    changefreq: 'monthly',
+    lastmod: getLastmod(author.updated_at)
   }));
 };
 

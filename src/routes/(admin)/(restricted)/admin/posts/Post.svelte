@@ -570,7 +570,7 @@ const getRelated = async (slugs = false) => {
                   type="text"
                   name="related"
                   id="related"
-                  class="w-full border border-gray-200 rounded-sm px-3 py-2 text-gray-900"
+                  class="w-full border border-gray-200 rounded-sm px-3 py-2 text-gray-200"
                   placeholder="Enter related slugs separated by commas"
                   bind:value={manualSlugs}
                 />
